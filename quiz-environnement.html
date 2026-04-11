@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planète Quiz 🌿</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --vert-fonce: #1a3a2a;
+    --vert-moyen: #2d6a4f;
+    --vert-clair: #52b788;
+    --vert-pale: #b7e4c7;
+    --terre: #c9a85c;
+    --terre-claire: #f4e3c1;
+    --blanc: #fafdf7;
+    --gris: #6b7c6e;
+    --rouge-eco: #c44536;
+    --bleu-eco: #2176ae;
+    --or: #e8b74a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--vert-fonce);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Fond animé — feuilles flottantes */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 10% 20%, rgba(82,183,136,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, rgba(201,168,92,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(45,106,79,0.3) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    font-size: 1.4rem;
+    opacity: 0;
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.4; }
+    90%  { opacity: 0.2; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ─── Conteneur principal ─── */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ─── En-tête ─── */
+  header {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    animation: fadeDown 0.8s ease both;
+  }
+  @keyframes fadeDown {
+    from { opacity:0; transform:translateY(-30px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    background: rgba(82,183,136,0.15);
+    border: 1px solid rgba(82,183,136,0.3);
+    border-radius: 50px;
+    padding: .4rem 1.1rem;
+    font-size: .8rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--vert-clair);
+    margin-bottom: 1.4rem;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    font-weight: 900;
+    color: var(--blanc);
+    line-height: 1.1;
+    margin-bottom: .8rem;
+  }
+  h1 span { color: var(--vert-clair); }
+
+  .subtitle {
+    color: rgba(250,253,247,0.6);
+    font-size: 1rem;
+    font-weight: 300;
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ─── Barre de progression ─── */
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.08);
+    border-radius: 50px;
+    height: 6px;
+    margin: 2rem 0 2.5rem;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--vert-clair), var(--terre));
+    border-radius: 50px;
+    transition: width .6s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: .8rem;
+    color: rgba(250,253,247,0.5);
+    margin-bottom: .4rem;
+  }
+
+  /* ─── Carte question ─── */
+  .question-card {
+    background: rgba(250,253,247,0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(82,183,136,0.18);
+    border-radius: 24px;
+    padding: 2.2rem 2rem;
+    animation: cardIn .5s cubic-bezier(.4,0,.2,1) both;
+  }
+  @keyframes cardIn {
+    from { opacity:0; transform: translateY(24px) scale(.97); }
+    to   { opacity:1; transform: translateY(0) scale(1); }
+  }
+
+  .question-meta {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .q-category {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--vert-clair);
+    background: rgba(82,183,136,0.12);
+    border: 1px solid rgba(82,183,136,0.25);
+    border-radius: 50px;
+    padding: .25rem .8rem;
+  }
+
+  .q-emoji {
+    font-size: 1.6rem;
+    margin-left: auto;
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.15rem, 3vw, 1.4rem);
+    color: var(--blanc);
+    line-height: 1.5;
+    margin-bottom: 1.8rem;
+  }
+
+  /* ─── Options ─── */
+  .options-grid {
+    display: grid;
+    gap: .75rem;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    transition: all .22s ease;
+    text-align: left;
+    color: rgba(250,253,247,0.85);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .95rem;
+    width: 100%;
+  }
+  .option-btn:hover:not(:disabled) {
+    background: rgba(82,183,136,0.12);
+    border-color: rgba(82,183,136,0.4);
+    color: var(--blanc);
+    transform: translateX(4px);
+  }
+
+  .option-letter {
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--vert-clair);
+    flex-shrink: 0;
+    transition: all .22s ease;
+  }
+
+  .option-btn.correct {
+    background: rgba(82,183,136,0.18);
+    border-color: var(--vert-clair);
+    color: var(--blanc);
+  }
+  .option-btn.correct .option-letter {
+    background: var(--vert-clair);
+    color: var(--vert-fonce);
+  }
+  .option-btn.wrong {
+    background: rgba(196,69,54,0.15);
+    border-color: var(--rouge-eco);
+    color: rgba(250,253,247,0.6);
+  }
+  .option-btn.wrong .option-letter {
+    background: var(--rouge-eco);
+    color: white;
+  }
+  .option-btn:disabled { cursor: default; }
+
+  /* ─── Feedback explication ─── */
+  .feedback {
+    margin-top: 1.2rem;
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    font-size: .88rem;
+    line-height: 1.6;
+    display: none;
+    animation: fadeIn .4s ease;
+  }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+  .feedback.show { display: block; }
+  .feedback.good {
+    background: rgba(82,183,136,0.12);
+    border: 1px solid rgba(82,183,136,0.3);
+    color: var(--vert-pale);
+  }
+  .feedback.bad {
+    background: rgba(196,69,54,0.1);
+    border: 1px solid rgba(196,69,54,0.3);
+    color: #f5c6c0;
+  }
+  .feedback-icon { font-size: 1.1rem; margin-right: .4rem; }
+
+  /* ─── Bouton suivant ─── */
+  .btn-next {
+    margin-top: 1.4rem;
+    display: none;
+    width: 100%;
+    padding: .95rem;
+    background: linear-gradient(135deg, var(--vert-clair), var(--vert-moyen));
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all .2s ease;
+    letter-spacing: .02em;
+  }
+  .btn-next:hover { transform: translateY(-2px); filter: brightness(1.1); }
+  .btn-next.show { display: block; animation: fadeIn .4s ease; }
+
+  /* ─── Écran de résultats ─── */
+  .results-screen {
+    display: none;
+    text-align: center;
+    animation: cardIn .6s ease both;
+  }
+  .results-screen.show { display: block; }
+
+  .score-ring {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 2rem;
+    position: relative;
+  }
+  .score-ring svg {
+    transform: rotate(-90deg);
+  }
+  .score-ring-bg {
+    fill: none;
+    stroke: rgba(255,255,255,0.08);
+    stroke-width: 10;
+  }
+  .score-ring-fill {
+    fill: none;
+    stroke: var(--vert-clair);
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+    transition: stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1) .4s;
+  }
+  .score-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--blanc);
+    line-height: 1;
+  }
+  .score-total {
+    font-size: .8rem;
+    color: var(--gris);
+  }
+
+  .result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    color: var(--blanc);
+    margin-bottom: .6rem;
+  }
+  .result-msg {
+    color: rgba(250,253,247,0.6);
+    font-size: .95rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  /* Corrections */
+  .corrections-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--blanc);
+    text-align: left;
+    margin-bottom: 1.2rem;
+    padding-bottom: .6rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .correction-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+    text-align: left;
+    animation: cardIn .4s ease both;
+  }
+  .correction-item.ok { border-left: 3px solid var(--vert-clair); }
+  .correction-item.ko { border-left: 3px solid var(--rouge-eco); }
+
+  .ci-header {
+    display: flex;
+    align-items: flex-start;
+    gap: .8rem;
+    margin-bottom: .5rem;
+  }
+  .ci-status { font-size: 1.2rem; flex-shrink: 0; margin-top: .1rem; }
+  .ci-q {
+    font-size: .9rem;
+    color: var(--blanc);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .ci-answer {
+    font-size: .82rem;
+    color: rgba(250,253,247,0.55);
+    margin-top: .3rem;
+    line-height: 1.5;
+  }
+  .ci-answer strong { color: var(--vert-clair); }
+
+  .btn-restart {
+    margin-top: 2.5rem;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, var(--terre), #b8902e);
+    border: none;
+    border-radius: 50px;
+    color: var(--vert-fonce);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+  .btn-restart:hover { transform: translateY(-2px) scale(1.03); }
+
+  /* ─── Écran d'accueil ─── */
+  .start-screen {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  .start-screen.hidden { display: none; }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+  }
+  .stat-box {
+    text-align: center;
+  }
+  .stat-n {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--vert-clair);
+    font-weight: 900;
+  }
+  .stat-l {
+    font-size: .78rem;
+    color: rgba(250,253,247,0.5);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  .btn-start {
+    padding: 1.1rem 3rem;
+    background: linear-gradient(135deg, var(--vert-clair), var(--vert-moyen));
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all .2s ease;
+    box-shadow: 0 8px 32px rgba(82,183,136,0.3);
+  }
+  .btn-start:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(82,183,136,0.4); }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--vert-clair), transparent);
+    margin: 1.8rem auto;
+  }
+
+  #quiz-area { display: none; }
+  #quiz-area.show { display: block; }
+
+  @media (max-width: 500px) {
+    .question-card { padding: 1.4rem 1.2rem; }
+    .stats-row { gap: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Particules décoratives -->
+<div class="particles" id="particles"></div>
+
+<div class="container">
+  <header>
+    <div class="logo-badge">🌿 Éco-Quiz</div>
+    <h1>Connais-tu<br><span>ta planète</span> ?</h1>
+    <p class="subtitle">Un quiz pour tester (et booster) ta culture environnementale.</p>
+  </header>
+
+  <!-- Écran d'accueil -->
+  <div class="start-screen" id="start-screen">
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-n">12</div><div class="stat-l">Questions</div></div>
+      <div class="stat-box"><div class="stat-n">5</div><div class="stat-l">Thèmes</div></div>
+      <div class="stat-box"><div class="stat-n">~5</div><div class="stat-l">Minutes</div></div>
+    </div>
+    <div class="divider"></div>
+    <p style="color:rgba(250,253,247,0.55);font-size:.9rem;margin-bottom:1.8rem;line-height:1.6;">
+      Dégradation des matières, bilan carbone, biodiversité,<br>gestes éco-responsables et bien plus encore.
+    </p>
+    <button class="btn-start" onclick="startQuiz()">Commencer le quiz 🌍</button>
+  </div>
+
+  <!-- Zone quiz -->
+  <div id="quiz-area">
+    <div class="progress-info">
+      <span id="q-counter">Question 1 / 12</span>
+      <span id="q-score-live">Score : 0</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+
+    <div class="question-card" id="question-card">
+      <div class="question-meta">
+        <span class="q-category" id="q-category">Catégorie</span>
+        <span class="q-emoji" id="q-emoji">🌱</span>
+      </div>
+      <div class="question-text" id="q-text">Question...</div>
+      <div class="options-grid" id="options-grid"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">Question suivante →</button>
+    </div>
+  </div>
+
+  <!-- Écran résultats -->
+  <div class="results-screen" id="results-screen">
+    <div class="score-ring">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle class="score-ring-bg" cx="80" cy="80" r="70"/>
+        <circle class="score-ring-fill" id="ring-fill" cx="80" cy="80" r="70"/>
+      </svg>
+      <div class="score-center">
+        <div class="score-number" id="score-display">0</div>
+        <div class="score-total" id="score-total-display">/ 12</div>
+      </div>
+    </div>
+    <div class="result-title" id="result-title">Bravo !</div>
+    <div class="result-msg" id="result-msg">Tu es un vrai éco-citoyen.</div>
+
+    <div class="corrections-title">📋 Récapitulatif & corrections</div>
+    <div id="corrections-list"></div>
+
+    <button class="btn-restart" onclick="restartQuiz()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<script>
+// ─── Questions ───────────────────────────────────────────────
+const QUESTIONS = [
+  {
+    category: "Dégradation",
+    emoji: "🕰️",
+    text: "Combien de temps met un mégot de cigarette à se dégrader dans la nature ?",
+    options: ["6 mois", "2 à 3 ans", "10 à 15 ans", "1 an"],
+    correct: 2,
+    explanation: "Un mégot met 10 à 15 ans pour se décomposer. Il contient plus de 4 000 substances toxiques et peut polluer jusqu'à 500 litres d'eau !"
+  },
+  {
+    category: "Dégradation",
+    emoji: "🧴",
+    text: "Une bouteille en plastique PET (eau minérale classique) met combien de temps à se dégrader ?",
+    options: ["25 ans", "100 ans", "450 ans", "1 000 ans"],
+    correct: 2,
+    explanation: "Il faut environ 450 ans à une bouteille PET pour se décomposer. En 2023, seulement 58 % des bouteilles plastiques étaient collectées pour recyclage en France (ADEME)."
+  },
+  {
+    category: "Dégradation",
+    emoji: "🥤",
+    text: "Quelle matière se dégrade le plus lentement parmi ces 4 options ?",
+    options: ["Carton (6 mois)", "Chewing-gum (5 ans)", "Verre (4 000 ans)", "Aluminium (80 ans)"],
+    correct: 2,
+    explanation: "Le verre est pratiquement indestructible dans la nature : il faut entre 4 000 et 5 000 ans pour qu'il se décompose. Raison de plus pour le recycler à l'infini !"
+  },
+  {
+    category: "Climat",
+    emoji: "🌡️",
+    text: "Quel secteur représente la plus grande part des émissions de gaz à effet de serre en France ?",
+    options: ["L'agriculture", "Le bâtiment", "Les transports", "L'industrie"],
+    correct: 2,
+    explanation: "En France, les transports représentent environ 31 % des émissions de GES, selon les chiffres du CITEPA (2023). La voiture individuelle y est la principale source."
+  },
+  {
+    category: "Eau",
+    emoji: "💧",
+    text: "Quelle quantité d'eau faut-il pour produire un seul jean en coton ?",
+    options: ["200 litres", "1 500 litres", "7 500 litres", "15 000 litres"],
+    correct: 3,
+    explanation: "La fabrication d'un jean nécessite environ 7 500 à 11 000 litres d'eau selon les sources — c'est l'équivalent de 5 ans de consommation d'eau pour une douche quotidienne !"
+  },
+  {
+    category: "Biodiversité",
+    emoji: "🐝",
+    text: "On estime qu'environ combien d'espèces disparaissent chaque jour sur Terre ?",
+    options: ["1 à 2 espèces", "10 espèces", "50 à 100 espèces", "500 espèces"],
+    correct: 2,
+    explanation: "Les scientifiques estiment que 50 à 150 espèces disparaissent chaque jour — un rythme 100 à 1 000 fois supérieur au taux naturel d'extinction (IPBES, 2019)."
+  },
+  {
+    category: "Gestes éco",
+    emoji: "♻️",
+    text: "Quel geste du quotidien a le plus d'impact sur ton empreinte carbone ?",
+    options: [
+      "Trier ses déchets",
+      "Prendre des douches courtes",
+      "Réduire sa consommation de viande bovine",
+      "Éteindre les veilles électriques"
+    ],
+    correct: 2,
+    explanation: "Réduire la viande bovine est l'un des leviers les plus puissants : produire 1 kg de bœuf émet ~27 kg de CO₂e (ADEME). C'est bien plus impactant que les veilles ou les douches."
+  },
+  {
+    category: "Énergie",
+    emoji: "⚡",
+    text: "Quelle est la part des énergies renouvelables dans la production d'électricité en France en 2023 ?",
+    options: ["Moins de 10 %", "Environ 30 %", "Plus de 60 %", "Environ 50 %"],
+    correct: 1,
+    explanation: "En 2023, les ENR ont représenté environ 30 % de la production électrique française (RTE). Le nucléaire (bas carbone mais non renouvelable) y représente encore ~65-70 %."
+  },
+  {
+    category: "Dégradation",
+    emoji: "🍊",
+    text: "Combien de temps met une peau d'orange à se décomposer dans la nature ?",
+    options: ["1 semaine", "1 à 6 mois", "1 à 2 ans", "5 ans"],
+    correct: 1,
+    explanation: "Malgré son apparence naturelle, une peau d'orange met 1 à 6 mois à se dégrader selon le climat. Ce n'est pas un déchet anodin si tu la jettes au sol : elle peut libérer des substances qui perturbent la faune locale."
+  },
+  {
+    category: "Océans",
+    emoji: "🌊",
+    text: "Quelle proportion de l'oxygène atmosphérique est produite par les océans (phytoplancton) ?",
+    options: ["10 %", "30 %", "50 %", "70 %"],
+    correct: 2,
+    explanation: "Le phytoplancton marin produit environ 50 % de l'oxygène de notre atmosphère. Protéger les océans, c'est littéralement protéger l'air qu'on respire."
+  },
+  {
+    category: "Alimentation",
+    emoji: "🥩",
+    text: "Combien de litres d'eau faut-il pour produire 1 kg de bœuf ?",
+    options: ["500 L", "2 000 L", "10 000 à 15 000 L", "50 000 L"],
+    correct: 2,
+    explanation: "Produire 1 kg de bœuf requiert entre 10 000 et 15 000 litres d'eau (eau d'abreuvement + fourrage). C'est l'une des raisons pour lesquelles la viande bovine a une empreinte hydrique colossale."
+  },
+  {
+    category: "Recyclage",
+    emoji: "🔋",
+    text: "Quelle matière issue du recyclage d'une canette en aluminium permet de refaire une canette identique avec 95 % d'énergie économisée ?",
+    options: ["Le plastique", "L'aluminium lui-même", "Le cuivre", "L'acier"],
+    correct: 1,
+    explanation: "Recycler l'aluminium consomme 95 % moins d'énergie que de le produire à partir de minerai de bauxite. Une canette recyclée peut redevenir une canette en à peine 60 jours !"
+  }
+];
+
+// ─── État ────────────────────────────────────────────────────
+let currentQ = 0;
+let score = 0;
+let answers = [];
+let answered = false;
+
+// ─── Particules ──────────────────────────────────────────────
+function spawnParticles() {
+  const emojis = ['🍃','🌿','🌱','🍀','🌾','🌸','♻️','💧','🌍'];
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (12 + Math.random() * 18) + 's';
+    p.style.animationDelay = (Math.random() * 20) + 's';
+    p.style.fontSize = (.9 + Math.random() * .8) + 'rem';
+    container.appendChild(p);
+  }
+}
+spawnParticles();
+
+// ─── Quiz logic ───────────────────────────────────────────────
+function startQuiz() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-area').classList.add('show');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = QUESTIONS[currentQ];
+
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} / ${QUESTIONS.length}`;
+  document.getElementById('q-score-live').textContent = `Score : ${score}`;
+  document.getElementById('progress-fill').style.width = (currentQ / QUESTIONS.length * 100) + '%';
+  document.getElementById('q-category').textContent = q.category;
+  document.getElementById('q-emoji').textContent = q.emoji;
+  document.getElementById('q-text').textContent = q.text;
+
+  // Reset card animation
+  const card = document.getElementById('question-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'cardIn .5s cubic-bezier(.4,0,.2,1) both';
+
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  const letters = ['A','B','C','D'];
+
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    grid.appendChild(btn);
+  });
+
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('btn-next').classList.remove('show');
+}
+
+function selectOption(idx) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+  const isCorrect = idx === q.correct;
+
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    if (i === idx && !isCorrect) btn.classList.add('wrong');
+  });
+
+  if (isCorrect) score++;
+  answers.push({ q: q, chosen: idx, correct: isCorrect });
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback show ' + (isCorrect ? 'good' : 'bad');
+  fb.innerHTML = `<span class="feedback-icon">${isCorrect ? '✅' : '❌'}</span>${isCorrect ? '<strong>Bonne réponse !</strong> ' : '<strong>Raté !</strong> '}${q.explanation}`;
+
+  document.getElementById('q-score-live').textContent = `Score : ${score}`;
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.textContent = currentQ < QUESTIONS.length - 1 ? 'Question suivante →' : 'Voir mes résultats 🎉';
+  btnNext.classList.add('show');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ < QUESTIONS.length) {
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-area').classList.remove('show');
+  const rs = document.getElementById('results-screen');
+  rs.classList.add('show');
+
+  const pct = score / QUESTIONS.length;
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('score-total-display').textContent = `/ ${QUESTIONS.length}`;
+
+  // Anneau
+  const circumference = 2 * Math.PI * 70;
+  const offset = circumference * (1 - pct);
+  setTimeout(() => {
+    document.getElementById('ring-fill').style.strokeDashoffset = offset;
+    const col = pct >= .75 ? 'var(--vert-clair)' : pct >= .5 ? 'var(--terre)' : 'var(--rouge-eco)';
+    document.getElementById('ring-fill').style.stroke = col;
+  }, 100);
+
+  // Message
+  let title, msg;
+  if (pct >= .9)       { title = '🏆 Éco-Expert !';       msg = 'Impressionnant ! Tu maîtrises les enjeux environnementaux comme un·e pro. La planète a besoin de personnes comme toi.'; }
+  else if (pct >= .75) { title = '🌿 Très bonne culture !'; msg = 'Tu es clairement sensibilisé·e aux sujets éco. Quelques lacunes à combler, mais tu es sur la bonne voie.'; }
+  else if (pct >= .5)  { title = '🌱 Bonne base !';        msg = 'Tu as les fondamentaux, mais certains sujets méritent d\'être approfondis. Les corrections ci-dessous vont t\'aider !'; }
+  else                 { title = '📚 Il y a du boulot…';   msg = 'Pas d\'inquiétude, l\'essentiel c\'est de vouloir apprendre. Lis les corrections et retente ta chance !'; }
+
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-msg').textContent = msg;
+
+  // Corrections
+  const list = document.getElementById('corrections-list');
+  list.innerHTML = '';
+  answers.forEach((a, i) => {
+    const item = document.createElement('div');
+    item.className = 'correction-item ' + (a.correct ? 'ok' : 'ko');
+    item.style.animationDelay = (i * .07) + 's';
+    const letters = ['A','B','C','D'];
+    item.innerHTML = `
+      <div class="ci-header">
+        <span class="ci-status">${a.correct ? '✅' : '❌'}</span>
+        <span class="ci-q">Q${i+1}. ${a.q.text}</span>
+      </div>
+      <div class="ci-answer">
+        ${a.correct
+          ? `<strong>Bonne réponse :</strong> ${a.q.options[a.q.correct]}`
+          : `Ta réponse : <span style="color:var(--rouge-eco)">${a.q.options[a.chosen]}</span> &nbsp;|&nbsp; <strong>Bonne réponse :</strong> ${a.q.options[a.q.correct]}`
+        }<br>${a.q.explanation}
+      </div>
+    `;
+    list.appendChild(item);
+  });
+
+  rs.scrollIntoView({ behavior: 'smooth' });
+}
+
+function restartQuiz() {
+  currentQ = 0;
+  score = 0;
+  answers = [];
+  answered = false;
+
+  document.getElementById('ring-fill').style.strokeDashoffset = 440;
+  document.getElementById('results-screen').classList.remove('show');
+  document.getElementById('quiz-area').classList.add('show');
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
