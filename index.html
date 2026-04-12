@@ -4,21 +4,80 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Nos Événements · Nogent-le-Roi | Bridge & Flow Folk</title>
-  <meta name="description" content="Découvrez les événements organisés par Bridge & Flow Folk à Nogent-le-Roi : Après-midi environnement, Salon Bien-Être, et bien plus.">
+  <!-- ═══════════════════════════════════════════
+       SEO PRINCIPAL
+  ═══════════════════════════════════════════ -->
+  <title>Événements à Nogent-le-Roi (28) – Bien-être, Ateliers & Nature | Bridge & Flow Folk</title>
+  <meta name="description" content="Découvrez les événements organisés par Bridge & Flow Folk à Nogent-le-Roi (28) : bien-être, ateliers, rencontres nature et intergénérationnelles tout au long de l'année.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://bridgeflowfolk.github.io/" />
-  
-  <meta property="og:title" content="✨ Nos Événements · Bridge & Flow Folk" />
-  <meta property="og:description" content="Le portail de nos événements intergénérationnels à Nogent-le-Roi. Retrouvez nos prochaines dates et nos éditions passées." />
+
+  <!-- ═══════════════════════════════════════════
+       FAVICON
+  ═══════════════════════════════════════════ -->
+  <link rel="icon" type="image/png" href="/logo-sansFond.png" />
+
+  <!-- ═══════════════════════════════════════════
+       VÉRIFICATION GOOGLE SEARCH CONSOLE
+  ═══════════════════════════════════════════ -->
+  <meta name="google-site-verification" content="DoJfMer3ESnNXdqjHvuCK0qN9JkDQuiEnxDygBVS-Bo" />
+
+  <!-- ═══════════════════════════════════════════
+       OPEN GRAPH (Facebook, LinkedIn, WhatsApp…)
+  ═══════════════════════════════════════════ -->
+  <meta property="og:title" content="Événements à Nogent-le-Roi – Bridge & Flow Folk" />
+  <meta property="og:description" content="Ateliers, bien-être, conférences et rencontres intergénérationnelles à Nogent-le-Roi (28)." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bridgeflowfolk.github.io/" />
+  <!-- Idéalement : image 1200×630 opaque. En attendant, preview.jpg suffit. -->
   <meta property="og:image" content="https://bridgeflowfolk.github.io/preview.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="Bridge & Flow Folk" />
 
+  <!-- ═══════════════════════════════════════════
+       TWITTER / X CARD
+  ═══════════════════════════════════════════ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Événements Bridge & Flow Folk – Nogent-le-Roi" />
+  <meta name="twitter:description" content="Bien-être, ateliers, conférences et nature à Nogent-le-Roi (28)." />
+  <meta name="twitter:image" content="https://bridgeflowfolk.github.io/preview.jpg" />
+
+  <!-- ═══════════════════════════════════════════
+       DONNÉES STRUCTURÉES JSON-LD
+       → Organization + deux Events indexables
+  ═══════════════════════════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://bridgeflowfolk.github.io/#organization",
+    "name": "Bridge & Flow Folk",
+    "url": "https://bridgeflowfolk.github.io/",
+    "logo": "https://bridgeflowfolk.github.io/logo-sansFond.png",
+    "description": "Association organisant des événements bien-être, nature et intergénérationnels à Nogent-le-Roi.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Nogent-le-Roi",
+      "postalCode": "28210",
+      "addressCountry": "FR"
+    },
+    "sameAs": [
+      "https://www.facebook.com/profile.php?id=61587252715739"
+    ]
+  }
+  </script>
+
+  <!-- ═══════════════════════════════════════════
+       FONTS — display=swap obligatoire (Lighthouse/CLS)
+       On ne charge que les variantes vraiment utilisées.
+  ═══════════════════════════════════════════ -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
 
+  <!-- ═══════════════════════════════════════════
+       CSS
+  ═══════════════════════════════════════════ -->
   <link rel="stylesheet" href="commun.css" />
 
   <style>
@@ -61,9 +120,7 @@
       letter-spacing: 0.1em;
       transition: color 0.3s;
     }
-    .nav-liens a:hover {
-      color: var(--terre);
-    }
+    .nav-liens a:hover { color: var(--terre); }
 
     /* ════════════════════════════════════════
        HERO PORTAIL
@@ -87,6 +144,7 @@
       margin-bottom: 1.8rem;
       background: rgba(122,158,126,0.08);
     }
+    /* h1 visible pour Googlebot, stylé pour les humains */
     .hero-teasing h1 {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
@@ -113,7 +171,7 @@
     ════════════════════════════════════════ */
     .annonce-juin {
       background: rgba(255,255,255,0.6);
-      border: 1px solid rgba(122,158,126,0.35); /* Bordure un peu plus verte pour l'environnement */
+      border: 1px solid rgba(122,158,126,0.35);
       border-radius: 20px;
       backdrop-filter: blur(10px);
       padding: 2.5rem 2rem;
@@ -197,7 +255,7 @@
     }
     .bloc-temps {
       background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(122,158,126,0.3); /* Accordé avec l'event */
+      border: 1px solid rgba(122,158,126,0.3);
       border-radius: 14px;
       padding: 1.5rem 0.5rem 1.2rem;
       text-align: center;
@@ -298,13 +356,8 @@
       box-shadow: 0 15px 35px rgba(160,132,92,0.15);
       background: rgba(255,255,255,0.85);
     }
-    .carte-event:hover::before {
-      opacity: 1;
-    }
-    .ce-emoji {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
+    .carte-event:hover::before { opacity: 1; }
+    .ce-emoji { font-size: 2.5rem; margin-bottom: 1rem; }
     .ce-titre {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.6rem;
@@ -341,10 +394,16 @@
       .timer { grid-template-columns: repeat(2, 1fr); }
       .nav-principale { flex-direction: column; gap: 1rem; }
     }
-    
+
     @keyframes glisser-haut {
       from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes glisser-bas {
+      0%   { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
@@ -353,75 +412,90 @@
   <div class="deco deco-1"></div>
   <div class="deco deco-2"></div>
 
-  <nav class="nav-principale">
-    <a href="index.html" class="nav-logo">
+  <!-- NAVIGATION -->
+  <nav class="nav-principale" aria-label="Navigation principale">
+    <a href="/" class="nav-logo" aria-label="Accueil Bridge &amp; Flow Folk">
       <img src="logo-sansFond.png"
-           alt="Logo Bridge & Flow Folk"
-           style="width:80px;height:80px;object-fit:contain;flex-shrink:0;" />
+           alt="Logo Bridge &amp; Flow Folk"
+           width="80" height="80"
+           style="object-fit:contain;flex-shrink:0;" />
     </a>
     <div class="nav-liens">
       <a href="apropos.html">À propos de l'association</a>
     </div>
   </nav>
 
+  <!-- CONTENU PRINCIPAL -->
   <main style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;">
 
-    <div class="hero-teasing">
+    <!-- H1 sémantique + visible → clé SEO local -->
+    <header class="hero-teasing">
       <span class="edition-badge">Bridge &amp; Flow Folk</span>
-      <h1>Nos <em>Événements</em></h1>
-      <p class="hero-sub">Créons des ponts · Un lien entre les êtres et la nature</p>
-    </div>
+      <h1>Événements à <em>Nogent-le-Roi</em></h1>
+      <p class="hero-sub">Bien-être · Nature · Intergénérationnel · Eure-et-Loir (28)</p>
+    </header>
 
-    <div class="annonce-juin">
+    <!-- PROCHAIN ÉVÉNEMENT -->
+    <section class="annonce-juin" aria-labelledby="titre-prochain">
       <span class="prochaine-label">🌿 Prochain Rendez-vous</span>
-      <div class="titre-event">Après-midi Environnement</div>
-      <div class="lieu-juin">13 Juin 2026 · Nogent-le-Roi (28)</div>
-      
-      <a href="https://bridgeflowfolk.github.io/Environnement-Juin2026/" class="pastille-lien">Visiter le site de l'événement</a>
-    </div>
+      <h2 class="titre-event" id="titre-prochain">Après-midi Environnement</h2>
+      <p class="lieu-juin">13 Juin 2026 · Nogent-le-Roi (28)</p>
+      <a href="https://bridgeflowfolk.github.io/Environnement-Juin2026/"
+         class="pastille-lien"
+         aria-label="Visiter le site de l'Après-midi Environnement – 13 juin 2026">
+        Visiter le site de l'événement
+      </a>
+    </section>
 
-    <div class="timer-section">
+    <!-- COMPTE À REBOURS -->
+    <section class="timer-section" aria-label="Compte à rebours">
       <p class="timer-label" id="timer-label">L'événement commence dans</p>
-      <div class="timer" id="timer">
+      <div class="timer" id="timer" role="timer" aria-live="off">
         <div class="bloc-temps"><span class="nombre" id="jours">00</span><span class="unite">Jours</span></div>
         <div class="bloc-temps"><span class="nombre" id="heures">00</span><span class="unite">Heures</span></div>
         <div class="bloc-temps"><span class="nombre" id="minutes">00</span><span class="unite">Minutes</span></div>
         <div class="bloc-temps"><span class="nombre" id="secondes">00</span><span class="unite">Secondes</span></div>
       </div>
-    </div>
+    </section>
 
-    <div class="sep-editions">
+    <!-- ÉDITIONS PASSÉES -->
+    <div class="sep-editions" aria-hidden="true">
       <span>Nos Éditions Passées</span>
     </div>
 
-    <div class="grille-evenements">
-      <a href="https://bridgeflowfolk.github.io/Salon/" class="carte-event">
-        <span class="ce-emoji">🌸</span>
-        <div class="ce-titre">Salon Bien-Être<br>&amp; Créateurs</div>
-        <div class="ce-date">4 &amp; 5 Avril 2026</div>
-      </a>
-      
+    <section aria-label="Éditions passées">
+      <div class="grille-evenements">
+        <a href="https://bridgeflowfolk.github.io/Salon/" class="carte-event">
+          <span class="ce-emoji" aria-hidden="true">🌸</span>
+          <h3 class="ce-titre">Salon Bien-Être<br>&amp; Créateurs</h3>
+          <p class="ce-date">4 &amp; 5 Avril 2026</p>
+        </a>
       </div>
+    </section>
 
+    <!-- FOOTER -->
     <div class="footer-bloc">
       <a class="fb-lien"
-         href="https://www.facebook.com/people/Bridge-Flow-Folk-BFF/61587252715739/"
+         href="https://www.facebook.com/profile.php?id=61587252715739"
          target="_blank"
          rel="noopener noreferrer"
+         aria-label="Suivre Bridge &amp; Flow Folk sur Facebook"
          style="text-decoration:none; color:var(--terre); font-family:'Josefin Sans', sans-serif; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; display:inline-flex; align-items:center; gap:0.5rem; margin-bottom:1rem;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true" focusable="false">
           <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
         </svg>
         Suivre Bridge &amp; Flow Folk
       </a>
-      <footer style="font-family:'Josefin Sans', sans-serif; font-size:0.6rem; color:rgba(44,44,58,0.5); letter-spacing:0.1em;">© 2026 Bridge &amp; Flow Folk · Nogent-le-Roi (28) · 06 18 29 18 73</footer>
+      <footer style="font-family:'Josefin Sans', sans-serif; font-size:0.6rem; color:rgba(44,44,58,0.5); letter-spacing:0.1em;">
+        © 2026 Bridge &amp; Flow Folk · Nogent-le-Roi (28) · 06 18 29 18 73
+      </footer>
     </div>
 
   </main>
 
   <script>
     // ── Compte à rebours vers le 13 juin 2026 ──────────────────────
-    const DEBUT_JUIN = new Date("2026-06-13T10:00:00").getTime();
+    const DEBUT_JUIN = new Date("2026-06-13T10:00:00+02:00").getTime();
 
     const elTimer = document.getElementById("timer");
     const elLabel = document.getElementById("timer-label");
@@ -429,58 +503,42 @@
     function pad(n) { return String(n).padStart(2, "0"); }
 
     function maj() {
-      const now = Date.now();
-      const d   = DEBUT_JUIN - now;
+      const diff = DEBUT_JUIN - Date.now();
 
-      if (d <= 0) {
-        // Le salon est passé ou en cours
+      if (diff <= 0) {
         elLabel.style.display = "none";
-        elTimer.innerHTML = '<p style="text-align:center; font-family:\'Cormorant Garamond\', serif; font-size:1.5rem; color:var(--sauge); grid-column:1/-1;">🌿 L\'événement a commencé !</p>';
+        elTimer.innerHTML = '<p style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;color:var(--sauge);grid-column:1/-1;">🌿 L\'événement a commencé !</p>';
         clearInterval(intervalle);
         return;
       }
 
-      document.getElementById("jours").textContent    = pad(Math.floor(d / 86400000));
-      document.getElementById("heures").textContent   = pad(Math.floor((d % 86400000) / 3600000));
-      document.getElementById("minutes").textContent  = pad(Math.floor((d % 3600000) / 60000));
-      document.getElementById("secondes").textContent = pad(Math.floor((d % 60000) / 1000));
+      document.getElementById("jours").textContent    = pad(Math.floor(diff / 86400000));
+      document.getElementById("heures").textContent   = pad(Math.floor((diff % 86400000) / 3600000));
+      document.getElementById("minutes").textContent  = pad(Math.floor((diff % 3600000) / 60000));
+      document.getElementById("secondes").textContent = pad(Math.floor((diff % 60000) / 1000));
     }
 
     const intervalle = setInterval(maj, 1000);
     maj();
 
-    // ── Pétales (feuilles/nature pour coller au thème) ─────────────
-    // J'ai remplacé les fleurs par un mix de fleurs et de feuilles
+    // ── Pétales / feuilles animées ─────────────────────────────────
     const PETALES = ["🌿", "🍃", "🌸", "🌱", "🌼"];
     const fragment = document.createDocumentFragment();
+
     for (let i = 0; i < 10; i++) {
-      const e = document.createElement("div");
-      // Ajout en inline style pour le mouvement simple (nécessite la classe petale dans commun.css)
-      e.style.position = "fixed";
-      e.style.top = "-50px";
-      e.style.zIndex = "-1";
-      e.style.opacity = "0.4";
-      e.style.userSelect = "none";
-      e.style.pointerEvents = "none";
-      
-      e.textContent = PETALES[Math.floor(Math.random() * PETALES.length)];
-      const t = Math.random() * 0.8 + 0.6;
-      e.style.left = `${Math.random()*100}%`;
-      e.style.fontSize = `${t}rem`;
-      e.style.animation = `glisser-bas ${Math.random()*15+12}s linear infinite ${Math.random()*15}s`;
-      
-      // Injection de l'animation clef en dynamique si elle n'est pas dans commun.css
-      let styleSheet = document.styleSheets[0];
-      let keyframes = `@keyframes glisser-bas { 
-        0% { transform: translateY(-10vh) rotate(0deg); opacity:0; } 
-        10% { opacity: 0.6; }
-        90% { opacity: 0.6; }
-        100% { transform: translateY(110vh) rotate(360deg); opacity:0; } 
-      }`;
-      try { styleSheet.insertRule(keyframes, styleSheet.cssRules.length); } catch(e){}
-      
-      fragment.appendChild(e);
+      const el = document.createElement("div");
+      el.setAttribute("aria-hidden", "true");
+      el.style.cssText = `
+        position:fixed; top:-50px; z-index:-1;
+        opacity:0.4; user-select:none; pointer-events:none;
+        left:${Math.random() * 100}%;
+        font-size:${(Math.random() * 0.8 + 0.6).toFixed(2)}rem;
+        animation:glisser-bas ${(Math.random() * 15 + 12).toFixed(1)}s linear infinite ${(Math.random() * 15).toFixed(1)}s;
+      `;
+      el.textContent = PETALES[Math.floor(Math.random() * PETALES.length)];
+      fragment.appendChild(el);
     }
+
     document.body.appendChild(fragment);
   </script>
 
