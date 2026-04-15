@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Événements à Nogent-le-Roi (28) – Bien-être, Ateliers & Nature | Bridge & Flow Folk</title>
+  <meta name="description" content="Découvrez les événements organisés par Bridge & Flow Folk à Nogent-le-Roi (28) : bien-être, ateliers, rencontres nature et intergénérationnelles tout au long de l'année.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bridgeflowfolk.github.io/" />
+  <link rel="icon" type="image/png" href="/logo-sansFond.png" />
+  <meta name="google-site-verification" content="DoJfMer3ESnNXdqjHvuCK0qN9JkDQuiEnxDygBVS-Bo" />
+
+  <meta property="og:title" content="Événements à Nogent-le-Roi – Bridge & Flow Folk" />
+  <meta property="og:description" content="Ateliers, bien-être, conférences et rencontres intergénérationnelles à Nogent-le-Roi (28)." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bridgeflowfolk.github.io/" />
+  <meta property="og:image" content="https://bridgeflowfolk.github.io/preview.png" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="Bridge & Flow Folk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Événements Bridge & Flow Folk – Nogent-le-Roi" />
+  <meta name="twitter:description" content="Bien-être, ateliers, conférences et nature à Nogent-le-Roi (28)." />
+  <meta name="twitter:image" content="https://bridgeflowfolk.github.io/preview.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://bridgeflowfolk.github.io/#organization",
+    "name": "Bridge & Flow Folk",
+    "url": "https://bridgeflowfolk.github.io/",
+    "logo": "https://bridgeflowfolk.github.io/logo-sansFond.png",
+    "description": "Association organisant des événements bien-être, nature et intergénérationnels à Nogent-le-Roi.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Nogent-le-Roi",
+      "postalCode": "28210",
+      "addressCountry": "FR"
+    },
+    "sameAs": ["https://www.facebook.com/profile.php?id=61587252715739"]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Playfair Display : sérif éditorial puissant | DM Sans : neutralité précise -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@200;300;400;500&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── RESET & BASE ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ─── VARIABLES ──────────────────────────────────────────── */
+    :root {
+      --encre:   #1A1714;
+      --parchemin: #F5F0E8;
+      --mousse:  #5C7A5A;
+      --mousse-clair: #8aae87;
+      --sienne:  #B5733A;
+      --ecru:    #EDE6D6;
+      --gris:    #888075;
+      --ligne:   rgba(26,23,20,0.12);
+
+      --f-titre: 'Playfair Display', Georgia, serif;
+      --f-corps: 'DM Sans', system-ui, sans-serif;
+      --f-fin:   'Cormorant Garamond', Georgia, serif;
+    }
+
+    body {
+      background-color: var(--parchemin);
+      color: var(--encre);
+      font-family: var(--f-corps);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+      /* texture grain subtile */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    }
+
+    /* ─── LIGNE VERTICALE ÉDITORIALE ─────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; bottom: 0;
+      left: 5rem;
+      width: 1px;
+      background: var(--ligne);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ─── NAVIGATION ─────────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2rem 1.25rem 7rem;
+      background: rgba(245, 240, 232, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--ligne);
+    }
+
+    .nav-marque {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      text-decoration: none;
+    }
+    .nav-marque img {
+      width: 42px; height: 42px;
+      object-fit: contain;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+    }
+    .nav-marque-nom {
+      font-family: var(--f-titre);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--encre);
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+    .nav-marque-lieu {
+      font-family: var(--f-corps);
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gris);
+    }
+
+    .nav-lien {
+      font-family: var(--f-corps);
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--gris);
+      transition: color 0.25s;
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+    }
+    .nav-lien:hover {
+      color: var(--encre);
+      border-bottom-color: var(--sienne);
+    }
+
+    /* ─── LAYOUT PRINCIPAL ───────────────────────────────────── */
+    .conteneur {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 0 7rem;
+    }
+
+    /* ─── HERO ÉDITORIAL ─────────────────────────────────────── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 3rem;
+      padding: 5rem 0 3.5rem;
+      border-bottom: 1px solid var(--ligne);
+      position: relative;
+    }
+
+    .hero-meta {
+      font-family: var(--f-corps);
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--mousse);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-meta::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--mousse);
+    }
+
+    h1.hero-titre {
+      font-family: var(--f-titre);
+      font-weight: 900;
+      font-size: clamp(3.8rem, 9vw, 7rem);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      color: var(--encre);
+    }
+    h1.hero-titre em {
+      font-style: italic;
+      color: var(--sienne);
+      display: block;
+    }
+
+    .hero-sous {
+      font-family: var(--f-fin);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--gris);
+      margin-top: 1.8rem;
+      font-weight: 300;
+      max-width: 480px;
+    }
+
+    .hero-numero {
+      font-family: var(--f-titre);
+      font-size: clamp(6rem, 14vw, 11rem);
+      font-weight: 900;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(26,23,20,0.08);
+      line-height: 1;
+      user-select: none;
+      letter-spacing: -0.04em;
+    }
+
+    /* ─── SECTION : PROCHAIN ÉVÉNEMENT ──────────────────────── */
+    .section-prochaine {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--ligne);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .section-prochaine.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .prochaine-gauche {
+      padding: 3.5rem 3rem 3.5rem 0;
+      border-right: 1px solid var(--ligne);
+    }
+    .prochaine-droite {
+      padding: 3.5rem 0 3.5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .rubrique {
+      font-family: var(--f-corps);
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--mousse);
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .rubrique::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--ligne);
+    }
+
+    h2.titre-evenement {
+      font-family: var(--f-titre);
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.015em;
+      color: var(--encre);
+      margin-bottom: 1rem;
+    }
+
+    .date-bloc {
+      margin-top: 2rem;
+    }
+    .date-jour {
+      font-family: var(--f-titre);
+      font-size: clamp(3.5rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1;
+      color: var(--encre);
+      letter-spacing: -0.03em;
+    }
+    .date-detail {
+      font-family: var(--f-corps);
+      font-size: 0.62rem;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gris);
+      margin-top: 0.3rem;
+    }
+
+    .btn-principal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--encre);
+      color: var(--parchemin);
+      font-family: var(--f-corps);
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 1.8rem;
+      border: 1px solid var(--encre);
+      transition: background 0.3s, color 0.3s;
+      margin-top: 2.5rem;
+      align-self: flex-start;
+    }
+    .btn-principal:hover {
+      background: transparent;
+      color: var(--encre);
+    }
+    .btn-principal svg {
+      transition: transform 0.3s;
+    }
+    .btn-principal:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* ─── COMPTE À REBOURS ───────────────────────────────────── */
+    .timer-wrap {
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--ligne);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
+    }
+    .timer-wrap.visible { opacity: 1; transform: translateY(0); }
+
+    .timer-en-tete {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .timer-texte {
+      font-family: var(--f-corps);
+      font-size: 0.58rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gris);
+    }
+    .timer-ligne {
+      flex: 1;
+      height: 1px;
+      background: var(--ligne);
+    }
+
+    .timer-grille {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .timer-case {
+      padding: 1.5rem 0;
+      text-align: center;
+      border-right: 1px solid var(--ligne);
+      position: relative;
+    }
+    .timer-case:last-child { border-right: none; }
+
+    .timer-chiffre {
+      font-family: var(--f-titre);
+      font-weight: 900;
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 1;
+      color: var(--encre);
+      letter-spacing: -0.03em;
+      display: block;
+      transition: transform 0.15s;
+    }
+    .timer-chiffre.pulse { transform: scale(1.08); }
+    .timer-unite {
+      font-family: var(--f-corps);
+      font-size: 0.52rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gris);
+      margin-top: 0.6rem;
+      display: block;
+    }
+
+    /* ─── ÉDITIONS PASSÉES ───────────────────────────────────── */
+    .section-passees {
+      padding: 3.5rem 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s;
+    }
+    .section-passees.visible { opacity: 1; transform: translateY(0); }
+
+    .grille-editions {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 0;
+      margin-top: 2rem;
+    }
+
+    .carte-edition {
+      display: block;
+      text-decoration: none;
+      color: var(--encre);
+      padding: 2rem 2rem 2rem 0;
+      border-right: 1px solid var(--ligne);
+      border-bottom: 1px solid var(--ligne);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .carte-edition:last-child { border-right: none; }
+
+    .carte-edition::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--sienne), var(--mousse));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .carte-edition:hover { background: rgba(26,23,20,0.025); }
+    .carte-edition:hover::after { transform: scaleX(1); }
+
+    .ce-pictogramme {
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .ce-edition-label {
+      font-family: var(--f-corps);
+      font-size: 0.52rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--mousse);
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+    .ce-titre {
+      font-family: var(--f-titre);
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+    .ce-date {
+      font-family: var(--f-corps);
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gris);
+    }
+    .ce-fleche {
+      position: absolute;
+      bottom: 1.5rem; right: 1.5rem;
+      font-size: 1rem;
+      color: var(--ligne);
+      transition: color 0.3s, transform 0.3s;
+    }
+    .carte-edition:hover .ce-fleche {
+      color: var(--sienne);
+      transform: translate(3px, -3px);
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    .pied {
+      border-top: 1px solid var(--ligne);
+      padding: 2.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .pied-gauche {
+      font-family: var(--f-corps);
+      font-size: 0.58rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--gris);
+      line-height: 1.8;
+    }
+
+    .fb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      color: var(--gris);
+      font-family: var(--f-corps);
+      font-size: 0.58rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 1px solid var(--ligne);
+      padding: 0.6rem 1.2rem;
+      transition: color 0.25s, border-color 0.25s;
+    }
+    .fb-btn:hover { color: var(--encre); border-color: var(--encre); }
+
+    /* ─── ANIMATIONS SCROLL ──────────────────────────────────── */
+    @keyframes hero-entre {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-gauche { animation: hero-entre 1s ease 0.1s both; }
+    .hero-droite { animation: hero-entre 1s ease 0.35s both; }
+
+    /* ─── MARQUEE LIGNE DE SÉPARATION ───────────────────────── */
+    .marquee-bande {
+      overflow: hidden;
+      background: var(--encre);
+      padding: 0.6rem 0;
+      user-select: none;
+    }
+    .marquee-piste {
+      display: flex;
+      gap: 2rem;
+      animation: marquee-scroll 25s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      font-family: var(--f-corps);
+      font-size: 0.55rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.6);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .marquee-item::after {
+      content: '·';
+      color: var(--mousse);
+    }
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      body::before { left: 1.5rem; }
+
+      .nav { padding: 1rem 1.5rem 1rem 1.5rem; }
+      .conteneur { padding: 0 1.5rem; }
+
+      .hero { grid-template-columns: 1fr; gap: 0; }
+      .hero-droite { display: none; }
+      .hero { padding: 3rem 0 2.5rem; }
+
+      .section-prochaine { grid-template-columns: 1fr; }
+      .prochaine-gauche { border-right: none; border-bottom: 1px solid var(--ligne); padding: 2.5rem 0; }
+      .prochaine-droite { padding: 2.5rem 0; }
+
+      .timer-grille { grid-template-columns: repeat(2, 1fr); }
+      .timer-case:nth-child(2) { border-right: none; }
+
+      .pied { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="/" class="nav-marque" aria-label="Accueil Bridge & Flow Folk">
+      <img src="logo-sansFond.png" alt="Logo Bridge & Flow Folk" width="42" height="42" />
+      <div>
+        <div class="nav-marque-nom">Bridge &amp; Flow Folk</div>
+        <div class="nav-marque-lieu">Nogent-le-Roi · 28210</div>
+      </div>
+    </a>
+    <a href="apropos.html" class="nav-lien">À propos de l'association</a>
+  </nav>
+
+  <main>
+    <div class="conteneur">
+
+      <!-- ── HERO ─────────────────────────────────────────────── -->
+      <header class="hero" aria-label="En-tête de la page">
+        <div class="hero-gauche">
+          <p class="hero-meta">Association loi 1901 · Eure-et-Loir</p>
+          <h1 class="hero-titre">
+            Événements<br>à <em>Nogent-<br>le-Roi</em>
+          </h1>
+          <p class="hero-sous">Bien-être · Nature · Intergénérationnel — au cœur de l'Eure-et-Loir (28)</p>
+        </div>
+        <div class="hero-droite" aria-hidden="true">
+          <div class="hero-numero">2026</div>
+        </div>
+      </header>
+
+      <!-- ── BANDE MARQUEE ─────────────────────────────────────── -->
+    </div>
+
+    <div class="marquee-bande" aria-hidden="true">
+      <div class="marquee-piste" id="marquee">
+        <span class="marquee-item">Bien-être</span>
+        <span class="marquee-item">Ateliers créatifs</span>
+        <span class="marquee-item">Nature & environnement</span>
+        <span class="marquee-item">Rencontres intergénérationnelles</span>
+        <span class="marquee-item">Nogent-le-Roi</span>
+        <span class="marquee-item">Eure-et-Loir</span>
+        <span class="marquee-item">Bridge & Flow Folk</span>
+        <span class="marquee-item">Bien-être</span>
+        <span class="marquee-item">Ateliers créatifs</span>
+        <span class="marquee-item">Nature & environnement</span>
+        <span class="marquee-item">Rencontres intergénérationnelles</span>
+        <span class="marquee-item">Nogent-le-Roi</span>
+        <span class="marquee-item">Eure-et-Loir</span>
+        <span class="marquee-item">Bridge & Flow Folk</span>
+      </div>
+    </div>
+
+    <div class="conteneur">
+
+      <!-- ── PROCHAIN ÉVÉNEMENT ────────────────────────────────── -->
+      <section class="section-prochaine" aria-labelledby="titre-prochain" id="obs-prochaine">
+
+        <div class="prochaine-gauche">
+          <p class="rubrique">Prochain rendez-vous</p>
+          <h2 class="titre-evenement" id="titre-prochain">
+            Après-midi<br>Environnement
+          </h2>
+
+          <div class="date-bloc">
+            <div class="date-jour">13</div>
+            <div class="date-detail">Juin 2026 · Nogent-le-Roi (28)</div>
+          </div>
+        </div>
+
+        <div class="prochaine-droite">
+          <!-- COMPTE À REBOURS intégré dans la colonne droite -->
+          <div>
+            <p class="rubrique">Ouverture dans</p>
+            <div class="timer-grille" id="timer" role="timer" aria-live="off" aria-label="Compte à rebours">
+              <div class="timer-case">
+                <span class="timer-chiffre" id="jours">00</span>
+                <span class="timer-unite">Jours</span>
+              </div>
+              <div class="timer-case">
+                <span class="timer-chiffre" id="heures">00</span>
+                <span class="timer-unite">Heures</span>
+              </div>
+              <div class="timer-case">
+                <span class="timer-chiffre" id="minutes">00</span>
+                <span class="timer-unite">Min</span>
+              </div>
+              <div class="timer-case" style="border-right:none">
+                <span class="timer-chiffre" id="secondes">00</span>
+                <span class="timer-unite">Sec</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="https://bridgeflowfolk.github.io/environnement/"
+             class="btn-principal"
+             aria-label="Visiter le site de l'Après-midi Environnement – 13 juin 2026">
+            Découvrir l'événement
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- ── ÉDITIONS PASSÉES ──────────────────────────────────── -->
+      <section class="section-passees" aria-label="Éditions passées" id="obs-passees">
+        <p class="rubrique">Nos éditions passées</p>
+        <div class="grille-editions">
+          <a href="https://bridgeflowfolk.github.io/Salon/" class="carte-edition">
+            <span class="ce-pictogramme" aria-hidden="true">🌸</span>
+            <span class="ce-edition-label">Édition · Avril 2026</span>
+            <h3 class="ce-titre">Salon Bien-Être<br>&amp; Créateurs</h3>
+            <p class="ce-date">4 &amp; 5 Avril 2026</p>
+            <span class="ce-fleche" aria-hidden="true">↗</span>
+          </a>
+          <!-- Prochaines éditions passées s'ajouteront ici -->
+        </div>
+      </section>
+
+      <!-- ── FOOTER ────────────────────────────────────────────── -->
+      <footer class="pied">
+        <div class="pied-gauche">
+          © 2026 Bridge &amp; Flow Folk<br>
+          Association loi 1901 · Nogent-le-Roi (28210) · 06 18 29 18 73
+        </div>
+        <a class="fb-btn"
+           href="https://www.facebook.com/profile.php?id=61587252715739"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Suivre Bridge & Flow Folk sur Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+               width="13" height="13" aria-hidden="true" focusable="false">
+            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+          </svg>
+          Suivre sur Facebook
+        </a>
+      </footer>
+
+    </div><!-- /conteneur -->
+  </main>
+
+  <script>
+    /* ── Compte à rebours ─────────────────────────────────── */
+    const CIBLE = new Date("2026-06-13T14:30:00+02:00").getTime();
+    const elJours = document.getElementById("jours");
+    const elH     = document.getElementById("heures");
+    const elM     = document.getElementById("minutes");
+    const elS     = document.getElementById("secondes");
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+
+    function pulse(el) {
+      el.classList.add("pulse");
+      setTimeout(() => el.classList.remove("pulse"), 150);
+    }
+
+    let prevS = -1;
+    function tick() {
+      const diff = CIBLE - Date.now();
+      if (diff <= 0) {
+        document.getElementById("timer").innerHTML =
+          '<p style="grid-column:1/-1;text-align:center;font-family:\'Playfair Display\',serif;font-style:italic;font-size:1.4rem;color:var(--mousse);padding:1rem 0;">L\'événement a commencé !</p>';
+        return;
+      }
+      const j = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+
+      elJours.textContent = pad(j);
+      elH.textContent     = pad(h);
+      elM.textContent     = pad(m);
+      if (s !== prevS) { elS.textContent = pad(s); pulse(elS); prevS = s; }
+    }
+    setInterval(tick, 1000);
+    tick();
+
+    /* ── Intersection Observer (révélation au scroll) ─────── */
+    const animables = document.querySelectorAll('#obs-prochaine, #obs-passees');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    animables.forEach(el => obs.observe(el));
+
+    /* ── Dupliquer le marquee pour l'infini parfait ───────── */
+    const piste = document.getElementById('marquee');
+    // déjà dupliqué dans le HTML, rien à faire
+  </script>
+
+</body>
+</html>
