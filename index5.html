@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Événements à Nogent-le-Roi (28) – Bien-être, Ateliers & Nature | Bridge & Flow Folk</title>
+  <meta name="description" content="Découvrez les événements organisés par Bridge & Flow Folk à Nogent-le-Roi (28) : bien-être, ateliers, rencontres nature et intergénérationnelles tout au long de l'année.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bridgeflowfolk.github.io/" />
+  <link rel="icon" type="image/png" href="/logo-sansFond.png" />
+  <meta name="google-site-verification" content="DoJfMer3ESnNXdqjHvuCK0qN9JkDQuiEnxDygBVS-Bo" />
+  <meta property="og:title" content="Événements à Nogent-le-Roi – Bridge & Flow Folk" />
+  <meta property="og:description" content="Ateliers, bien-être, conférences et rencontres intergénérationnelles à Nogent-le-Roi (28)." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bridgeflowfolk.github.io/" />
+  <meta property="og:image" content="https://bridgeflowfolk.github.io/preview.png" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="Bridge & Flow Folk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Événements Bridge & Flow Folk – Nogent-le-Roi" />
+  <meta name="twitter:description" content="Bien-être, ateliers, conférences et nature à Nogent-le-Roi (28)." />
+  <meta name="twitter:image" content="https://bridgeflowfolk.github.io/preview.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://bridgeflowfolk.github.io/#organization",
+    "name": "Bridge & Flow Folk",
+    "url": "https://bridgeflowfolk.github.io/",
+    "logo": "https://bridgeflowfolk.github.io/logo-sansFond.png",
+    "description": "Association organisant des événements bien-être, nature et intergénérationnels à Nogent-le-Roi.",
+    "address": { "@type": "PostalAddress", "addressLocality": "Nogent-le-Roi", "postalCode": "28210", "addressCountry": "FR" },
+    "sameAs": ["https://www.facebook.com/profile.php?id=61587252715739"]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --sauge:       #4a7c59;
+      --sauge-clair: #7aaa80;
+      --peche:       #e8c9a0;
+      --creme:       #faf7f2;
+      --terre:       #8b5e3c;
+      --encre:       #1e2b1f;
+      --gris:        #7a8c7b;
+      --f-titre: 'Fraunces', Georgia, serif;
+      --f-ui:    'Outfit', system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--f-ui);
+      font-weight: 300;
+      color: var(--encre);
+      background:
+        radial-gradient(ellipse at 18% 8%,  rgba(180,220,185,0.35) 0%, transparent 52%),
+        radial-gradient(ellipse at 82% 12%, rgba(232,201,160,0.30) 0%, transparent 48%),
+        radial-gradient(ellipse at 8%  82%, rgba(240,235,220,0.40) 0%, transparent 52%),
+        radial-gradient(ellipse at 88% 88%, rgba(190,225,195,0.28) 0%, transparent 50%),
+        #faf7f2;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky; top: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(250,247,242,0.82);
+      backdrop-filter: blur(20px) saturate(1.4);
+      border-bottom: 1px solid rgba(74,124,89,0.12);
+    }
+    .nav-marque {
+      display: flex; align-items: center; gap: 0.9rem;
+      text-decoration: none; color: var(--encre);
+    }
+    .nav-marque img { width: 44px; height: 44px; object-fit: contain; }
+    .nav-nom {
+      font-family: var(--f-titre); font-weight: 600; font-size: 1rem;
+      letter-spacing: -0.01em; color: var(--encre);
+    }
+    .nav-lieu {
+      font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gris);
+    }
+    .nav-lien {
+      font-size: 0.65rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase;
+      text-decoration: none; color: var(--gris);
+      padding: 0.5rem 1rem; border: 1px solid transparent; border-radius: 100px;
+      transition: all 0.3s;
+    }
+    .nav-lien:hover { color: var(--sauge); border-color: rgba(74,124,89,0.3); background: rgba(74,124,89,0.06); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 90vh;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; padding: 5rem 2rem 10rem; /* Ajout d'espace en bas pour le scroll indicator */
+      position: relative; overflow: hidden;
+    }
+    .hero-orbe-1 {
+      position: absolute; width: 650px; height: 650px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(122,170,128,0.2) 0%, transparent 70%);
+      top: -200px; right: -180px; pointer-events: none;
+      animation: orbe 9s ease-in-out infinite;
+    }
+    .hero-orbe-2 {
+      position: absolute; width: 480px; height: 480px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,201,160,0.25) 0%, transparent 70%);
+      bottom: -120px; left: -130px; pointer-events: none;
+      animation: orbe 12s ease-in-out infinite reverse;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.6rem; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--sauge); background: rgba(74,124,89,0.08);
+      border: 1px solid rgba(74,124,89,0.22); padding: 0.45rem 1.1rem; border-radius: 100px;
+      margin-bottom: 2.2rem; position: relative; z-index: 1;
+      opacity: 0; animation: monter 0.8s ease 0.1s forwards;
+    }
+    .badge-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--sauge-clair);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    h1.hero-titre {
+      font-family: var(--f-titre); font-weight: 700;
+      font-size: clamp(3.2rem, 10vw, 7.5rem);
+      line-height: 0.95; letter-spacing: -0.03em; color: var(--encre);
+      position: relative; z-index: 1;
+      opacity: 0; animation: monter 0.9s ease 0.25s forwards;
+    }
+    h1.hero-titre em {
+      font-style: italic; font-weight: 300; color: var(--sauge); display: block;
+    }
+
+    .hero-accroche {
+      font-family: var(--f-titre); font-style: italic; font-weight: 300;
+      font-size: clamp(1rem, 2.5vw, 1.3rem); color: var(--gris);
+      max-width: 480px; line-height: 1.55; margin: 1.6rem 0 2.8rem;
+      position: relative; z-index: 1;
+      opacity: 0; animation: monter 0.9s ease 0.45s forwards;
+    }
+
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center;
+      position: relative; z-index: 1;
+      opacity: 0; animation: monter 0.9s ease 0.6s forwards;
+    }
+    .tag {
+      font-size: 0.6rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--terre); background: rgba(139,94,60,0.08);
+      border: 1px solid rgba(139,94,60,0.18); padding: 0.4rem 0.95rem; border-radius: 100px;
+      transition: all 0.3s;
+    }
+    .tag:hover { background: rgba(139,94,60,0.14); transform: translateY(-2px); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      opacity: 0; animation: monter 0.8s ease 1s forwards;
+    }
+    .hero-scroll span { font-size: 0.52rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gris); }
+    .scroll-bar { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gris), transparent); animation: trait 2s ease-in-out infinite; }
+
+    /* ── SECTION EVENT ── */
+    .section-event { padding: 4rem 2rem; max-width: 1000px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.58rem; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--sauge); margin-bottom: 2rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, rgba(74,124,89,0.3), transparent); }
+
+    .carte-principale {
+      background: rgba(255,255,255,0.62);
+      backdrop-filter: blur(28px) saturate(1.6);
+      border: 1px solid rgba(255,255,255,0.92);
+      border-radius: 28px;
+      box-shadow:
+        0 2px 4px   rgba(30,43,31,0.03),
+        0 8px 24px  rgba(30,43,31,0.06),
+        0 32px 64px rgba(30,43,31,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.85);
+      position: relative; overflow: hidden;
+      display: grid; grid-template-columns: 1fr 1px 1fr;
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .carte-principale.visible { opacity: 1; transform: translateY(0); }
+    .carte-principale::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+      background: linear-gradient(90deg, var(--sauge), var(--sauge-clair), #b8e0be, var(--peche), var(--sauge));
+      background-size: 200% 100%; animation: slide-grad 6s linear infinite;
+    }
+
+    .carte-div { background: rgba(74,124,89,0.12); margin: 2.5rem 0; }
+
+    .carte-gauche { padding: 3rem 2.5rem 3rem 3rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .carte-droite  { padding: 3rem 3rem 3rem 2.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+
+    .ev-surtitre {
+      font-size: 0.58rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--sauge); margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .ev-surtitre::before { content: ''; width: 18px; height: 1px; background: var(--sauge-clair); }
+
+    h2.ev-titre {
+      font-family: var(--f-titre); font-weight: 600;
+      font-size: clamp(1.9rem, 4vw, 2.8rem); line-height: 1.08; letter-spacing: -0.02em;
+      color: var(--encre); margin-bottom: 1.2rem;
+    }
+    .ev-meta {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gris);
+    }
+    .sep { color: var(--peche); }
+
+    .ev-date { margin-top: auto; padding-top: 2rem; }
+    .ev-date-chiffre {
+      font-family: var(--f-titre); font-weight: 700;
+      font-size: clamp(4rem, 9vw, 6.5rem); line-height: 1; letter-spacing: -0.04em; color: var(--encre);
+    }
+    .ev-date-mois {
+      font-family: var(--f-titre); font-style: italic; font-weight: 300;
+      font-size: 1.6rem; color: var(--sauge); letter-spacing: -0.01em;
+    }
+    .ev-date-info {
+      font-size: 0.6rem; font-weight: 400; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gris); margin-top: 0.2rem;
+    }
+
+    /* Timer */
+    .timer-label-txt {
+      font-size: 0.56rem; font-weight: 500; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--gris); margin-bottom: 1.2rem;
+    }
+    .timer-grille {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 0.55rem; margin-bottom: 2.5rem;
+    }
+    .timer-case {
+      background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(226,240,228,0.7));
+      border: 1px solid rgba(74,124,89,0.15); border-radius: 14px;
+      padding: 1.1rem 0.3rem 0.9rem; text-align: center;
+      box-shadow: 0 2px 8px rgba(30,43,31,0.05), inset 0 1px 0 rgba(255,255,255,0.95);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .timer-case:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(74,124,89,0.14), inset 0 1px 0 rgba(255,255,255,0.95);
+    }
+    .timer-chiffre {
+      font-family: var(--f-titre); font-weight: 700;
+      font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1; letter-spacing: -0.03em;
+      color: var(--encre); display: block; transition: transform 0.12s ease, color 0.12s;
+    }
+    .timer-chiffre.pulse { transform: scale(1.12); color: var(--sauge); }
+    .timer-unite {
+      font-size: 0.48rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gris); margin-top: 0.3rem; display: block;
+    }
+
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      background: linear-gradient(135deg, var(--sauge), #3d6b4c);
+      color: #fff; font-size: 0.65rem; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      text-decoration: none; padding: 1rem 1.8rem; border-radius: 100px;
+      box-shadow: 0 4px 16px rgba(74,124,89,0.32), 0 1px 3px rgba(74,124,89,0.2);
+      transition: all 0.4s ease; position: relative; overflow: hidden;
+    }
+    .btn-cta::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, #3d6b4c, var(--sauge)); opacity: 0; transition: opacity 0.4s;
+    }
+    .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(74,124,89,0.42); }
+    .btn-cta:hover::after { opacity: 1; }
+    .btn-cta > * { position: relative; z-index: 1; }
+    .btn-cta svg { transition: transform 0.3s; }
+    .btn-cta:hover svg { transform: translateX(3px); }
+
+    /* ── ÉDITIONS PASSÉES ── */
+    .section-passees { padding: 0 2rem 6rem; max-width: 1000px; margin: 0 auto; opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s; }
+    .section-passees.visible { opacity: 1; transform: translateY(0); }
+
+    .grille-passees { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1.2rem; }
+
+    .carte-edition {
+      display: block; text-decoration: none; color: var(--encre);
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.88);
+      border-radius: 20px; padding: 2rem;
+      box-shadow: 0 2px 12px rgba(30,43,31,0.05), 0 8px 32px rgba(30,43,31,0.06);
+      position: relative; overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    .carte-edition::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
+      background: linear-gradient(135deg, rgba(122,170,128,0.07), rgba(232,201,160,0.07));
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .carte-edition:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 4px 20px rgba(30,43,31,0.07), 0 16px 48px rgba(74,124,89,0.13); border-color: rgba(74,124,89,0.25); }
+    .carte-edition:hover::before { opacity: 1; }
+
+    .ce-icon { font-size: 2.2rem; margin-bottom: 1.2rem; display: block; position: relative; z-index: 1; }
+    .ce-label { font-size: 0.52rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--sauge-clair); margin-bottom: 0.5rem; display: block; position: relative; z-index: 1; }
+    .ce-titre-card { font-family: var(--f-titre); font-weight: 600; font-size: 1.5rem; line-height: 1.12; letter-spacing: -0.01em; margin-bottom: 0.6rem; position: relative; z-index: 1; }
+    .ce-date-card { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gris); position: relative; z-index: 1; }
+    .ce-arrow {
+      position: absolute; top: 1.8rem; right: 2rem;
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid rgba(74,124,89,0.2);
+      display: flex; align-items: center; justify-content: center; color: var(--gris);
+      transition: all 0.3s ease; z-index: 1;
+    }
+    .carte-edition:hover .ce-arrow { background: var(--sauge); border-color: var(--sauge); color: #fff; transform: rotate(45deg); }
+
+    /* ── FOOTER ── */
+    .footer {
+      border-top: 1px solid rgba(74,124,89,0.12); padding: 2rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      background: rgba(250,247,242,0.6);
+    }
+    .footer-copy { font-size: 0.58rem; font-weight: 300; letter-spacing: 0.08em; color: var(--gris); line-height: 1.8; }
+    .fb-lien {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      text-decoration: none; color: var(--gris); font-size: 0.58rem; font-weight: 400;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.6rem 1.1rem; border: 1px solid rgba(74,124,89,0.2); border-radius: 100px;
+      transition: all 0.3s;
+    }
+    .fb-lien:hover { color: var(--sauge); border-color: var(--sauge); background: rgba(74,124,89,0.06); }
+
+    /* ── PÉTALES ── */
+    .petale {
+      position: fixed; top: -60px; z-index: -1; opacity: 0;
+      pointer-events: none; user-select: none; font-size: 1rem;
+      animation: tomber linear infinite;
+    }
+
+    /* ── KEYFRAMES ── */
+    @keyframes monter { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes orbe { 0%,100% { transform:translate(0,0) scale(1); } 33% { transform:translate(18px,-18px) scale(1.03); } 66% { transform:translate(-10px,14px) scale(0.97); } }
+    @keyframes pulse-dot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(0.7); } }
+    @keyframes trait { 0% { transform:scaleY(0); transform-origin:top; opacity:1; } 50% { transform:scaleY(1); transform-origin:top; } 51% { transform:scaleY(1); transform-origin:bottom; } 100% { transform:scaleY(0); transform-origin:bottom; opacity:0; } }
+    @keyframes slide-grad { from { background-position:0% 0%; } to { background-position:200% 0%; } }
+    @keyframes tomber { 0% { transform:translateY(0) rotate(0deg); opacity:0; } 8% { opacity:0.45; } 92% { opacity:0.35; } 100% { transform:translateY(105vh) rotate(400deg); opacity:0; } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      .nav { padding: 0.8rem 1.2rem; }
+      /* Correction À Propos : On l'affiche en plus petit sur mobile au lieu de le cacher */
+      .nav-lien { display: inline-block; font-size: 0.55rem; padding: 0.4rem 0.8rem; }
+      .carte-principale { grid-template-columns: 1fr; }
+      .carte-div { display: none; }
+      .carte-gauche { padding: 2rem; border-bottom: 1px solid rgba(74,124,89,0.1); }
+      .carte-droite  { padding: 2rem; }
+      .timer-grille  { grid-template-columns: repeat(2,1fr); }
+      .footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="/" class="nav-marque" aria-label="Accueil Bridge & Flow Folk">
+      <img src="logo-sansFond.png" alt="Logo Bridge & Flow Folk" width="44" height="44" />
+      <div>
+        <div class="nav-nom">Bridge &amp; Flow Folk</div>
+        <div class="nav-lieu">Nogent-le-Roi · 28</div>
+      </div>
+    </a>
+    <a href="apropos.html" class="nav-lien">À propos</a>
+  </nav>
+
+  <main>
+
+    <section class="hero" aria-label="Bienvenue">
+      <div class="hero-orbe-1" aria-hidden="true"></div>
+      <div class="hero-orbe-2" aria-hidden="true"></div>
+
+      <div class="hero-badge">
+        <div class="badge-dot" aria-hidden="true"></div>
+        Association — Eure-et-Loir (28)
+      </div>
+
+      <h1 class="hero-titre">
+        Événements à<br><em>Nogent-le-Roi</em>
+      </h1>
+
+      <p class="hero-accroche">
+        Bien-être, nature &amp; rencontres intergénérationnelles<br>au cœur de l'Eure-et-Loir
+      </p>
+
+      <div class="hero-tags" aria-label="Thématiques de l'association">
+        <span class="tag">🌿 Bien-être</span>
+        <span class="tag">🎨 Ateliers créatifs</span>
+        <span class="tag">🌱 Nature</span>
+        <span class="tag">🤝 Intergénérationnel</span>
+      </div>
+
+<div class="hero-scroll" aria-hidden="true">
+        <span>Découvrir</span>
+        <div class="scroll-bar"></div>
+      </div>
+    </section>
+
+    <section class="section-event" aria-labelledby="titre-prochain">
+      <p class="section-label">🌿 Prochain rendez-vous</p>
+
+      <div class="carte-principale" id="obs-event">
+        <div class="carte-gauche">
+          <div>
+            <p class="ev-surtitre">Événement</p>
+            <h2 class="ev-titre" id="titre-prochain">Après-midi<br>Environnement</h2>
+            <p class="ev-meta">
+              <span>Nogent-le-Roi</span>
+              <span class="sep" aria-hidden="true">·</span>
+              <span>28210</span>
+              <span class="sep" aria-hidden="true">·</span>
+              <span>14h30</span>
+            </p>
+          </div>
+          <div class="ev-date">
+            <div class="ev-date-chiffre">13</div>
+            <div class="ev-date-mois">Juin 2026</div>
+            <div class="ev-date-info">Samedi · Entrée libre</div>
+          </div>
+        </div>
+
+        <div class="carte-div" aria-hidden="true"></div>
+
+        <div class="carte-droite">
+          <div>
+            <p class="timer-label-txt" id="timer-label">L'événement commence dans</p>
+            <div class="timer-grille" id="timer" role="timer" aria-live="off" aria-label="Compte à rebours">
+              <div class="timer-case"><span class="timer-chiffre" id="jours">00</span><span class="timer-unite">Jours</span></div>
+              <div class="timer-case"><span class="timer-chiffre" id="heures">00</span><span class="timer-unite">Heures</span></div>
+              <div class="timer-case"><span class="timer-chiffre" id="minutes">00</span><span class="timer-unite">Min</span></div>
+              <div class="timer-case"><span class="timer-chiffre" id="secondes">00</span><span class="timer-unite">Sec</span></div>
+            </div>
+          </div>
+          <a href="https://bridgeflowfolk.github.io/environnement/"
+             class="btn-cta"
+             aria-label="Visiter le site de l'Après-midi Environnement – 13 juin 2026">
+            <span>Visiter le site de l'événement</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-passees" id="obs-passees" aria-label="Nos éditions passées">
+      <p class="section-label">Nos éditions passées</p>
+      <div class="grille-passees">
+        <a href="https://bridgeflowfolk.github.io/Salon/" class="carte-edition">
+          <span class="ce-icon" aria-hidden="true">🌸</span>
+          <span class="ce-label">Édition Printemps 2026</span>
+          <h3 class="ce-titre-card">Salon Bien-Être<br>&amp; Créateurs</h3>
+          <p class="ce-date-card">4 &amp; 5 Avril 2026</p>
+          <span class="ce-arrow" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-copy">
+      © 2026 Bridge &amp; Flow Folk · Association loi 1901<br>
+      Nogent-le-Roi (28210) · 06 18 29 18 73
+    </div>
+    <a class="fb-lien" href="https://www.facebook.com/profile.php?id=61587252715739"
+       target="_blank" rel="noopener noreferrer" aria-label="Suivre Bridge & Flow Folk sur Facebook">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="13" height="13" aria-hidden="true">
+        <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+      </svg>
+      Suivre sur Facebook
+    </a>
+  </footer>
+
+  <script>
+    /* Compte à rebours */
+    const CIBLE = new Date("2026-06-13T14:30:00+02:00").getTime();
+    const elJ = document.getElementById("jours");
+    const elH = document.getElementById("heures");
+    const elM = document.getElementById("minutes");
+    const elS = document.getElementById("secondes");
+    const pad = n => String(n).padStart(2,"0");
+    let prevS = -1;
+    function pulse(el) { el.classList.add("pulse"); setTimeout(()=>el.classList.remove("pulse"),120); }
+    function tick() {
+      const diff = CIBLE - Date.now();
+      if (diff <= 0) {
+        document.getElementById("timer-label").textContent = "L'événement a commencé !";
+        document.getElementById("timer").innerHTML = `<p style="grid-column:1/-1;text-align:center;font-family:'Fraunces',serif;font-style:italic;font-size:1.2rem;color:var(--sauge);padding:.5rem 0">🌿 En ce moment même !</p>`;
+        return;
+      }
+      elJ.textContent = pad(Math.floor(diff/86400000));
+      elH.textContent = pad(Math.floor((diff%86400000)/3600000));
+      elM.textContent = pad(Math.floor((diff%3600000)/60000));
+      const s = Math.floor((diff%60000)/1000);
+      if (s !== prevS) { elS.textContent = pad(s); pulse(elS); prevS = s; }
+    }
+    setInterval(tick, 1000); tick();
+
+    /* Intersection observer */
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll("#obs-event, #obs-passees").forEach(el => obs.observe(el));
+
+    /* Particules */
+    const EMOJIS = ["🌿","🍃","🌸","🌱","🌼","✿"];
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < 12; i++) {
+      const el = document.createElement("div");
+      el.className = "petale"; el.setAttribute("aria-hidden","true");
+      el.style.cssText = `left:${(Math.random()*100).toFixed(1)}%;font-size:${(Math.random()*.7+.6).toFixed(2)}rem;animation-duration:${(Math.random()*18+14).toFixed(1)}s;animation-delay:${(Math.random()*20).toFixed(1)}s;`;
+      el.textContent = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+      frag.appendChild(el);
+    }
+    document.body.appendChild(frag);
+  </script>
+</body>
+</html>
+
+    
