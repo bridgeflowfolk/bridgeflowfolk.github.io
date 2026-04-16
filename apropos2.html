@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>À propos — Bridge & Flow Folk</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=Outfit:wght@200;300;400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --sauge: #4a7c59;
+      --sauge-pale: #f2f6f3;
+      --terre: #8b5e3c;
+      --creme: #fafaf8;
+      --encre: #1a1f1b;
+      --white: #ffffff;
+      --fb-blue: #1877F2;
+      --f-serif: 'Fraunces', serif;
+      --f-sans: 'Outfit', sans-serif;
+      --shadow: 0 15px 35px rgba(0,0,0,0.05);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--f-sans);
+      background-color: var(--creme);
+      color: var(--encre);
+      line-height: 1.6;
+    }
+
+    /* --- Navigation --- */
+    nav {
+      position: sticky; top: 0; width: 100%; z-index: 1000;
+      padding: 0.8rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      backdrop-filter: blur(15px); background: rgba(255, 255, 255, 0.85);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--encre); }
+    .logo img { width: 45px; height: 45px; }
+    .logo-text { font-family: var(--f-serif); font-weight: 600; font-size: 1.1rem; }
+
+    .nav-links a {
+      text-decoration: none; color: var(--encre); font-size: 0.8rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px; padding: 8px 18px;
+      border-radius: 50px; transition: 0.3s; background: var(--sauge-pale);
+    }
+    .nav-links a:hover { background: var(--sauge); color: white; }
+
+    /* --- Hero --- */
+    .hero {
+      padding: 60px 5% 40px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--sauge-pale) 0%, var(--creme) 100%);
+    }
+    .hero-badge {
+      display: inline-block; padding: 6px 14px; border-radius: 50px;
+      background: white; border: 1px solid var(--sauge);
+      color: var(--sauge); font-size: 0.7rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: var(--f-serif); font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 300; line-height: 1.1; margin-bottom: 1rem;
+    }
+    .hero h1 em { color: var(--sauge); font-style: italic; }
+    .hero-sub { font-size: 1rem; color: #666; max-width: 500px; margin: 0 auto; }
+
+    /* --- Container --- */
+    .container { max-width: 1100px; margin: 0 auto; padding: 50px 5%; }
+
+    .section-title {
+      font-family: var(--f-serif); font-size: 1.8rem; margin-bottom: 2rem;
+      display: flex; align-items: center; gap: 15px;
+    }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: rgba(0,0,0,0.1); }
+
+    /* --- Intro card --- */
+    .intro-card {
+      background: var(--white); border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.04);
+      box-shadow: var(--shadow);
+      padding: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 60px;
+      position: relative; overflow: hidden;
+    }
+    .intro-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(to right, var(--sauge), #a8d5a2, var(--terre));
+    }
+    .intro-card p {
+      font-family: var(--f-serif); font-size: 1.15rem; line-height: 1.9;
+      color: var(--encre); margin: 0;
+    }
+    .intro-card p + p { margin-top: 1rem; }
+
+    /* --- Fondatrices --- */
+    .fondatrices {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+      margin-bottom: 60px;
+    }
+    .fondatrice-card {
+      background: var(--white); border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.04);
+      box-shadow: var(--shadow);
+      padding: 2rem; display: flex; align-items: center; gap: 20px;
+      position: relative; overflow: hidden;
+    }
+    .fondatrice-card:nth-child(1)::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(to right, #c9a96e, #e8c080);
+    }
+    .fondatrice-card:nth-child(2)::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(to right, var(--sauge), #a8d5a2);
+    }
+    .avatar {
+      width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-serif); font-size: 1.1rem; font-weight: 600;
+    }
+    .avatar.or    { background: #fdf3e3; color: #8b6914; }
+    .avatar.lotus { background: #f5ecf0; color: #8b3a5c; }
+    .fondatrice-nom { font-family: var(--f-serif); font-size: 1.2rem; margin-bottom: 4px; }
+    .fondatrice-role {
+      font-size: 0.7rem; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--terre); font-weight: 600;
+    }
+
+    /* --- Piliers --- */
+    .piliers {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+      margin-bottom: 60px;
+    }
+    .pilier {
+      background: var(--white); border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.04);
+      box-shadow: var(--shadow);
+      padding: 2rem; text-align: center;
+      position: relative; overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .pilier:hover { transform: translateY(-5px); box-shadow: 0 20px 45px rgba(0,0,0,0.08); }
+    .pilier.bridge::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(to right, #c9a96e, #e8c080); }
+    .pilier.flow::before   { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(to right, var(--sauge), #a8d5a2); }
+    .pilier.folk::before   { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(to right, #c97a90, #d4a0b0); }
+    .pilier-mot   { font-family: var(--f-serif); font-size: 2.5rem; font-weight: 300; font-style: italic; color: var(--sauge); display: block; margin-bottom: 4px; }
+    .pilier-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--terre); font-weight: 600; display: block; margin-bottom: 1rem; }
+    .pilier-desc  { font-size: 0.85rem; color: #555; line-height: 1.6; }
+
+    /* --- Sections contenu (grille 2×2) --- */
+    .sections-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+      margin-bottom: 60px;
+    }
+    .section-card {
+      background: var(--white); border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.04);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .section-card:hover { transform: translateY(-3px); box-shadow: 0 20px 45px rgba(0,0,0,0.08); }
+    .section-card-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 1rem;
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--terre); font-weight: 600;
+    }
+    .section-card-header .dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--sauge); flex-shrink: 0;
+    }
+    .section-card p {
+      font-family: var(--f-serif); font-size: 1.05rem; line-height: 1.8;
+      color: var(--encre); margin: 0;
+    }
+
+    /* --- Citation --- */
+    .citation {
+      background: var(--sauge);
+      border-radius: var(--radius);
+      padding: clamp(2rem, 5vw, 3.5rem);
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .citation blockquote {
+      font-family: var(--f-serif); font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      line-height: 1.7; color: white; margin: 0;
+    }
+
+    /* --- Footer --- */
+    footer {
+      background: var(--sauge-pale); padding: 60px 5% 30px; text-align: center;
+    }
+    .fb-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--fb-blue); color: white; padding: 14px 28px;
+      border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      transition: 0.3s; margin-bottom: 40px;
+    }
+    .fb-btn:hover { background: #145dbf; transform: scale(1.02); }
+    .fb-btn svg { width: 22px; height: 22px; fill: white; }
+    .contact-info { font-size: 0.8rem; opacity: 0.7; letter-spacing: 1px; margin-top: 20px; }
+    .legal { margin-top: 10px; font-size: 0.7rem; opacity: 0.5; }
+    .legal a { color: inherit; text-decoration: underline; }
+
+    /* --- Mobile --- */
+    @media (max-width: 700px) {
+      .fondatrices       { grid-template-columns: 1fr; }
+      .piliers           { grid-template-columns: 1fr; }
+      .sections-grid     { grid-template-columns: 1fr; }
+      .hero h1           { font-size: 2.5rem; }
+      .nav-links a       { font-size: 0.7rem; padding: 6px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">
+      <img src="logo-sansFond.png" alt="Bridge & Flow Folk" />
+      <div class="logo-text">Bridge & Flow Folk</div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-badge">Notre histoire · Nos valeurs</div>
+    <h1>À propos de<br><em>Bridge & Flow Folk</em></h1>
+    <p class="hero-sub">Une aventure humaine, collective et engagée</p>
+  </header>
+
+  <main class="container">
+
+    <div class="section-title">L'Association</div>
+
+    <div class="intro-card">
+      <p>Bridge & Flow Folk est une association née en 2026 de la rencontre de deux femmes engagées. Ensemble, elles portent une vision commune : créer du lien, du mouvement et du sens au cœur de nos territoires.</p>
+    </div>
+
+    <div class="section-title">Les Fondatrices</div>
+
+    <div class="fondatrices">
+      <div class="fondatrice-card">
+        <div class="avatar or">AG</div>
+        <div>
+          <div class="fondatrice-nom">Adeline Grandjean-Langlois</div>
+          <div class="fondatrice-role">Présidente</div>
+        </div>
+      </div>
+      <div class="fondatrice-card">
+        <div class="avatar lotus">ÉÉ</div>
+        <div>
+          <div class="fondatrice-nom">Élodie Évrard</div>
+          <div class="fondatrice-role">Trésorière</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Notre Identité</div>
+
+    <div class="piliers">
+      <div class="pilier bridge">
+        <span class="pilier-mot">Bridge</span>
+        <span class="pilier-label">Construire des ponts</span>
+        <p class="pilier-desc">Relier les générations, les individus, les structures et les initiatives locales pour tisser un réseau vivant.</p>
+      </div>
+      <div class="pilier flow">
+        <span class="pilier-mot">Flow</span>
+        <span class="pilier-label">Insuffler la dynamique</span>
+        <p class="pilier-desc">Permettre le mouvement, la circulation des idées et des connexions dans une énergie collective, fluide et vivante.</p>
+      </div>
+      <div class="pilier folk">
+        <span class="pilier-mot">Folk</span>
+        <span class="pilier-label">L'humain au centre</span>
+        <p class="pilier-desc">Replacer chaque personne au cœur de l'action, dans une logique de partage, de proximité et d'authenticité.</p>
+      </div>
+    </div>
+
+    <div class="section-title">Ce Que Nous Faisons</div>
+
+    <div class="sections-grid">
+      <div class="section-card">
+        <div class="section-card-header"><span class="dot"></span>Notre mission</div>
+        <p>L'association œuvre à promouvoir un bien-être global, accessible à tous, dans une démarche de prévention et d'épanouissement personnel. Du « bien grandir » au « bien vieillir » — elle développe des actions favorisant l'équilibre physique, émotionnel, mental et social, dans un cadre non thérapeutique.</p>
+      </div>
+      <div class="section-card">
+        <div class="section-card-header"><span class="dot"></span>Nos actions</div>
+        <p>Bridge & Flow Folk conçoit et anime des événements, ateliers, rencontres et expériences autour du bien-être, en collaboration avec des professionnels, partenaires et acteurs locaux — aussi bien pour les particuliers que les entreprises et collectivités.</p>
+      </div>
+      <div class="section-card">
+        <div class="section-card-header"><span class="dot"></span>Notre ancrage local</div>
+        <p>Ancrée dans une logique de coopération, l'association valorise les synergies locales en mutualisant les ressources, en facilitant l'organisation d'événements et en soutenant des causes d'intérêt général.</p>
+      </div>
+      <div class="section-card">
+        <div class="section-card-header"><span class="dot"></span>Demain</div>
+        <p>Des projets intergénérationnels verront prochainement le jour, portés par des partenariats concrets et une volonté forte de favoriser le vivre-ensemble responsable.</p>
+      </div>
+    </div>
+
+    <div class="citation">
+      <blockquote>Bridge & Flow Folk, c'est avant tout une aventure humaine, collective et engagée,<br>au service du lien, du sens et du bien-être partagé.</blockquote>
+    </div>
+
+  </main>
+
+  <footer>
+    <a href="https://www.facebook.com/people/Bridge-Flow-Folk-BFF/61587252715739/" class="fb-btn" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Nous suivre sur Facebook
+    </a>
+    <div class="contact-info">© 2026 BRIDGE & FLOW FOLK — NOGENT-LE-ROI (28) — 06 18 29 18 73</div>
+    <div class="legal"><a href="apropos.html">Mentions légales & À Propos</a></div>
+  </footer>
+
+</body>
+</html>
