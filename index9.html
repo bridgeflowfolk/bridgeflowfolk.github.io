@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Événements Nature & Bien-être | Bridge & Flow Folk (28)</title>
+  <meta name="description" content="Retrouvez les événements Bridge & Flow Folk à Nogent-le-Roi. Prochain rendez-vous le 13 Juin 2026 pour un après-midi environnement et bien-être.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --sauge:      #4a7c59;
+      --sauge-pale: #f2f6f3;
+      --terre:      #8b5e3c;
+      --creme:      #fafaf8;
+      --encre:      #1a1f1b;
+      --white:      #ffffff;
+      --fb-blue:    #1877F2;
+      --f-serif:    'Fraunces', serif;
+      --f-sans:     'Outfit', sans-serif;
+
+      --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.02), 0 2px 4px -2px rgb(0 0 0 / 0.02);
+      --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.02);
+      --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.02);
+
+      --radius-card: 28px;
+      --radius-btn:  60px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--f-sans);
+      background-color: var(--creme);
+      color: var(--encre);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Accessibilité : Lien d'évitement ── */
+    .skip-link {
+      position: absolute; top: -40px; left: 0; 
+      background: var(--sauge); color: white; 
+      padding: 8px 16px; z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ── Accessibilité : Classe pour masquer visuellement mais garder pour le lecteur vocal ── */
+    .visually-hidden:not(:focus):not(:active) {
+      position: absolute; width: 1px; height: 1px; margin: -1px;
+      padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    /* Focus visible universel */
+    *:focus-visible { outline: 2px solid var(--sauge); outline-offset: 2px; border-radius: 4px; }
+
+    /* ── Navigation ── */
+    nav {
+      position: sticky; top: 0; width: 100%; z-index: 1000;
+      padding: 0.9rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      backdrop-filter: blur(20px);
+      background: rgba(250, 250, 248, 0.82);
+      border-bottom: 1px solid rgba(74, 124, 89, 0.08);
+    }
+    .logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none; color: var(--encre);
+    }
+    .logo img { width: 42px; height: 42px; border-radius: 10px; }
+    .logo-text {
+      font-family: var(--f-serif); font-weight: 600;
+      font-size: 1.1rem; letter-spacing: -0.01em;
+    }
+    .nav-links a {
+      text-decoration: none; color: var(--encre);
+      font-size: 0.78rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      padding: 8px 18px; border-radius: 50px;
+      background: var(--sauge-pale);
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav-links a:hover, .nav-links a:focus { background: var(--sauge); color: var(--white); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 5% 52px;
+      text-align: center;
+      background: radial-gradient(circle at 50% 0%, var(--sauge-pale) 0%, var(--creme) 80%);
+      border-bottom: 1px solid rgba(0,0,0,0.02);
+    }
+    .hero-badge {
+      display: inline-block; padding: 6px 16px; border-radius: 50px;
+      background: var(--white); border: 1px solid rgba(74, 124, 89, 0.3);
+      color: var(--sauge); font-size: 0.68rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 1.4rem;
+      backdrop-filter: blur(4px);
+    }
+    .hero h1 {
+      font-family: var(--f-serif);
+      font-size: clamp(2.4rem, 8vw, 5rem);
+      font-weight: 300; line-height: 1.15; margin-bottom: 1.2rem;
+    }
+    .hero h1 em { color: var(--sauge); font-style: italic; font-weight: 350; }
+    .hero-sub {
+      max-width: 480px; margin: 0 auto;
+      font-size: 0.95rem; font-weight: 300; color: var(--terre);
+      border-top: 1px dashed rgba(74, 124, 89, 0.35);
+      padding-top: 1.2rem; opacity: 0.85;
+    }
+
+    /* ── Container ── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 48px 5%; }
+
+    .section-title {
+      font-family: var(--f-serif); font-size: 1.9rem; margin-bottom: 2.5rem;
+      display: flex; align-items: center; gap: 18px; font-weight: 350;
+    }
+    .section-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(74, 124, 89, 0.15);
+    }
+
+    /* ── Carte événement principal ── */
+    .event-main {
+      background: var(--white); border-radius: var(--radius-card); overflow: hidden;
+      display: grid; grid-template-columns: 1.1fr 0.9fr;
+      box-shadow: var(--shadow-lg); border: 1px solid rgba(255,255,255,0.5);
+      margin-bottom: 80px;
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+      will-change: transform;
+    }
+    .event-main:hover {
+      box-shadow: var(--shadow-md), 0 0 0 1px rgba(74, 124, 89, 0.1);
+    }
+    .event-img {
+      background: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1000') center/cover;
+      min-height: 380px;
+      transition: transform 0.6s ease;
+    }
+    .event-main:hover .event-img { transform: scale(1.02); }
+
+    .event-body {
+      padding: clamp(2rem, 5vw, 3.5rem);
+      display: flex; flex-direction: column; justify-content: center;
+      background: var(--white);
+    }
+    .event-label {
+      font-weight: 600; font-size: 0.78rem; color: var(--terre);
+      text-transform: uppercase; letter-spacing: 1px; display: block;
+    }
+    .event-body h3 {
+      font-family: var(--f-serif); font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      line-height: 1.15; margin: 12px 0 16px; font-weight: 400;
+    }
+    .event-body h3 span { color: var(--sauge); }
+    .event-desc {
+      font-size: 0.97rem; color: #3a4440; font-weight: 300; margin-bottom: 0;
+    }
+
+    /* ── Timer ── */
+    .timer { display: flex; gap: 10px; margin: 22px 0 30px; }
+    .t-box {
+      background: var(--creme); flex: 1; padding: 12px 6px;
+      border-radius: 16px; text-align: center;
+      border: 1px solid rgba(0,0,0,0.03); box-shadow: var(--shadow-sm);
+    }
+    .t-num {
+      display: block; font-family: var(--f-serif);
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      color: var(--sauge); line-height: 1; font-weight: 350;
+    }
+    .t-unit {
+      font-size: 0.58rem; text-transform: uppercase;
+      color: var(--terre); font-weight: 500; letter-spacing: 1px;
+    }
+
+    /* ── Bouton CTA ── */
+    .btn {
+      background: var(--encre); color: white;
+      padding: 16px 32px; border-radius: var(--radius-btn);
+      text-decoration: none; font-size: 0.78rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      transition: background 0.3s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s;
+      text-align: center; align-self: flex-start;
+    }
+    .btn:hover, .btn:focus {
+      background: var(--sauge); transform: translateY(-4px);
+      box-shadow: 0 14px 22px -4px rgba(74, 124, 89, 0.25);
+    }
+
+    /* ── Grille éditions passées ── */
+    .past-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px;
+    }
+    .past-card {
+      background: white; border-radius: var(--radius-card); padding: 32px 28px;
+      text-decoration: none; color: var(--encre);
+      border: 1px solid rgba(0,0,0,0.03);
+      transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
+      display: flex; flex-direction: column;
+      box-shadow: var(--shadow-md); will-change: transform; height: 100%;
+    }
+    a.past-card:hover, a.past-card:focus {
+      transform: translateY(-7px);
+      border-color: rgba(74, 124, 89, 0.2);
+      box-shadow: var(--shadow-lg);
+    }
+    .past-card .emoji { font-size: 2.6rem; margin-bottom: 18px; line-height: 1; }
+    .past-card h3 { font-family: var(--f-serif); font-size: 1.5rem; margin-bottom: 10px; font-weight: 400; }
+    .past-card p { font-size: 0.9rem; opacity: 0.78; font-weight: 300; }
+    .past-card .date {
+      font-size: 0.72rem; color: var(--sauge); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      margin-top: auto; padding-top: 18px;
+      border-top: 1px solid rgba(0,0,0,0.05); display: block;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--sauge-pale); padding: 64px 5% 36px;
+      text-align: center; margin-top: 100px;
+      border-top: 1px solid rgba(74, 124, 89, 0.1);
+    }
+    .fb-btn {
+      display: inline-flex; align-items: center; gap: 14px;
+      background: var(--fb-blue); color: white;
+      padding: 15px 30px; border-radius: 60px;
+      text-decoration: none; font-weight: 500; font-size: 0.97rem;
+      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 48px;
+      box-shadow: 0 8px 15px rgba(24, 119, 242, 0.15);
+    }
+    .fb-btn:hover, .fb-btn:focus {
+      background: #145dbf; transform: scale(1.03);
+      box-shadow: 0 12px 20px rgba(24, 119, 242, 0.25);
+    }
+    .fb-btn svg { width: 22px; height: 22px; fill: white; flex-shrink: 0; }
+    .contact-info {
+      font-size: 0.78rem; opacity: 0.8; letter-spacing: 1px;
+      margin-top: 28px; font-weight: 500; color: var(--terre);
+    }
+    .footer-legal {
+      margin-top: 20px; font-size: 0.75rem; display: flex; justify-content: center; gap: 24px;
+    }
+    .footer-legal a {
+      color: var(--encre); text-decoration: none; opacity: 0.6;
+      border-bottom: 1px solid transparent; transition: opacity 0.3s;
+    }
+    .footer-legal a:hover, .footer-legal a:focus { opacity: 1; border-bottom-color: var(--sauge); }
+
+    /* ── Animations sans opacité 0 initiale pour la lecture vocale ── */
+    @keyframes slideUp {
+      from { transform: translateY(16px); }
+      to   { transform: translateY(0); }
+    }
+    .event-main { animation: slideUp 0.55s ease-out forwards; }
+    .past-card  { animation: slideUp 0.55s ease-out both; }
+    .past-card:nth-child(2) { animation-delay: 0.1s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .event-main, .past-card, .event-main:hover .event-img { animation: none; transform: none !important; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 850px) {
+      .event-main { grid-template-columns: 1fr; border-radius: 22px; }
+      .event-img  { height: 230px; min-height: auto; }
+      .event-body { padding: 30px 22px; }
+      .btn        { align-self: stretch; text-align: center; }
+      .logo-text  { font-size: 1rem; }
+      .nav-links a { font-size: 0.73rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 52px 5% 36px; }
+      .hero h1 { font-size: clamp(2rem, 10vw, 2.6rem); }
+      .hero-sub { font-size: 0.88rem; }
+      .event-body h3 { font-size: 1.6rem; }
+      .timer { gap: 7px; }
+      .t-box { padding: 10px 4px; border-radius: 12px; }
+      .section-title { font-size: 1.5rem; }
+      .past-grid { grid-template-columns: 1fr; }
+      .btn { padding: 15px 24px; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+  <nav aria-label="Navigation principale">
+    <a href="/" class="logo" aria-label="Accueil Bridge et Flow Folk">
+      <img src="logo-sansFond.png" alt="Logo Bridge & Flow Folk">
+      <span class="logo-text" aria-hidden="true">Bridge &amp; Flow Folk</span>
+    </a>
+    <div class="nav-links">
+      <a href="apropos2.html">L'Association</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="hero-badge">Nogent-le-Roi — Eure-et-Loir</span>
+    <h1>Événements, Nature<br>&amp; <em>Bien-être</em></h1>
+    <p class="hero-sub">Rencontres intergénérationnelles au cœur du 28</p>
+  </header>
+
+  <main id="main-content" class="container" tabindex="-1">
+
+    <h2 class="section-title">Prochain Rendez-vous</h2>
+
+    <article class="event-main">
+      <div class="event-img" aria-hidden="true"></div>
+      
+      <div class="event-body">
+        <time datetime="2026-06-13T14:30" class="event-label">Samedi 13 Juin 2026 — 14h30</time>
+        <h3>Après-midi <span>Environnement</span></h3>
+        <p class="event-desc">Une rencontre intergénérationnelle pour se reconnecter à la nature et partager un moment de convivialité locale.</p>
+
+        <p class="visually-hidden">Compte à rebours en cours avant l'événement.</p>
+        
+        <div class="timer" id="timer" aria-hidden="true">
+          <div class="t-box"><span class="t-num" id="jours">00</span><span class="t-unit">Jours</span></div>
+          <div class="t-box"><span class="t-num" id="heures">00</span><span class="t-unit">Heures</span></div>
+          <div class="t-box"><span class="t-num" id="minutes">00</span><span class="t-unit">Minutes</span></div>
+          <div class="t-box"><span class="t-num" id="secondes">00</span><span class="t-unit">Secondes</span></div>
+        </div>
+
+        <a href="https://bridgeflowfolk.github.io/environnement/" class="btn">Découvrir le programme →</a>
+      </div>
+    </article>
+
+    <h2 class="section-title">Éditions Passées</h2>
+
+    <div class="past-grid">
+      <article>
+        <a href="https://bridgeflowfolk.github.io/Salon/" class="past-card">
+          <span class="emoji" aria-hidden="true">🌸</span>
+          <h3>Salon Bien-Être &amp; Créateurs</h3>
+          <p>Une édition printanière riche en découvertes et en sérénité.</p>
+          <time datetime="2026-04-04" class="date">4 &amp; 5 Avril 2026</time>
+        </a>
+      </article>
+
+      <article>
+        <div class="past-card" style="opacity:0.75; cursor:default; border-style:dashed; background:rgba(242,246,243,0.35);">
+          <span class="emoji" aria-hidden="true">🍃</span>
+          <h3>Ateliers Automne</h3>
+          <p>Programmation en cours de préparation pour la saison prochaine.</p>
+          <span class="date">Bientôt disponible</span>
+        </div>
+      </article>
+    </div>
+
+  </main>
+
+  <footer role="contentinfo">
+    <a href="https://www.facebook.com/profile.php?id=61587252715739" class="fb-btn"
+       target="_blank" rel="noopener noreferrer" aria-label="Suivre l'actualité sur Facebook (ouvre une nouvelle fenêtre)">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+      Suivre l'actualité sur Facebook
+    </a>
+    <p class="contact-info">© 2026 BRIDGE &amp; FLOW FOLK — NOGENT-LE-ROI (28) — 06 18 29 18 73</p>
+    <nav class="footer-legal" aria-label="Liens légaux">
+      <a href="apropos.html">Mentions légales &amp; À Propos</a>
+    </nav>
+  </footer>
+
+  <script>
+    (function () {
+      const target = new Date("2026-06-13T14:30:00+02:00").getTime();
+      const pad = n => String(n).padStart(2, '0');
+
+      function tick() {
+        const diff = target - Date.now();
+        if (diff > 0) {
+          document.getElementById('jours').textContent    = pad(Math.floor(diff / 86400000));
+          document.getElementById('heures').textContent   = pad(Math.floor((diff % 86400000) / 3600000));
+          document.getElementById('minutes').textContent  = pad(Math.floor((diff % 3600000) / 60000));
+          document.getElementById('secondes').textContent = pad(Math.floor((diff % 60000) / 1000));
+        } else {
+          const el = document.getElementById('timer');
+          if (el) el.innerHTML = "<p style='color:var(--sauge);font-weight:500;padding:18px 0'>✨ L'événement est en cours !</p>";
+        }
+      }
+
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
+
+</body>
+</html>
