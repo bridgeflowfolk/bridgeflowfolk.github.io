@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>À propos — Bridge & Flow Folk</title>
+  <meta name="description" content="Découvrez l'histoire, les valeurs et les actions de Bridge & Flow Folk." />
+
+  <!-- SEO / Social -->
+  <meta property="og:title" content="À propos — Bridge & Flow Folk">
+  <meta property="og:description" content="Une aventure humaine, collective et engagée.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --sauge:#4a7c59;
+      --sauge-pale:#f2f6f3;
+      --terre:#6d4c31;
+      --creme:#fafaf8;
+      --encre:#1a1f1b;
+      --white:#fff;
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      font-family:'Outfit',sans-serif;
+      background:var(--creme);
+      color:var(--encre);
+      line-height:1.6;
+    }
+
+    /* Accessibilité */
+    a:focus-visible, button:focus-visible {
+      outline:3px solid var(--sauge);
+      outline-offset:3px;
+    }
+
+    .skip-link {
+      position:absolute;
+      left:-999px;
+    }
+    .skip-link:focus {
+      left:10px;
+      top:10px;
+      background:var(--sauge);
+      color:#fff;
+      padding:8px;
+      z-index:1000;
+    }
+
+    header {
+      padding:70px 5%;
+      text-align:center;
+      background:radial-gradient(circle, var(--sauge-pale), var(--creme));
+    }
+
+    h1 {
+      font-family:'Fraunces',serif;
+      font-size:clamp(2rem,5vw,3.5rem);
+      margin-bottom:10px;
+    }
+
+    h2 {
+      font-family:'Fraunces',serif;
+      margin-top:60px;
+      margin-bottom:25px;
+    }
+
+    h3 {
+      margin-bottom:5px;
+    }
+
+    .container {
+      max-width:1100px;
+      margin:auto;
+      padding:40px 5%;
+    }
+
+    .card {
+      background:white;
+      padding:24px;
+      border-radius:24px;
+      box-shadow:0 10px 20px rgba(0,0,0,0.05);
+    }
+
+    .grid-2, .grid-3 {
+      display:grid;
+      gap:20px;
+    }
+
+    .grid-2 { grid-template-columns:1fr 1fr; }
+    .grid-3 { grid-template-columns:repeat(3,1fr); }
+
+    .pill-title {
+      font-family:'Fraunces',serif;
+      font-size:1.8rem;
+      color:var(--sauge);
+    }
+
+    .label {
+      font-size:0.75rem;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      color:var(--terre);
+      display:block;
+      margin-bottom:10px;
+    }
+
+    blockquote {
+      background:var(--sauge);
+      color:white;
+      padding:40px;
+      border-radius:24px;
+      text-align:center;
+      font-style:italic;
+    }
+
+    footer {
+      margin-top:60px;
+      padding:40px;
+      text-align:center;
+      background:var(--sauge-pale);
+    }
+
+    @media(max-width:700px){
+      .grid-2, .grid-3 {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<a href="#main" class="skip-link">Aller au contenu principal</a>
+
+<header>
+  <h1>À propos de Bridge & Flow Folk</h1>
+  <p>Une aventure humaine, collective et engagée</p>
+</header>
+
+<main id="main" class="container">
+
+  <section>
+    <h2>L'association</h2>
+    <div class="card">
+      <p>
+        Bridge & Flow Folk est une association née en 2026 de la rencontre de deux femmes engagées.
+        Ensemble, elles portent une vision commune : créer du lien, du mouvement et du sens.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Les fondatrices</h2>
+
+    <div class="grid-2">
+
+      <article class="card">
+        <h3>Adeline Grandjean-Langlois</h3>
+        <p>Présidente</p>
+      </article>
+
+      <article class="card">
+        <h3>Élodie Évrard</h3>
+        <p>Trésorière</p>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Notre identité</h2>
+
+    <div class="grid-3">
+
+      <article class="card">
+        <h3 class="pill-title">Bridge</h3>
+        <span class="label">Construire des ponts</span>
+        <p>Relier les générations et les initiatives locales pour créer du lien.</p>
+      </article>
+
+      <article class="card">
+        <h3 class="pill-title">Flow</h3>
+        <span class="label">Insuffler la dynamique</span>
+        <p>Favoriser le mouvement et l'énergie collective.</p>
+      </article>
+
+      <article class="card">
+        <h3 class="pill-title">Folk</h3>
+        <span class="label">L'humain au centre</span>
+        <p>Mettre chaque personne au cœur de l'action avec authenticité.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Ce que nous faisons</h2>
+
+    <div class="grid-2">
+
+      <article class="card">
+        <h3>Notre mission</h3>
+        <p>Promouvoir un bien-être global accessible à tous.</p>
+      </article>
+
+      <article class="card">
+        <h3>Nos actions</h3>
+        <p>Organisation d'événements et ateliers bien-être.</p>
+      </article>
+
+      <article class="card">
+        <h3>Notre ancrage local</h3>
+        <p>Développer des synergies locales et solidaires.</p>
+      </article>
+
+      <article class="card">
+        <h3>Demain</h3>
+        <p>Créer des projets intergénérationnels durables.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <blockquote>
+      Bridge & Flow Folk, c'est avant tout une aventure humaine,
+      collective et engagée, au service du lien et du bien-être partagé.
+    </blockquote>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 Bridge & Flow Folk</p>
+</footer>
+
+</body>
+</html>
