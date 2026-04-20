@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>À propos — Bridge &amp; Flow Folk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="commun.css" />
+  <style>
+    /* ── Bloc portrait association ── */
+    .asso-intro {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(201,169,110,0.3);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      backdrop-filter: blur(8px);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: glisser-haut 0.7s ease forwards 0.4s;
+    }
+    .asso-intro::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(to right, var(--sauge), var(--or), var(--lotus));
+    }
+    .asso-intro p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--nuit);
+      margin: 0;
+    }
+    .asso-intro p + p { margin-top: 1rem; }
+
+    /* ── Piliers nom ── */
+    .piliers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .pilier-bloc {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(201,169,110,0.3);
+      border-radius: 16px;
+      padding: 1.8rem 1.4rem;
+      backdrop-filter: blur(8px);
+      text-align: center;
+      opacity: 0;
+      animation: glisser-haut 0.7s ease forwards;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .pilier-bloc:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(160,132,92,0.15);
+    }
+    .pilier-bloc:nth-child(1) { animation-delay: 0.55s; }
+    .pilier-bloc:nth-child(2) { animation-delay: 0.7s; }
+    .pilier-bloc:nth-child(3) { animation-delay: 0.85s; }
+
+    .pilier-bloc:nth-child(1)::before,
+    .pilier-bloc:nth-child(2)::before,
+    .pilier-bloc:nth-child(3)::before {
+      content: '';
+      display: block;
+      height: 3px;
+      border-radius: 2px 2px 0 0;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+    }
+    .pilier-bloc { position: relative; overflow: hidden; }
+    .pilier-bloc:nth-child(1)::before { background: linear-gradient(to right, var(--or), #e8c080); }
+    .pilier-bloc:nth-child(2)::before { background: linear-gradient(to right, var(--sauge), #90c090); }
+    .pilier-bloc:nth-child(3)::before { background: linear-gradient(to right, var(--lotus), #d4a0b0); }
+
+    .pilier-mot {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--nuit);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .pilier-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terre);
+      display: block;
+      margin-bottom: 0.9rem;
+    }
+    .pilier-desc {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.72rem;
+      color: var(--nuit);
+      line-height: 1.6;
+    }
+
+    /* ── Sections contenu ── */
+    .section-bloc {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(201,169,110,0.3);
+      border-radius: 16px;
+      padding: 2rem 2rem;
+      backdrop-filter: blur(8px);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: glisser-haut 0.7s ease forwards;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .section-bloc:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(160,132,92,0.12);
+    }
+    .section-bloc:nth-child(1) { animation-delay: 1.0s; }
+    .section-bloc:nth-child(2) { animation-delay: 1.1s; }
+    .section-bloc:nth-child(3) { animation-delay: 1.2s; }
+    .section-bloc:nth-child(4) { animation-delay: 1.3s; }
+
+    .section-titre {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terre);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-titre::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(201,169,110,0.3);
+    }
+    .section-bloc p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--nuit);
+      margin: 0;
+    }
+    .section-bloc p + p { margin-top: 0.8rem; }
+
+    /* ── Fondatrices ── */
+    .fondatrices {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .fondatrice-carte {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(201,169,110,0.3);
+      border-radius: 16px;
+      padding: 1.8rem 1.5rem;
+      backdrop-filter: blur(8px);
+      text-align: center;
+      opacity: 0;
+      animation: glisser-haut 0.7s ease forwards;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .fondatrice-carte:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(160,132,92,0.15);
+    }
+    .fondatrice-carte:nth-child(1) { animation-delay: 0.9s; }
+    .fondatrice-carte:nth-child(2) { animation-delay: 1.05s; }
+    .fondatrice-carte:nth-child(1)::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(to right, var(--or), #e8c080);
+    }
+    .fondatrice-carte:nth-child(2)::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(to right, var(--lotus), #d4a0b0);
+    }
+    .fondatrice-emoji { font-size: 1.8rem; display: block; margin-bottom: 0.7rem; }
+    .fondatrice-nom {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--nuit);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .fondatrice-role {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terre);
+    }
+
+    /* ── Citation finale ── */
+    .citation-finale {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(201,169,110,0.3);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(8px);
+      text-align: center;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: glisser-haut 0.7s ease forwards 1.4s;
+      position: relative; overflow: hidden;
+    }
+    .citation-finale::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(to right, var(--sauge), var(--or), var(--lotus));
+    }
+    .citation-finale blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.7;
+      color: var(--terre);
+      margin: 0;
+    }
+
+    @media(max-width: 600px) {
+      .piliers { grid-template-columns: 1fr; }
+      .fondatrices { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-principale">
+    <a href="index.html" class="nav-logo"><img 
+			src="logo-sansFond.png" 
+			alt="Logo Bridge & Flow Folk" 
+			style="width:90px; height:90px; object-fit:contain; flex-shrink:0; margin-right:8px;"
+		  /></a>
+
+    <!-- Nav desktop -->
+    <div class="nav-liens">
+      <a href="index.html">Accueil</a>
+
+      
+
+    <!-- Burger mobile (même id que index.html) -->
+    <button class="nav-burger" onclick="toggleMenu()" aria-label="Ouvrir le menu">☰</button>
+  </nav>
+
+  <!-- Nav mobile dépliable -->
+  <nav class="nav-mobile" id="navMobile" aria-label="Menu mobile">
+    <a href="index.html">🏠 Accueil</a>
+  </nav>
+
+  <main>
+    <div class="hero anime" style="animation-delay:0.2s">
+      <span class="hero-tag">Notre histoire · Nos valeurs</span>
+      <h1>À propos de<br><em>Bridge &amp; Flow Folk</em></h1>
+      <p class="hero-sub">Une aventure humaine, collective et engagée</p>
+    </div>
+
+    <div class="sep">
+      <div class="sep-l"></div>
+      <div class="sep-d"></div>
+      <div class="sep-d" style="background:var(--sauge)"></div>
+      <div class="sep-d"></div>
+      <div class="sep-r"></div>
+    </div>
+
+    <!-- Intro -->
+    <div class="asso-intro">
+      <p>Bridge &amp; Flow Folk est une association née en 2026 de la rencontre de deux femmes engagées. Ensemble, elles portent une vision commune : créer du lien, du mouvement et du sens au cœur de nos territoires.</p>
+    </div>
+
+    <!-- Fondatrices -->
+    <div class="fondatrices">
+      <div class="fondatrice-carte">
+        <span class="fondatrice-emoji">🌸</span>
+        <span class="fondatrice-nom">Adeline Grandjean-Langlois</span>
+        <span class="fondatrice-role">Présidente</span>
+      </div>
+      <div class="fondatrice-carte">
+        <span class="fondatrice-emoji">🌿</span>
+        <span class="fondatrice-nom">Élodie Évrard</span>
+        <span class="fondatrice-role">Trésorière</span>
+      </div>
+    </div>
+
+    <!-- Piliers -->
+    <div class="piliers">
+      <div class="pilier-bloc">
+        <span class="pilier-mot">Bridge</span>
+        <span class="pilier-label">Construire des ponts</span>
+        <p class="pilier-desc">Relier les générations, les individus, les structures et les initiatives locales pour tisser un réseau vivant.</p>
+      </div>
+      <div class="pilier-bloc">
+        <span class="pilier-mot">Flow</span>
+        <span class="pilier-label">Insuffler la dynamique</span>
+        <p class="pilier-desc">Permettre le mouvement, la circulation des idées et des connexions dans une énergie collective, fluide et vivante.</p>
+      </div>
+      <div class="pilier-bloc">
+        <span class="pilier-mot">Folk</span>
+        <span class="pilier-label">L'humain au centre</span>
+        <p class="pilier-desc">Replacer chaque personne au cœur de l'action, dans une logique de partage, de proximité et d'authenticité.</p>
+      </div>
+    </div>
+
+    <!-- Sections contenu -->
+    <div class="section-bloc">
+      <div class="section-titre">🌱 Notre mission</div>
+      <p>L'association œuvre à promouvoir un bien-être global, accessible à tous, dans une démarche de prévention et d'épanouissement personnel. Du « bien grandir » au « bien vieillir » — le fil directeur du cabinet de la présidente — elle développe des actions favorisant l'équilibre physique, émotionnel, mental et social, dans un cadre non thérapeutique.</p>
+    </div>
+
+    <div class="section-bloc">
+      <div class="section-titre">🤝 Nos actions</div>
+      <p>Bridge &amp; Flow Folk conçoit et anime des événements, ateliers, rencontres et expériences autour du bien-être, en collaboration avec des professionnels, partenaires et acteurs locaux. Elle s'adresse aussi bien aux particuliers qu'aux entreprises, collectivités et institutions, en présentiel comme à distance.</p>
+    </div>
+
+    <div class="section-bloc">
+      <div class="section-titre">🔗 Notre ancrage local</div>
+      <p>Ancrée dans une logique de coopération, l'association valorise les synergies locales en mutualisant les ressources, en facilitant l'organisation d'événements et en soutenant des causes d'intérêt général. Elle crée ainsi des espaces d'échange, de partage et de transmission, où chacun peut trouver sa place.</p>
+    </div>
+
+    <div class="section-bloc">
+      <div class="section-titre">🌍 Demain</div>
+      <p>Des projets intergénérationnels verront prochainement le jour, portés par des partenariats concrets et une volonté forte de favoriser le vivre-ensemble responsable.</p>
+    </div>
+
+    <!-- Citation finale -->
+    <div class="citation-finale">
+      <blockquote>Bridge &amp; Flow Folk, c'est avant tout une aventure humaine, collective et engagée,<br>au service du lien, du sens et du bien-être partagé.</blockquote>
+    </div>
+
+    <div style="text-align:center" class="anime" style="animation-delay:1.5s">
+      <a class="fb-lien" href="https://www.facebook.com/people/Bridge-Flow-Folk-BFF/61587252715739/" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+        Suivre Bridge &amp; Flow Folk
+      </a>
+      <footer>© 2026 Bridge &amp; Flow Folk · Nogent-le-Roi (28) · 06 18 29 18 73</footer>
+    </div>
+  </main>
+
+  <script>
+    function toggleMenu() { document.getElementById("navMobile").classList.toggle("ouvert"); }
+  </script>
+  <!-- ── DROPDOWN "Le Salon" ── -->
+  <script>
+    const btnSalon    = document.getElementById("btn-salon");
+    const ddSalon     = document.getElementById("dropdown-salon");
+
+    btnSalon.addEventListener("click", function(e) {
+      e.stopPropagation();
+      const ouvert = ddSalon.classList.toggle("ouvert");
+      btnSalon.classList.toggle("ouvert", ouvert);
+      btnSalon.setAttribute("aria-expanded", ouvert);
+    });
+
+    // Fermeture au clic extérieur
+    document.addEventListener("click", function() {
+      ddSalon.classList.remove("ouvert");
+      btnSalon.classList.remove("ouvert");
+      btnSalon.setAttribute("aria-expanded", "false");
+    });
+
+    // Fermeture à Escape
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") {
+        ddSalon.classList.remove("ouvert");
+        btnSalon.classList.remove("ouvert");
+        btnSalon.setAttribute("aria-expanded", "false");
+        btnSalon.focus();
+      }
+    });
+  </script>
+
+  <!-- ── ANIMATIONS AU SCROLL ── -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = "glisser-haut 0.7s ease forwards";
+          observer.unobserve(entry.target);
+        }
+      }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".anime").forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
