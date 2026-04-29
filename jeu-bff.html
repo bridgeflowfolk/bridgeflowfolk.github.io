@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+<title>Fleurs en Chaîne · BFF</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@200;300;400;700&display=swap');
+
+/* ── Reset & base ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{
+  width:100%;
+  height:100vh; /* Fallback */
+  height:100dvh; /* S'adapte dynamiquement à la barre mobile */
+  overflow:hidden;
+  background:#1a0f2e;
+  font-family:'Outfit',sans-serif;
+  user-select:none;
+  touch-action:none; /* Empêche le pull-to-refresh mobile */
+}
+
+/* ── Background ── */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, #2d1b4e 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, #1a3040 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 60% 30%, #2a1a3a 0%, transparent 50%);
+  transition: background 0.5s ease;
+}
+body.fever-active::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, #4e1b3d 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, #402a1a 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 60% 30%, #3a1a2a 0%, transparent 50%);
+}
+
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size:256px;opacity:.7;
+}
+
+/* ── Layout ── */
+#root{
+  position:relative;z-index:1;
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;
+  max-width:480px;margin:0 auto;
+}
+
+/* ── Screens ── */
+.screen{
+  position:fixed;inset:0;z-index:80;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-start; /* Changé pour le scroll mobile */
+  padding:8vh 20px 40px;
+  overflow-y:auto; /* Permet de scroller si l'écran est petit */
+  background:rgba(20,10,38,.96);
+  backdrop-filter:blur(12px);
+  transition:opacity .6s ease,transform .6s ease;
+}
+@media (min-height: 750px) {
+  .screen { justify-content: center; padding: 32px 24px; }
+}
+.screen.off{opacity:0;pointer-events:none;transform:scale(1.04);}
+
+/* intro */
+.logo-mark{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(2.8rem,14vw,5.5rem);font-weight:400;
+  background:linear-gradient(135deg,#e8b4d0,#a8d4c0,#f0d090);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;margin-bottom:6px;
+  filter:drop-shadow(0 0 24px rgba(232,180,208,.3));
+  margin-top: 10px; /* Espace respirable en cas de scroll */
+}
+.logo-sub{
+  font-size:.65rem;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-bottom:24px;
+}
+.rule-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;padding:20px 22px;
+  max-width:340px;width:100%;margin-bottom:28px;
+}
+.rule-row{
+  display:flex;align-items:center;gap:12px;
+  font-size:.82rem;color:rgba(255,255,255,.7);
+  line-height:1.4;padding:8px 0;
+}
+.rule-row+.rule-row{border-top:1px solid rgba(255,255,255,.06);}
+.rule-icon{font-size:1.3rem;flex-shrink:0;width:28px;text-align:center;}
+.btn-group {
+  display:flex; gap:12px; flex-wrap:wrap; justify-content:center; width:100%; margin-bottom: 8px;
+}
+.btn{
+  font-family:'Outfit',sans-serif;font-weight:400;
+  font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;
+  border:none;padding:16px 24px;border-radius:100px;cursor:pointer;
+  background:linear-gradient(135deg,#c470a0,#7090d0);
+  color:#fff;
+  box-shadow:0 4px 24px rgba(196,112,160,.4);
+  transition:transform .2s,box-shadow .2s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(196,112,160,.5);}
+.btn:active{transform:translateY(0);}
+.btn.expert{background:linear-gradient(135deg,#e76f51,#f4a261); box-shadow:0 4px 24px rgba(231,111,81,.4);}
+.btn.expert:hover{box-shadow:0 8px 32px rgba(231,111,81,.5);}
+.btn.taptap{
+  background:linear-gradient(135deg,#60c8a0,#60a8e0);
+  box-shadow:0 4px 24px rgba(96,200,160,.4);
+  padding:16px 48px;
+  margin-top:8px;
+  margin-bottom: 20px; /* Marge pour le scroll libre en bas */
+}
+.btn.outline{
+  background:transparent;border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.7);box-shadow:none;
+  margin-top:12px; padding:16px 48px;
+}
+.btn.outline:hover{background:rgba(255,255,255,.05);}
+
+/* over / win */
+.over-emoji{font-size:3.5rem;margin-bottom:12px; margin-top: auto;}
+.over-title{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(1.6rem,5vw,2.4rem);color:#fff;
+  text-align:center;margin-bottom:6px;
+}
+.over-sub{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:28px;}
+.score-big{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,12vw,5rem);font-weight:700;
+  background:linear-gradient(135deg,#f0d090,#e8b4d0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;margin-bottom:4px;
+}
+.score-label{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:24px;}
+.bff-reveal{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:18px 22px;max-width:320px;
+  text-align:center;margin-bottom:20px;
+}
+.bff-reveal .bff-tag{
+  font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;
+  color:#c4a060;margin-bottom:8px;
+}
+.bff-reveal p{font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.6;}
+.bff-reveal a{
+  display:inline-block;margin-top:10px;
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:#a0c8a0;text-decoration:none;
+  border-bottom:1px solid rgba(160,200,160,.3);padding-bottom:2px;
+}
+
+/* ── HUD ── */
+#hud{
+  width:100%;padding:16px 20px 10px;
+  display:grid;grid-template-columns:1fr auto 1fr;
+  align-items:center;gap:8px;
+  position:relative;z-index:10;
+}
+.hud-cell{display:flex;flex-direction:column;align-items:center;}
+.hud-cell:first-child{align-items:flex-start;}
+.hud-cell:last-child{align-items:flex-end;}
+.hud-lbl{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:2px;}
+.hud-num{
+  font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;
+  color:#fff;line-height:1;
+}
+.hud-logo{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.1rem;color:rgba(255,255,255,.5);
+  letter-spacing:.05em;
+}
+
+#btn-restart-ingame {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.7);
+  border-radius: 12px;
+  padding: 3px 12px;
+  font-size: 0.55rem;
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all 0.2s ease;
+}
+#btn-restart-ingame:hover { background: rgba(255,255,255,0.2); color: #fff; transform: translateY(-1px); }
+
+/* moves & fever bars */
+#bars-container { width:100%; padding:0 20px 10px; position:relative; z-index:10; display:flex; flex-direction:column; gap:6px; }
+.track{ height:4px; border-radius:2px; background:rgba(255,255,255,.08); overflow:hidden; position:relative; }
+.fill-moves{ height:100%; border-radius:2px; background:linear-gradient(90deg,#7090d0,#e8b4d0); transition:width .4s ease; }
+.fill-fever{ height:100%; border-radius:2px; background:linear-gradient(90deg,#e8c060,#f07050); width:0%; transition:width .3s ease; }
+.fever-label { position:absolute; right:0; top:-12px; font-size:0.45rem; letter-spacing:0.2em; text-transform:uppercase; color:#e8c060; opacity:0; transition:opacity 0.3s;}
+.fever-label.show { opacity:1; animation: pulseFever 1s infinite alternate; }
+
+@keyframes pulseFever { from { text-shadow: 0 0 4px rgba(232,192,96,0); } to { text-shadow: 0 0 12px rgba(232,192,96,1); } }
+
+/* ── Streak badge ── */
+#streak{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);
+  z-index:70;pointer-events:none;
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(2rem,8vw,3.5rem);color:#fff;
+  text-align:center;
+  text-shadow:0 0 40px rgba(255,200,100,.8);
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1), opacity .25s;
+  opacity:0;
+}
+#streak.pop{transform:translate(-50%,-50%) scale(1);opacity:1;}
+
+/* ── BFF toast ── */
+#bff-toast{
+  /* Monté de 46px à 64px pour libérer parfaitement l'espace du footer */
+  position:fixed;bottom:64px;left:50%;transform:translateX(-50%) translateY(150%);
+  width:min(440px,94%);z-index:60;
+  background:linear-gradient(135deg,#1e0f38,#0f2030);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:16px 22px 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+#bff-toast.show{transform:translateX(-50%) translateY(0);}
+.bt-close{
+  position:absolute;top:12px;right:16px;
+  font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);background:none;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;
+  padding: 4px;
+}
+.bt-tag{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:#c4a060;margin-bottom:6px;}
+.bt-text{font-size:.85rem;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:12px;}
+.bt-link{ font-size:.6rem;letter-spacing:.2em;text-transform:uppercase; color:#a0c8b0;text-decoration:none; border-bottom:1px solid rgba(160,200,176,.3);padding-bottom:2px;}
+
+/* ── Permanent Footer Links ── */
+#promo-footer {
+  position: fixed; bottom: 0; left: 0; width: 100%;
+  background: rgba(15, 8, 25, 0.95);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  z-index: 100;
+  display: flex; justify-content: center; gap: 24px;
+  padding: 14px;
+  backdrop-filter: blur(8px);
+}
+#promo-footer a {
+  color: #a0c8b0; text-decoration: none; font-size: 0.65rem;
+  font-family: 'Outfit', sans-serif; letter-spacing: 0.15em;
+  text-transform: uppercase; transition: color 0.2s;
+}
+#promo-footer a:hover { color: #fff; }
+
+/* ── Canvas wrap ── */
+#canvas-wrap{
+  position:relative;z-index:10;
+  flex:1;display:flex;align-items:center;justify-content:center;
+  width:100%;
+  padding:0 12px 64px; /* Espace bas augmenté pour le footer permanent */
+  overflow:hidden;
+}
+#cvs{display:block;border-radius:20px;touch-action:none; transition: transform 0.05s;}
+#pfx{position:absolute;top:0;left:0;pointer-events:none;border-radius:20px;}
+</style>
+</head>
+<body>
+<div id="root">
+
+  <div class="screen" id="s-intro">
+    <div class="logo-mark">✿ BFF</div>
+    <div class="logo-sub">Fleurs en Chaîne</div>
+    <div class="rule-card">
+      <div class="rule-row"><span class="rule-icon">👆</span><span>Glisse entre les fleurs <strong>de même couleur</strong> pour former une chaîne.</span></div>
+      <div class="rule-row"><span class="rule-icon">💥</span><span><strong>Méga Chaîne :</strong> Relie 6 fleurs ou plus pour faire éclore TOUTES les fleurs de cette couleur !</span></div>
+      <div class="rule-row"><span class="rule-icon">🔥</span><span>Remplis la jauge d'énergie pour activer le mode <strong>Éclosion (Score x2)</strong>.</span></div>
+      <div class="rule-row"><span class="rule-icon">💨</span><span><strong>Tap Tap :</strong> Tape vite les fleurs qui tombent avant qu'elles atteignent le sol !</span></div>
+    </div>
+    <div class="btn-group">
+      <button class="btn" id="btn-start-moves">Classique</button>
+      <button class="btn" id="btn-start-time">Chrono</button>
+      <button class="btn expert" id="btn-start-expert">Expert</button>
+    </div>
+    <button class="btn taptap" id="btn-start-taptap">💨 Tap Tap</button>
+  </div>
+
+  <div class="screen off" id="s-over">
+    <div class="over-emoji">🌿</div>
+    <div class="over-title">Partie terminée</div>
+    <div class="over-sub">Le jardin se repose</div>
+    <div class="score-big" id="over-score">0</div>
+    <div class="score-label">points</div>
+    <div class="bff-reveal" id="over-bff">
+      <div class="bff-tag">Bridge &amp; Flow Folk</div>
+      <p id="over-bff-text"></p>
+      <a href="https://bridgeflowfolk.github.io/apropos.html" target="_blank" rel="noopener">Découvrir l'association →</a>
+    </div>
+    <button class="btn" id="btn-retry" style="margin-bottom:8px;">Rejouer</button>
+    <button class="btn outline" id="btn-share" style="margin-bottom: 24px;">Partager mon score</button>
+  </div>
+
+  <div id="hud">
+    <div class="hud-cell">
+      <span class="hud-lbl">Score</span>
+      <span class="hud-num" id="hud-score">0</span>
+    </div>
+    <div class="hud-cell">
+      <span class="hud-logo">✿ BFF</span>
+      <button id="btn-restart-ingame">Rejouer</button>
+    </div>
+    <div class="hud-cell">
+      <span class="hud-lbl" id="hud-moves-lbl">Coups</span>
+      <span class="hud-num" id="hud-moves">30</span>
+    </div>
+  </div>
+  
+  <div id="bars-container">
+    <div class="track"><div class="fill-moves" id="moves-fill" style="width:100%"></div></div>
+    <div class="track" style="height:3px; background:rgba(255,255,255,.04); overflow:visible;">
+      <div class="fill-fever" id="fever-fill"></div>
+      <span class="fever-label" id="fever-lbl">Éclosion x2 !</span>
+    </div>
+  </div>
+
+  <div id="canvas-wrap">
+    <canvas id="cvs"></canvas>
+    <canvas id="pfx"></canvas>
+    <canvas id="tt-cvs" style="position:absolute;top:0;left:0;border-radius:20px;display:none;touch-action:none;"></canvas>
+  </div>
+
+  <div id="streak"></div>
+
+  <div id="bff-toast">
+    <button class="bt-close" id="bt-close">Fermer ×</button>
+    <div class="bt-tag" id="bt-tag">BFF</div>
+    <p class="bt-text" id="bt-text"></p>
+    <a class="bt-link" href="https://bridgeflowfolk.github.io/apropos.html" target="_blank" rel="noopener" id="bt-link">En savoir plus →</a>
+  </div>
+  
+  <div id="promo-footer">
+    <a href="https://bridgeflowfolk.github.io/apropos.html" target="_blank" rel="noopener">🌐 Notre Association</a>
+    <a href="https://www.facebook.com/profile.php?id=61587252715739" target="_blank" rel="noopener">👍 Facebook</a>
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   FLEURS EN CHAÎNE — engine v6 (Méga Chaîne & Expert)
+══════════════════════════════════════════════════════════ */
+
+const BFF = [
+  { tag:'Notre association', text:'Bridge & Flow Folk crée du lien à Nogent-le-Roi : thérapeutes, artisans et créateurs réunis autour du bien-être.' },
+  { tag:'Le Salon', text:'Notre Salon Bien-Être & Créateurs : un espace chaleureux où l\'artisanat local et le soin se rencontrent.' },
+  { tag:'Les créateurs', text:'Céramique, bijoux, textiles… nos exposants apportent beauté et authenticité à chaque édition.' },
+  { tag:'Le bien-être', text:'Yoga, soins énergétiques, naturopathie — un espace pour se reconnecter à l\'essentiel.' },
+  { tag:'Rejoins-nous', text:'Exposant, bénévole, curieux… il y a une place pour toi dans notre communauté. Viens fleurir avec nous !' },
+  { tag:'Nogent-le-Roi', text:'Nos évènements se déroulent au cœur de notre région, notamment à la salle de la ferme du Château.' },
+  { tag:'Prévention', text:'Nos salons sont placés sous le signe du lien, de la prévention et de la solidarité.' },
+  { tag:'Nos valeurs', text:'Bridge pour les ponts, Flow pour l\'énergie, Folk pour l\'humain.' }
+];
+
+const COLS = 7, ROWS = 8;
+const MAX_MOVES = 30;
+const MIN_CHAIN = 3;
+
+const FLOWERS = [
+  { id:0, name:'rose',    col:'#e8729a', dark:'#c04070', glow:'rgba(232,114,154,.5)'  },
+  { id:1, name:'lavande', col:'#9b7ed4', dark:'#6a50b0', glow:'rgba(155,126,212,.5)'  },
+  { id:2, name:'soleil',  col:'#e8c060', dark:'#c09030', glow:'rgba(232,192,96,.5)'   },
+  { id:3, name:'menthe',  col:'#60c8a0', dark:'#30906e', glow:'rgba(96,200,160,.5)'   },
+  { id:4, name:'ciel',    col:'#60a8e0', dark:'#3070b0', glow:'rgba(96,168,224,.5)'   },
+  { id:5, name:'pêche',   col:'#f4a261', dark:'#e76f51', glow:'rgba(244,162,97,.5)'   }, // Couleur mode Expert
+];
+const BFF_SPECIAL = { id:99, name:'bff', col:'#f0e0b0', dark:'#c8a060', glow:'rgba(240,224,176,.7)' };
+const BFF_PROB = 0.05;
+
+let grid = [];
+let score = 0;
+let moves = MAX_MOVES;
+let gameMode = 'moves';
+let activeColors = 5;
+let timeLeft = 60;
+let lastScoreThreshold = 0;
+let chainsResolved = 0;
+
+let chain = [];
+let dragging = false;
+
+// Juice states
+let particles = [];
+let floatingTexts = [];
+let screenShake = 0;
+let fever = 0;
+let isFever = false;
+let feverTimer = 0;
+
+let bffMsgIdx = 0;
+let bffUsedInGame = 0;
+let running = false;
+let animFrame;
+let lastTime = 0;
+let dropTimer, gameOverTimer;
+
+const cvs = document.getElementById('cvs');
+const ctx = cvs.getContext('2d');
+const pfx = document.getElementById('pfx');
+const pctx = pfx.getContext('2d');
+const wrap = document.getElementById('canvas-wrap');
+
+let CELL, OFFSET_X, OFFSET_Y, cvsW, cvsH;
+
+// Calcul robuste de la taille pour s'assurer que la grille est toujours visible 
+function resize() {
+  const ww = Math.min(wrap.clientWidth, 480);
+  const wrapRect = wrap.getBoundingClientRect();
+  // On déduit les paddings pour ne pas déborder sous le footer
+  const wh = Math.max(wrapRect.height - 64, 200); 
+  
+  CELL = Math.floor(Math.min((ww - 16) / COLS, wh / ROWS));
+  cvsW = CELL * COLS + 16;
+  cvsH = CELL * ROWS + 16;
+  
+  cvs.width = pfx.width = cvsW;
+  cvs.height = pfx.height = cvsH;
+  cvs.style.width = pfx.style.width = cvs.style.height = pfx.style.height = '';
+  OFFSET_X = 8; OFFSET_Y = 8;
+  
+  // Alignement pour le tap tap
+  const ttCvs = document.getElementById('tt-cvs');
+  if (ttCvs.style.display === 'block') {
+    ttCvs.width = cvsW; ttCvs.height = cvsH;
+  }
+}
+
+// Redimensionnement réactif
+window.addEventListener('resize', () => { if (running || ttRunning) resize(); });
+
+function randFlower() {
+  if (Math.random() < BFF_PROB) return { type: 99, anim:0, falling:false, fallY:0 };
+  return { type: Math.floor(Math.random() * activeColors), anim:0, falling:false, fallY:0 };
+}
+
+function initGrid() {
+  grid = Array.from({length:ROWS}, () => Array.from({length:COLS}, randFlower));
+}
+
+function cellCenter(r, c) {
+  return {
+    x: OFFSET_X + c * CELL + CELL/2,
+    y: OFFSET_Y + r * CELL + CELL/2 + (grid[r]?.[c]?.fallY||0),
+  };
+}
+
+function flowerDef(type) { return type === 99 ? BFF_SPECIAL : FLOWERS[type]; }
+
+function drawFlower(ctx, fd, x, y, r, alpha=1, pulse=0, inChain=false, isMega=false) {
+  ctx.save();
+  ctx.globalAlpha = alpha;
+
+  const feverScale = isFever ? 1.05 : 1;
+  const scale = (1 + pulse * 0.18 + (inChain ? 0.15 : 0)) * feverScale;
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+
+  if (inChain || pulse > 0.1 || isFever || isMega) {
+    const g = ctx.createRadialGradient(0,0,0,0,0,r*(isMega?2.2:1.6));
+    g.addColorStop(0, isMega ? '#e8c060' : fd.glow);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(0,0,r*(isMega?2.2:1.6),0,Math.PI*2); ctx.fill();
+  }
+
+  const nP = fd.id === 99 ? 6 : 5;
+  for (let i=0; i<nP; i++) {
+    const a = (Math.PI*2/nP)*i - Math.PI/2;
+    ctx.save();
+    ctx.rotate(a);
+    ctx.fillStyle = isMega ? '#fff' : fd.col;
+    ctx.beginPath();
+    ctx.ellipse(0, -r*0.62, r*0.28, r*0.44, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  const cg = ctx.createRadialGradient(0,0,0,0,0,r*0.32);
+  cg.addColorStop(0, '#fff');
+  cg.addColorStop(0.5, isMega ? '#f0d090' : fd.col);
+  cg.addColorStop(1, fd.dark);
+  ctx.fillStyle = cg;
+  ctx.beginPath(); ctx.arc(0,0,r*0.32,0,Math.PI*2); ctx.fill();
+
+  if (fd.id === 99) {
+    ctx.font = `bold ${r*0.32}px Outfit`;
+    ctx.fillStyle = fd.dark;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('✿', 0, 0);
+  }
+
+  ctx.restore();
+}
+
+function drawLine(ctx, chain) {
+  if (chain.length < 2) return;
+  ctx.save();
+  const isMega = chain.length >= 6;
+  ctx.lineWidth = CELL * (isMega ? 0.22 : 0.14);
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  
+  const fd = flowerDef(grid[chain[0].r][chain[0].c].type);
+  ctx.strokeStyle = isMega ? '#e8c060' : fd.col + 'dd';
+  
+  if (isMega) {
+    ctx.shadowColor = '#e8c060';
+    ctx.shadowBlur = 12;
+  }
+
+  ctx.beginPath();
+  chain.forEach((p,i) => {
+    const {x,y} = cellCenter(p.r,p.c);
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+  
+  ctx.stroke();
+  ctx.restore();
+}
+
+let t = 0;
+function render(now) {
+  const dt = Math.min((now - lastTime)/1000, 0.05);
+  lastTime = now;
+  t += dt;
+
+  // Fever Logic
+  if (isFever) {
+    feverTimer -= dt;
+    document.getElementById('fever-fill').style.width = (feverTimer / 8 * 100) + '%';
+    if (feverTimer <= 0) {
+      isFever = false;
+      fever = 0;
+      document.body.classList.remove('fever-active');
+      document.getElementById('fever-lbl').classList.remove('show');
+      document.getElementById('fever-fill').style.width = '0%';
+    }
+  }
+
+  // Screen shake application
+  if (screenShake > 0.5) {
+    const dx = (Math.random() - 0.5) * screenShake;
+    const dy = (Math.random() - 0.5) * screenShake;
+    cvs.style.transform = `translate(${dx}px, ${dy}px)`;
+    screenShake *= 0.85; // dampening
+  } else {
+    cvs.style.transform = `translate(0px, 0px)`;
+    screenShake = 0;
+  }
+
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+
+  for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) {
+    const {x,y} = cellCenter(r,c);
+    ctx.fillStyle = 'rgba(255,255,255,0.03)';
+    roundRect(ctx, x-CELL/2+2, y-CELL/2+2, CELL-4, CELL-4, CELL*0.2);
+    ctx.fill();
+  }
+
+  if (dragging) drawLine(ctx, chain);
+
+  // Draw Grid
+  const inChainSet = new Set(chain.map(p => `${p.r},${p.c}`));
+  const isMegaChain = chain.length >= 6;
+  
+  for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) {
+    const cell = grid[r]?.[c];
+    if (!cell || cell.type === -1) continue;
+    const fd = flowerDef(cell.type);
+    const {x,y} = cellCenter(r,c);
+    
+    // Highlight logic
+    let isTargeted = false;
+    let isMegaHl = false;
+
+    if (dragging) {
+      isTargeted = inChainSet.has(`${r},${c}`);
+      if (isMegaChain) {
+        const baseType = grid[chain[0].r][chain[0].c].type;
+        const compareBase = baseType === 99 ? null : baseType;
+        if (cell.type === compareBase || cell.type === 99 || baseType === 99) {
+           isTargeted = true;
+           isMegaHl = true;
+        }
+      }
+    }
+
+    const pulse = Math.sin(t*2.5 + r*0.7 + c*0.5) * 0.5 + 0.5;
+    cell.anim = (cell.anim||0) + dt;
+    const fallAlpha = cell.falling ? Math.min(cell.anim*4,1) : 1;
+    
+    drawFlower(ctx, fd, x, y, CELL*0.38, fallAlpha, isTargeted ? pulse : 0, isTargeted, isMegaHl);
+  }
+
+  // Draw chain counter
+  if (dragging && chain.length >= 2) {
+    const last = chain[chain.length-1];
+    const {x,y} = cellCenter(last.r,last.c);
+    const count = isMegaChain ? 'MAX' : chain.length;
+    ctx.save();
+    ctx.fillStyle = chain.length >= MIN_CHAIN ? (isMegaChain ? '#e8c060' : '#60c8a0') : 'rgba(255,255,255,.4)';
+    ctx.beginPath(); ctx.arc(x+CELL*0.35, y-CELL*0.35, CELL*0.22,0,Math.PI*2); ctx.fill();
+    ctx.font = `bold ${CELL*0.22}px Outfit`;
+    ctx.fillStyle = isMegaChain ? '#000' : '#fff';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(count, x+CELL*0.35, y-CELL*0.35);
+    ctx.restore();
+  }
+
+  // Particles & Floating Texts
+  pctx.clearRect(0,0,pfx.width,pfx.height);
+  
+  particles = particles.filter(p=>p.life>0);
+  particles.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy; p.vy+=0.08; p.life-=dt*1.8; p.vx*=0.97;
+    pctx.save(); pctx.globalAlpha=Math.max(0,p.life);
+    if (p.type==='petal') {
+      pctx.fillStyle=p.col; pctx.translate(p.x,p.y); pctx.rotate(p.rot+t*p.spin);
+      pctx.beginPath(); pctx.ellipse(0,0,p.r,p.r*0.45,0,0,Math.PI*2); pctx.fill();
+    } else {
+      const g=pctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+      g.addColorStop(0,p.col); g.addColorStop(1,'rgba(0,0,0,0)');
+      pctx.fillStyle=g; pctx.beginPath(); pctx.arc(p.x,p.y,p.r,0,Math.PI*2); pctx.fill();
+    }
+    pctx.restore();
+  });
+
+  floatingTexts = floatingTexts.filter(ft => ft.life > 0);
+  floatingTexts.forEach(ft => {
+    ft.y -= dt * 30; // float up
+    ft.life -= dt * 1.2;
+    pctx.save();
+    pctx.globalAlpha = Math.max(0, ft.life);
+    pctx.font = `bold ${CELL*0.45}px Outfit`;
+    pctx.textAlign = 'center';
+    
+    // Outline
+    pctx.lineWidth = 3;
+    pctx.strokeStyle = 'rgba(20,10,38,0.8)';
+    pctx.strokeText(ft.text, ft.x, ft.y);
+    
+    // Fill
+    pctx.fillStyle = ft.color || '#fff';
+    pctx.fillText(ft.text, ft.x, ft.y);
+    pctx.restore();
+  });
+
+  // Gravity
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++) {
+    const cell=grid[r]?.[c];
+    if(!cell||!cell.falling) continue;
+    cell.fallY = Math.max(0, cell.fallY - CELL*12*dt);
+    if(cell.fallY<=0){cell.falling=false;cell.fallY=0;}
+  }
+
+  // Timer mode
+  if (running && gameMode === 'time') {
+    timeLeft -= dt;
+    if (timeLeft <= 0) {
+      timeLeft = 0; running = false;
+      gameOverTimer = setTimeout(gameOver, 600);
+    }
+    document.getElementById('hud-moves').textContent = Math.ceil(timeLeft) + 's';
+    document.getElementById('moves-fill').style.width = Math.min(100, (timeLeft / 60 * 100)) + '%';
+  }
+
+  animFrame = requestAnimationFrame(render);
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();
+}
+
+// ── Input ────────────────────────────────────────────────
+function posToCell(px,py) {
+  const c=Math.floor((px-OFFSET_X)/CELL);
+  const r=Math.floor((py-OFFSET_Y)/CELL);
+  if(r>=0&&r<ROWS&&c>=0&&c<COLS) return {r,c};
+  return null;
+}
+
+function evPos(e) {
+  const rect=cvs.getBoundingClientRect();
+  const sx=cvs.width/rect.width, sy=cvs.height/rect.height;
+  if(e.touches) return {px:(e.touches[0].clientX-rect.left)*sx,py:(e.touches[0].clientY-rect.top)*sy};
+  return {px:(e.clientX-rect.left)*sx,py:(e.clientY-rect.top)*sy};
+}
+
+function startDrag(e) {
+  if(!running) return;
+  e.preventDefault();
+  const {px,py}=evPos(e);
+  const cell=posToCell(px,py);
+  if(!cell) return;
+  dragging=true;
+  chain=[cell];
+}
+
+function moveDrag(e) {
+  if(!dragging||!running) return;
+  e.preventDefault();
+  const {px,py}=evPos(e);
+  const cell=posToCell(px,py);
+  if(!cell) return;
+  
+  const last=chain[chain.length-1];
+  if(cell.r===last.r&&cell.c===last.c) return;
+
+  // Check visited nodes
+  const prevIdx = chain.findIndex(p => p.r === cell.r && p.c === cell.c);
+  if (prevIdx !== -1) {
+    if (prevIdx === chain.length - 2) {
+      // Normal back-tracking
+      chain.pop();
+    }
+    return;
+  }
+
+  // Not visited, verify adjacency
+  const dr=Math.abs(cell.r-last.r), dc=Math.abs(cell.c-last.c);
+  if(dr+dc!==1) return;
+
+  const firstType=grid[chain[0].r][chain[0].c].type;
+  const cellType=grid[cell.r][cell.c].type;
+  const firstBase = firstType===99 ? null : firstType;
+  
+  const match = cellType===99 || firstType===99 || cellType===firstBase;
+  if(!match) return;
+
+  chain.push(cell);
+}
+
+function endDrag(e) {
+  if(!dragging) return;
+  dragging=false;
+  
+  if (chain.length >= 6) {
+    resolveChain(true); // Mega Chain
+  } else if(chain.length >= MIN_CHAIN) {
+    resolveChain(false); // Normal Chain
+  } else {
+    chain=[];
+  }
+}
+
+cvs.addEventListener('mousedown',  startDrag);
+cvs.addEventListener('mousemove',  moveDrag);
+cvs.addEventListener('mouseup',    endDrag);
+cvs.addEventListener('touchstart', startDrag, {passive:false});
+cvs.addEventListener('touchmove',  moveDrag,  {passive:false});
+cvs.addEventListener('touchend',   endDrag);
+
+// ── Chain resolution ─────────────────────────────────────
+function resolveChain(isMega) {
+  let cellsToClear = [...chain];
+  const firstType = grid[chain[0].r][chain[0].c].type;
+
+  // Si MEGA CHAINE : on nettoie toutes les fleurs de cette couleur
+  if (isMega) {
+    const baseType = firstType;
+    for (let r=0; r<ROWS; r++) {
+      for (let c=0; c<COLS; c++) {
+        const type = grid[r][c].type;
+        if (type !== -1 && !cellsToClear.some(p => p.r===r && p.c===c)) {
+           if (type === baseType || type === 99 || baseType === 99) {
+             cellsToClear.push({r,c});
+           }
+        }
+      }
+    }
+    screenShake = 15;
+  } else {
+    screenShake = Math.min(chain.length * 1.5, 10);
+  }
+
+  const len = cellsToClear.length;
+  const hasBFF = cellsToClear.some(p=>grid[p.r][p.c].type===99);
+  chainsResolved++;
+
+  // Score Calculation
+  let pts = 0;
+  for(let i=0;i<len;i++) pts += (i+1)*12; // Base score
+  if (hasBFF) { pts = Math.floor(pts*2); bffUsedInGame++; }
+  if (isMega) { pts = Math.floor(pts*1.5); } // Mega bonus
+  
+  // Fever Multiplier
+  if (isFever) {
+    pts *= 2;
+  } else {
+    // Fill Fever
+    fever += len * (isMega ? 4 : 2.5);
+    if (fever >= 100) {
+      fever = 100;
+      isFever = true;
+      feverTimer = 8; // 8 seconds of Fever
+      document.body.classList.add('fever-active');
+      document.getElementById('fever-lbl').classList.add('show');
+      document.getElementById('fever-fill').style.width = '100%';
+    } else {
+      document.getElementById('fever-fill').style.width = fever + '%';
+    }
+  }
+
+  score += pts;
+
+  // Float text
+  const textOrigin = chain[Math.floor(chain.length/2)];
+  const {x: tx, y: ty} = cellCenter(textOrigin.r, textOrigin.c);
+  floatingTexts.push({ x: tx, y: ty, text: `+${pts}`, life: 1, color: isFever ? '#f0d090' : (isMega ? '#e8c060' : '#fff') });
+
+  // Time Bonus logic
+  let timeBonus = 0;
+  if (gameMode === 'time') {
+    let currentThreshold = Math.floor(score / 200);
+    if (currentThreshold > lastScoreThreshold) {
+      let bonusMulti = currentThreshold - lastScoreThreshold;
+      timeBonus = bonusMulti * 5;
+      timeLeft += timeBonus;
+      lastScoreThreshold = currentThreshold;
+    }
+  }
+
+  // Visuals
+  cellsToClear.forEach(p=>{
+    const fd=flowerDef(grid[p.r][p.c].type);
+    const {x,y}=cellCenter(p.r,p.c);
+    spawnBurst(x,y,fd.col,len, isMega || isFever);
+    grid[p.r][p.c]={type:-1};
+  });
+
+  showStreak(len, pts, hasBFF, timeBonus, isMega);
+  chain=[];
+
+  dropTimer = setTimeout(()=>{
+    dropCells();
+    document.getElementById('hud-score').textContent=score;
+    
+    if (gameMode === 'moves') {
+      moves--;
+      document.getElementById('hud-moves').textContent=moves;
+      document.getElementById('moves-fill').style.width=(moves/MAX_MOVES*100)+'%';
+      
+      // Fréquence des messages BFF
+      if(hasBFF && bffUsedInGame % 2 === 0) showBFFToast();
+      else if(moves % 5 === 0) showBFFToast();
+
+      if(moves<=0) {
+        running = false;
+        gameOverTimer = setTimeout(gameOver,600);
+      }
+    } else {
+      if(hasBFF && bffUsedInGame % 2 === 0) showBFFToast();
+      else if(chainsResolved % 4 === 0) showBFFToast();
+    }
+  },120);
+}
+
+function dropCells() {
+  for(let c=0;c<COLS;c++) {
+    let col=[];
+    for(let r=ROWS-1;r>=0;r--) {
+      if(grid[r][c].type!==-1) col.push(grid[r][c]);
+    }
+    const newCol=[];
+    const missing=ROWS-col.length;
+    for(let i=0;i<missing;i++) {
+      const cell=randFlower();
+      cell.falling=true;
+      cell.fallY=-(i+1)*CELL;
+      cell.anim=0;
+      newCol.push(cell);
+    }
+    newCol.push(...col);
+    for(let r=0;r<ROWS;r++) grid[r][c]=newCol[r];
+  }
+}
+
+// ── Particles ────────────────────────────────────────────
+function spawnBurst(x,y,col,len, mega) {
+  const n = mega ? 12 : 6 + Math.min(len, 6);
+  for(let i=0;i<n;i++){
+    const a=Math.random()*Math.PI*2;
+    const spd=(1+Math.random()*4) * (mega?1.5:1);
+    particles.push({
+      x,y,col: mega && Math.random()<0.3 ? '#f0d090' : col,
+      vx:Math.cos(a)*spd,vy:Math.sin(a)*spd-2,
+      life:1,r:3+Math.random()*5,
+      type:Math.random()<0.5?'petal':'glow',
+      rot:Math.random()*Math.PI*2,spin:(Math.random()-.5)*5,
+    });
+  }
+  for(let i=0;i<(mega?4:2);i++){
+    particles.push({
+      x,y,col:'rgba(255,255,255,0.8)',
+      vx:0,vy:-0.3,life:0.5,r:CELL*(0.4+i*0.3),type:'glow',rot:0,spin:0,
+    });
+  }
+}
+
+// ── Streak display ───────────────────────────────────────
+let streakTimer;
+const streakEl=document.getElementById('streak');
+const STREAK_LABELS=[,'','','Joli !','Super !','Magnifique !','Incroyable !','Fantastique !','LÉGENDAIRE !'];
+function showStreak(len, pts, bff, timeBonus = 0, isMega = false) {
+  let label = isMega ? 'MÉGA CHAÎNE !' : (len>=8?'LÉGENDAIRE !':(STREAK_LABELS[Math.min(len,8)]||''));
+  if(!label && timeBonus === 0 && !isFever) return;
+  
+  let subText = `<span style="font-size:0.5em;letter-spacing:.1em;opacity:.7">${bff?'✿ BFF · ':''}${isFever?'🔥 x2 · ':''}+${pts} pts</span>`;
+  if (timeBonus > 0) {
+      subText += `<br><span style="font-size:0.45em;letter-spacing:.1em;color:#60c8a0;text-shadow:0 0 10px rgba(96,200,160,0.8);">+${timeBonus}s !</span>`;
+  }
+  
+  streakEl.innerHTML=`<span style="color:${isMega||isFever?'#f0d090':'#fff'}">${label||'Bonus !'}</span><br>${subText}`;
+  streakEl.classList.add('pop');
+  clearTimeout(streakTimer);
+  streakTimer=setTimeout(()=>streakEl.classList.remove('pop'),1200);
+}
+
+// ── BFF Toast ────────────────────────────────────────────
+let bffTimer;
+const bffToast=document.getElementById('bff-toast');
+function showBFFToast(){
+  const m=BFF[bffMsgIdx%BFF.length]; bffMsgIdx++;
+  document.getElementById('bt-tag').textContent=m.tag;
+  document.getElementById('bt-text').textContent=m.text;
+  bffToast.classList.add('show');
+  clearTimeout(bffTimer);
+  bffTimer=setTimeout(()=>bffToast.classList.remove('show'),7000);
+}
+document.getElementById('bt-close').addEventListener('click',()=>bffToast.classList.remove('show'));
+
+// ── Game over ────────────────────────────────────────────
+const BFF_ENDINGS=[
+  'Merci d\'avoir joué ! Bridge & Flow Folk t\'attend dans notre région pour vivre une vraie expérience de bien-être.',
+  'Ton jardin intérieur a éclot ! Viens rencontrer nos exposants et thérapeutes lors de notre prochain Salon BFF.',
+  'Chaque chaîne de fleurs est un lien tissé. BFF tisse ces liens entre les personnes et les pratiques de bien-être.',
+];
+function gameOver(){
+  running=false;
+  cancelAnimationFrame(animFrame);
+  document.getElementById('over-score').textContent=score;
+  document.getElementById('over-bff-text').textContent=BFF_ENDINGS[Math.floor(Math.random()*BFF_ENDINGS.length)];
+  document.getElementById('s-over').classList.remove('off');
+}
+
+// ── Share ────────────────────────────────────────────────
+document.getElementById('btn-share').addEventListener('click',()=>{
+  const modeTxt = gameMode === 'time' ? 'en mode Chrono' : 'en mode Classique';
+  const txt=`🌸 J'ai fait ${score} points à Fleurs en Chaîne ${modeTxt}, le jeu de l'association BFF ! Essaie : https://bridgeflowfolk.github.io/apropos.html`;
+  if(navigator.share) navigator.share({text:txt,url:'https://bridgeflowfolk.github.io/apropos.html'});
+  else { navigator.clipboard?.writeText(txt); alert('Score copié !'); }
+});
+
+// ── Start / Restart ──────────────────────────────────────
+function startGame(mode, colorsCount = 5){
+  gameMode = mode;
+  activeColors = colorsCount;
+  score = 0; chain = []; dragging = false;
+  bffMsgIdx = 0; bffUsedInGame = 0; chainsResolved = 0;
+  particles = []; floatingTexts = []; screenShake = 0;
+  fever = 0; isFever = false; feverTimer = 0; t = 0;
+  
+  clearTimeout(dropTimer); clearTimeout(gameOverTimer);
+  clearTimeout(bffTimer); clearTimeout(streakTimer);
+
+  document.body.classList.remove('fever-active');
+  document.getElementById('fever-lbl').classList.remove('show');
+  document.getElementById('fever-fill').style.width = '0%';
+
+  if (gameMode === 'moves') {
+    moves = MAX_MOVES;
+    document.getElementById('hud-moves-lbl').textContent = 'Coups';
+    document.getElementById('hud-moves').textContent = MAX_MOVES;
+    document.getElementById('moves-fill').style.width = '100%';
+  } else {
+    timeLeft = 60; lastScoreThreshold = 0;
+    document.getElementById('hud-moves-lbl').textContent = 'Temps';
+    document.getElementById('hud-moves').textContent = '60s';
+    document.getElementById('moves-fill').style.width = '100%';
+  }
+
+  resize(); initGrid();
+  document.getElementById('hud-score').textContent='0';
+  bffToast.classList.remove('show');
+  
+  running=true; lastTime=performance.now();
+  cancelAnimationFrame(animFrame); animFrame=requestAnimationFrame(render);
+  
+  setTimeout(showBFFToast, 3500); // 1er message un peu plus tôt
+}
+
+document.getElementById('btn-start-moves').addEventListener('click',()=>{
+  document.getElementById('s-intro').classList.add('off'); startGame('moves', 5);
+});
+document.getElementById('btn-start-time').addEventListener('click',()=>{
+  document.getElementById('s-intro').classList.add('off'); startGame('time', 5);
+});
+document.getElementById('btn-start-expert').addEventListener('click',()=>{
+  document.getElementById('s-intro').classList.add('off'); startGame('moves', 6);
+});
+
+document.getElementById('btn-retry').addEventListener('click',()=>{
+  document.getElementById('s-over').classList.add('off'); startGame(gameMode, activeColors);
+});
+document.getElementById('btn-restart-ingame').addEventListener('click', ()=>{
+  startGame(gameMode, activeColors);
+});
+
+document.getElementById('btn-start-taptap').addEventListener('click',()=>{
+  document.getElementById('s-intro').classList.add('off');
+  startTapTap();
+});
+
+// ══════════════════════════════════════════════════════════
+//  TAP TAP ENGINE
+// ══════════════════════════════════════════════════════════
+const ttCvs = document.getElementById('tt-cvs');
+const ttCtx = ttCvs.getContext('2d');
+
+let ttRunning = false;
+let ttScore = 0;
+let ttLives = 3;
+let ttTime = 45;
+let ttLastTime = 0;
+let ttAnimFrame;
+let ttFlowers = [];
+let ttParticles = [];
+let ttMissed = [];
+let ttSpawnTimer = 0;
+let ttSpawnInterval = 1.3;  
+let ttLevel = 1;
+let ttCombo = 0;
+let ttComboTimer = 0;
+let ttFeverActive = false;
+let ttFeverTimer = 0;
+let ttFeverMeter = 0;
+
+const TT_ROWS_SLOTS = 5; 
+
+function startTapTap() {
+  document.getElementById('cvs').style.display = 'none';
+  document.getElementById('pfx').style.display = 'none';
+  ttCvs.style.display = 'block';
+
+  // Sync canvas size
+  resize();
+
+  // HUD labels
+  document.getElementById('hud-moves-lbl').textContent = 'Vies';
+  document.getElementById('hud-moves').textContent = '❤️❤️❤️';
+  document.getElementById('hud-score').textContent = '0';
+  document.getElementById('moves-fill').style.width = '100%';
+  document.getElementById('fever-fill').style.width = '0%';
+  document.getElementById('fever-lbl').classList.remove('show');
+  document.body.classList.remove('fever-active');
+
+  // Reset state
+  ttScore = 0; ttLives = 3; ttTime = 45; ttCombo = 0; ttComboTimer = 0;
+  ttFlowers = []; ttParticles = []; ttMissed = [];
+  ttSpawnTimer = 0; ttSpawnInterval = 1.3; ttLevel = 1;
+  ttFeverActive = false; ttFeverTimer = 0; ttFeverMeter = 0;
+  running = false; 
+  ttRunning = true;
+
+  cancelAnimationFrame(animFrame);
+  ttLastTime = performance.now();
+  cancelAnimationFrame(ttAnimFrame);
+  ttAnimFrame = requestAnimationFrame(ttRender);
+}
+
+function stopTapTap() {
+  ttRunning = false;
+  cancelAnimationFrame(ttAnimFrame);
+  document.getElementById('cvs').style.display = '';
+  document.getElementById('pfx').style.display = '';
+  ttCvs.style.display = 'none';
+  document.body.classList.remove('fever-active');
+}
+
+function ttSpawnFlower() {
+  const W = ttCvs.width, H = ttCvs.height;
+  const slot = Math.floor(Math.random() * TT_ROWS_SLOTS);
+  const x = (W / TT_ROWS_SLOTS) * slot + (W / TT_ROWS_SLOTS) / 2;
+  const isBFF = Math.random() < 0.06;
+  const typeIdx = isBFF ? 99 : Math.floor(Math.random() * 5);
+  const baseSpeed = 70 + ttLevel * 14;
+  const speed = baseSpeed + Math.random() * 30;
+  const radius = Math.max(22, Math.min(W / TT_ROWS_SLOTS / 2 - 6, 34));
+  ttFlowers.push({ x, y: -radius, type: typeIdx, speed, radius, hit: false, hitTimer: 0, pulse: 0 });
+}
+
+function ttHitEffect(x, y, col, isBFF) {
+  const n = isBFF ? 18 : 10;
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const spd = 1.5 + Math.random() * 4.5;
+    ttParticles.push({
+      x, y, col: isBFF ? '#f0d090' : col,
+      vx: Math.cos(a) * spd, vy: Math.sin(a) * spd - 2.5,
+      life: 1, r: 3 + Math.random() * 5,
+      type: Math.random() < 0.5 ? 'petal' : 'glow',
+      rot: Math.random() * Math.PI * 2, spin: (Math.random() - .5) * 6,
+    });
+  }
+}
+
+function ttDrawFlower(f) {
+  const fd = f.type === 99 ? BFF_SPECIAL : FLOWERS[f.type];
+  const r = f.radius;
+  ttCtx.save();
+  ttCtx.translate(f.x, f.y);
+
+  const scale = f.hit ? (1 + (1 - f.hitTimer) * 0.4) : (1 + Math.sin(f.pulse * 4) * 0.06);
+  ttCtx.scale(scale, scale);
+  ttCtx.globalAlpha = f.hit ? f.hitTimer : 1;
+
+  if (ttFeverActive) {
+    const g = ttCtx.createRadialGradient(0, 0, 0, 0, 0, r * 1.8);
+    g.addColorStop(0, fd.glow); g.addColorStop(1, 'rgba(0,0,0,0)');
+    ttCtx.fillStyle = g;
+    ttCtx.beginPath(); ttCtx.arc(0, 0, r * 1.8, 0, Math.PI * 2); ttCtx.fill();
+  }
+
+  const dangerPct = Math.max(0, (f.y - ttCvs.height * 0.55) / (ttCvs.height * 0.35));
+  if (dangerPct > 0) {
+    const dg = ttCtx.createRadialGradient(0, 0, 0, 0, 0, r * 2);
+    dg.addColorStop(0, `rgba(220,60,60,${dangerPct * 0.5})`);
+    dg.addColorStop(1, 'rgba(0,0,0,0)');
+    ttCtx.fillStyle = dg;
+    ttCtx.beginPath(); ttCtx.arc(0, 0, r * 2, 0, Math.PI * 2); ttCtx.fill();
+  }
+
+  const nP = f.type === 99 ? 6 : 5;
+  for (let i = 0; i < nP; i++) {
+    const a = (Math.PI * 2 / nP) * i - Math.PI / 2 + f.pulse;
+    ttCtx.save(); ttCtx.rotate(a);
+    ttCtx.fillStyle = fd.col;
+    ttCtx.beginPath(); ttCtx.ellipse(0, -r * 0.62, r * 0.28, r * 0.44, 0, 0, Math.PI * 2);
+    ttCtx.fill(); ttCtx.restore();
+  }
+  const cg = ttCtx.createRadialGradient(0, 0, 0, 0, 0, r * 0.34);
+  cg.addColorStop(0, '#fff'); cg.addColorStop(0.5, fd.col); cg.addColorStop(1, fd.dark);
+  ttCtx.fillStyle = cg;
+  ttCtx.beginPath(); ttCtx.arc(0, 0, r * 0.34, 0, Math.PI * 2); ttCtx.fill();
+  if (f.type === 99) {
+    ttCtx.font = `bold ${r * 0.36}px Outfit`;
+    ttCtx.fillStyle = fd.dark; ttCtx.textAlign = 'center'; ttCtx.textBaseline = 'middle';
+    ttCtx.fillText('✿', 0, 0);
+  }
+  ttCtx.restore();
+}
+
+function ttDrawLaneGuides() {
+  const W = ttCvs.width, H = ttCvs.height;
+  const laneW = W / TT_ROWS_SLOTS;
+  for (let i = 1; i < TT_ROWS_SLOTS; i++) {
+    ttCtx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ttCtx.lineWidth = 1;
+    ttCtx.setLineDash([6, 10]);
+    ttCtx.beginPath(); ttCtx.moveTo(laneW * i, 0); ttCtx.lineTo(laneW * i, H);
+    ttCtx.stroke(); ttCtx.setLineDash([]);
+  }
+  ttCtx.strokeStyle = 'rgba(220,80,80,0.15)';
+  ttCtx.lineWidth = 2;
+  ttCtx.beginPath(); ttCtx.moveTo(0, H - 60); ttCtx.lineTo(W, H - 60); ttCtx.stroke();
+}
+
+function ttDrawCombo() {
+  if (ttCombo < 2) return;
+  const W = ttCvs.width;
+  const alpha = Math.min(1, ttComboTimer / 0.4);
+  ttCtx.save();
+  ttCtx.globalAlpha = alpha * 0.9;
+  ttCtx.font = `bold ${20 + ttCombo * 2}px Playfair Display`;
+  ttCtx.textAlign = 'center';
+  ttCtx.fillStyle = ttFeverActive ? '#f0d090' : '#60c8a0';
+  ttCtx.shadowColor = ttFeverActive ? '#f0d090' : '#60c8a0';
+  ttCtx.shadowBlur = 12;
+  ttCtx.fillText(`x${ttCombo} combo !`, W / 2, ttCvs.height - 80);
+  ttCtx.restore();
+}
+
+function ttRender(now) {
+  const dt = Math.min((now - ttLastTime) / 1000, 0.05);
+  ttLastTime = now;
+
+  if (!ttRunning) return;
+
+  ttTime -= dt;
+  if (ttTime <= 0) { ttTime = 0; ttGameOver(); return; }
+  document.getElementById('hud-moves').textContent = Math.ceil(ttTime) + 's';
+  document.getElementById('moves-fill').style.width = (ttTime / 45 * 100) + '%';
+
+  if (ttFeverActive) {
+    ttFeverTimer -= dt;
+    document.getElementById('fever-fill').style.width = (ttFeverTimer / 6 * 100) + '%';
+    if (ttFeverTimer <= 0) {
+      ttFeverActive = false; ttFeverMeter = 0;
+      document.body.classList.remove('fever-active');
+      document.getElementById('fever-lbl').classList.remove('show');
+      document.getElementById('fever-fill').style.width = '0%';
+    }
+  }
+
+  if (ttCombo > 0) {
+    ttComboTimer -= dt;
+    if (ttComboTimer <= 0) { ttCombo = 0; ttComboTimer = 0; }
+  }
+
+  const elapsed = 45 - ttTime;
+  ttLevel = 1 + Math.floor(elapsed / 10);
+  ttSpawnInterval = Math.max(0.45, 1.3 - ttLevel * 0.13);
+
+  ttSpawnTimer -= dt;
+  if (ttSpawnTimer <= 0) {
+    ttSpawnFlower();
+    ttSpawnTimer = ttSpawnInterval + (Math.random() - 0.5) * 0.2;
+  }
+
+  ttCtx.clearRect(0, 0, ttCvs.width, ttCvs.height);
+  ttDrawLaneGuides();
+
+  const toRemove = [];
+  ttFlowers.forEach((f, i) => {
+    f.pulse += dt * 2;
+    if (f.hit) {
+      f.hitTimer -= dt * 3;
+      if (f.hitTimer <= 0) toRemove.push(i);
+    } else {
+      f.y += f.speed * dt * (ttFeverActive ? 0.7 : 1);
+      if (f.y > ttCvs.height + f.radius) {
+        if (!f.hit) {
+          ttLives--;
+          ttCombo = 0;
+          ttMissed.push({ x: f.x, y: ttCvs.height - 30, timer: 0.8 });
+          updateTTLives();
+          if (ttLives <= 0) { ttGameOver(); return; }
+        }
+        toRemove.push(i);
+      }
+    }
+    ttDrawFlower(f);
+  });
+  for (let i = toRemove.length - 1; i >= 0; i--) ttFlowers.splice(toRemove[i], 1);
+
+  ttMissed = ttMissed.filter(m => m.timer > 0);
+  ttMissed.forEach(m => {
+    m.timer -= dt;
+    ttCtx.save();
+    ttCtx.globalAlpha = m.timer;
+    ttCtx.font = 'bold 22px Outfit';
+    ttCtx.fillStyle = '#e86060';
+    ttCtx.textAlign = 'center';
+    ttCtx.fillText('✗', m.x, m.y);
+    ttCtx.restore();
+  });
+
+  ttParticles = ttParticles.filter(p => p.life > 0);
+  ttParticles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.1; p.life -= dt * 2; p.vx *= 0.97;
+    ttCtx.save(); ttCtx.globalAlpha = Math.max(0, p.life);
+    if (p.type === 'petal') {
+      ttCtx.fillStyle = p.col; ttCtx.translate(p.x, p.y); ttCtx.rotate(p.rot + p.spin);
+      ttCtx.beginPath(); ttCtx.ellipse(0, 0, p.r, p.r * 0.45, 0, 0, Math.PI * 2); ttCtx.fill();
+    } else {
+      const g = ttCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+      g.addColorStop(0, p.col); g.addColorStop(1, 'rgba(0,0,0,0)');
+      ttCtx.fillStyle = g; ttCtx.beginPath(); ttCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ttCtx.fill();
+    }
+    ttCtx.restore();
+  });
+
+  ttDrawCombo();
+  ttAnimFrame = requestAnimationFrame(ttRender);
+}
+
+function updateTTLives() {
+  document.getElementById('hud-moves').textContent = '❤️'.repeat(Math.max(0, ttLives));
+}
+
+function ttTap(px, py) {
+  if (!ttRunning) return;
+  let hit = false;
+  for (let i = ttFlowers.length - 1; i >= 0; i--) {
+    const f = ttFlowers[i];
+    if (f.hit) continue;
+    const dx = px - f.x, dy = py - f.y;
+    if (Math.sqrt(dx * dx + dy * dy) < f.radius * 1.4) {
+      f.hit = true; f.hitTimer = 1;
+      const fd = f.type === 99 ? BFF_SPECIAL : FLOWERS[f.type];
+      ttHitEffect(f.x, f.y, fd.col, f.type === 99);
+      ttCombo++;
+      ttComboTimer = 1.5;
+
+      let pts = 10 * ttLevel;
+      if (f.type === 99) pts *= 3;
+      if (ttCombo >= 3) pts = Math.floor(pts * (1 + ttCombo * 0.2));
+      if (ttFeverActive) pts *= 2;
+      ttScore += pts;
+      document.getElementById('hud-score').textContent = ttScore;
+
+      if (!ttFeverActive) {
+        ttFeverMeter += f.type === 99 ? 25 : 10 + ttCombo * 2;
+        if (ttFeverMeter >= 100) {
+          ttFeverActive = true; ttFeverTimer = 6;
+          document.body.classList.add('fever-active');
+          document.getElementById('fever-lbl').classList.add('show');
+          document.getElementById('fever-fill').style.width = '100%';
+        } else {
+          document.getElementById('fever-fill').style.width = ttFeverMeter + '%';
+        }
+      }
+
+      if (f.type === 99 && bffMsgIdx % 3 === 0) showBFFToast();
+      bffMsgIdx++;
+
+      hit = true;
+      break;
+    }
+  }
+  if (!hit) {
+    ttParticles.push({ x: px, y: py, col: 'rgba(255,255,255,0.3)', vx: 0, vy: -1, life: 0.5, r: 14, type: 'glow', rot: 0, spin: 0 });
+  }
+}
+
+ttCvs.addEventListener('click', e => {
+  const rect = ttCvs.getBoundingClientRect();
+  const sx = ttCvs.width / rect.width, sy = ttCvs.height / rect.height;
+  ttTap((e.clientX - rect.left) * sx, (e.clientY - rect.top) * sy);
+});
+ttCvs.addEventListener('touchstart', e => {
+  e.preventDefault();
+  const rect = ttCvs.getBoundingClientRect();
+  const sx = ttCvs.width / rect.width, sy = ttCvs.height / rect.height;
+  for (const t of e.changedTouches) {
+    ttTap((t.clientX - rect.left) * sx, (t.clientY - rect.top) * sy);
+  }
+}, { passive: false });
+
+function ttGameOver() {
+  ttRunning = false;
+  cancelAnimationFrame(ttAnimFrame);
+  stopTapTap();
+  score = ttScore; 
+  document.getElementById('over-score').textContent = ttScore;
+  document.getElementById('over-bff-text').textContent = BFF_ENDINGS[Math.floor(Math.random() * BFF_ENDINGS.length)];
+  document.getElementById('s-over').classList.remove('off');
+}
+
+document.getElementById('btn-retry').addEventListener('click', () => {
+  document.getElementById('cvs').style.display = '';
+  document.getElementById('pfx').style.display = '';
+  ttCvs.style.display = 'none';
+  stopTapTap();
+});
+
+resize(); initGrid();
+lastTime=performance.now(); animFrame=requestAnimationFrame(render);
+</script>
+</body>
+</html>
