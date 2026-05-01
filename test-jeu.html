@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Bridge Flow Folk - Indie</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.4.0/pixi.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+body { margin:0; overflow:hidden; background:#020617; font-family:Arial;}
+#menu, #hud, #story {
+  position:absolute; width:100%; text-align:center; z-index:10; color:white;
+}
+#menu { top:20%; }
+#story { top:10%; font-size:18px; opacity:0.8;}
+#hud { top:10px; display:flex; justify-content:space-between; padding:10px;}
+button {
+  padding:12px 20px;
+  border:none;
+  border-radius:12px;
+  background:#22c55e;
+  color:white;
+  font-weight:bold;
+}
+#mobile {
+  position:absolute; bottom:10px; width:100%; text-align:center;
+}
+.ctrl {
+  width:70px;height:70px;
+  border-radius:50%;
+  background:#1e293b;
+  display:inline-block;
+  line-height:70px;
+  font-size:22px;
+  margin:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="menu">
+  <h1>🌉 Bridge Flow Folk</h1>
+  <p>Deux âges. Un seul chemin.</p>
+  <button onclick="start('young')">Jeune</button>
+  <button onclick="start('old')">Vieux</button>
+</div>
+
+<div id="story"></div>
+
+<div id="hud" style="display:none;">
+  <div>Niveau <span id="lvl">1</span></div>
+  <button onclick="restart()">↺</button>
+</div>
+
+<div id="mobile">
+  <div class="ctrl" onclick="move(-1)">⬅</div>
+  <div class="ctrl" onclick="jump()">⬆</div>
+  <div class="ctrl" onclick="move(1)">➡</div>
+</div>
+
+<script>
+const app = new PIXI.Application({ resizeTo:window, backgroundColor:0x020617 });
+document.body.appendChild(app.view);
+
+/* ===== CAMERA ===== */
+const world = new PIXI.Container();
+app.stage.addChild(world);
+
+let cam = {x:0};
+
+/* ===== STATE ===== */
+let player, twin;
+let platforms=[], triggers=[], doors=[];
+let particles=[];
+let gravity=0.5;
+let keys={}, running=false;
+let levelIndex=0;
+let mode="young";
+
+/* ===== UTILS ===== */
+function saveProgress(){
+  localStorage.setItem("bff_level", levelIndex);
+}
+function loadProgress(){
+  return parseInt(localStorage.getItem("bff_level")||0);
+}
+
+/* ===== CHAR ===== */
+function createChar(color, speed, jump){
+  const g = new PIXI.Graphics();
+  g.beginFill(color);
+  g.drawRoundedRect(0,0,40,40,12);
+  g.endFill();
+
+  g.vx=0; g.vy=0;
+  g.speed=speed;
+  g.jump=jump;
+  g.grounded=false;
+
+  return g;
+}
+
+/* ===== LEVEL ===== */
+function platform(x,y,w,h){
+  const p=new PIXI.Graphics();
+  p.beginFill(0x334155);
+  p.drawRect(0,0,w,h);
+  p.endFill();
+  p.x=x;p.y=y;
+  world.addChild(p);
+  platforms.push(p);
+}
+
+function trigger(x,y,type){
+  const t=new PIXI.Graphics();
+  t.beginFill(type==="weight"?0xf97316:0x38bdf8);
+  t.drawRect(0,0,30,10);
+  t.endFill();
+  t.x=x;t.y=y;
+  t.type=type;
+  t.active=false;
+  world.addChild(t);
+  triggers.push(t);
+}
+
+function door(x,y){
+  const d=new PIXI.Graphics();
+  d.beginFill(0xef4444);
+  d.drawRect(0,0,40,80);
+  d.endFill();
+  d.x=x; d.y=y;
+  d.open=false;
+  world.addChild(d);
+  doors.push(d);
+}
+
+/* ===== PARTICLES ===== */
+function spawnParticles(x,y){
+  for(let i=0;i<5;i++){
+    const p=new PIXI.Graphics();
+    p.beginFill(0xffffff);
+    p.drawCircle(0,0,3);
+    p.endFill();
+    p.x=x;p.y=y;
+    p.vx=(Math.random()-0.5)*4;
+    p.vy=Math.random()*-4;
+    world.addChild(p);
+    particles.push(p);
+  }
+}
+
+/* ===== LEVELS ===== */
+const levels = [
+() => {
+  showStory("Chaque génération avance…");
+  platform(0,550,2000,50);
+  platform(300,450,150,20);
+  platform(700,350,150,20);
+},
+() => {
+  showStory("…mais certaines portes demandent de l'entraide");
+  platform(0,550,2000,50);
+  platform(300,480,150,20);
+  platform(800,420,150,20);
+  trigger(320,470,"weight");
+  door(900,340);
+},
+() => {
+  showStory("Le lien se crée dans la coordination");
+  platform(0,550,2500,50);
+  platform(200,450,120,20);
+  platform(500,380,120,20);
+  platform(900,320,120,20);
+  trigger(220,440,"weight");
+  trigger(520,370,"jump");
+  door(1000,260);
+}
+];
+
+/* ===== STORY ===== */
+function showStory(text){
+  const el=document.getElementById("story");
+  el.innerText=text;
+  gsap.fromTo(el,{opacity:0},{opacity:1,duration:1});
+}
+
+/* ===== GAME ===== */
+function start(m){
+  mode=m;
+  levelIndex=loadProgress();
+  document.getElementById("menu").style.display="none";
+  document.getElementById("hud").style.display="flex";
+  loadLevel();
+  running=true;
+}
+
+function loadLevel(){
+  world.removeChildren();
+  platforms=[]; triggers=[]; doors=[];
+
+  document.getElementById("lvl").innerText=levelIndex+1;
+
+  levels[levelIndex]();
+
+  if(mode==="young"){
+    player=createChar(0x22c55e,4,12);
+    twin=createChar(0x60a5fa,2,7);
+  } else {
+    player=createChar(0x60a5fa,2,7);
+    twin=createChar(0x22c55e,4,12);
+  }
+
+  player.x=100; player.y=100;
+  twin.x=140; twin.y=100;
+
+  world.addChild(player,twin);
+}
+
+/* ===== UPDATE ===== */
+function updateChar(p){
+  p.vy+=gravity;
+  p.x+=p.vx;
+  p.y+=p.vy;
+  p.grounded=false;
+
+  platforms.forEach(pl=>{
+    if(p.x<pl.x+pl.width &&
+       p.x+40>pl.x &&
+       p.y+40>pl.y &&
+       p.y+40<pl.y+20){
+         p.y=pl.y-40;
+         p.vy=0;
+         if(!p.grounded) spawnParticles(p.x+20,p.y+40);
+         p.grounded=true;
+    }
+  });
+
+  p.vx*=0.85;
+}
+
+function sync(){
+  twin.vx=player.vx*0.7;
+  if(player.vy<-6) twin.vy=-twin.jump;
+}
+
+function updateParticles(){
+  particles.forEach(p=>{
+    p.x+=p.vx;
+    p.y+=p.vy;
+    p.alpha-=0.02;
+  });
+  particles=particles.filter(p=>p.alpha>0);
+}
+
+function handleTriggers(){
+  triggers.forEach(t=>{
+    if(player.x<t.x+30 && player.x+40>t.x && player.y+40>t.y){
+      if(t.type==="weight" && mode==="old") activate(t);
+      if(t.type==="jump" && mode==="young") activate(t);
+    }
+  });
+}
+
+function activate(t){
+  if(t.active) return;
+  t.active=true;
+  t.tint=0x22c55e;
+  gsap.to(t.scale,{x:1.5,y:1.5,yoyo:true,repeat:1});
+
+  doors.forEach(d=>{
+    d.open=true;
+    gsap.to(d,{alpha:0.2,duration:0.5});
+  });
+}
+
+function cameraFollow(){
+  const targetX = -player.x + app.screen.width/3;
+  cam.x += (targetX - cam.x)*0.08;
+  world.x = cam.x;
+}
+
+function checkWin(){
+  if(player.x>1200 && twin.x>1200){
+    levelIndex++;
+    saveProgress();
+    if(levelIndex>=levels.length){
+      endGame();
+    } else loadLevel();
+  }
+}
+
+function endGame(){
+  running=false;
+  showStory("🌉 Le lien est créé.");
+}
+
+/* ===== INPUT ===== */
+function move(d){ player.vx=d*player.speed; }
+function jump(){ if(player.grounded){ player.vy=-player.jump; spawnParticles(player.x,player.y); }}
+
+window.addEventListener("keydown",e=>keys[e.code]=true);
+window.addEventListener("keyup",e=>keys[e.code]=false);
+
+/* ===== LOOP ===== */
+app.ticker.add(()=>{
+  if(!running) return;
+
+  if(keys["ArrowLeft"]) move(-1);
+  if(keys["ArrowRight"]) move(1);
+  if(keys["Space"]) jump();
+
+  updateChar(player);
+  sync();
+  updateChar(twin);
+
+  updateParticles();
+  handleTriggers();
+  cameraFollow();
+  checkWin();
+});
+
+/* ===== RESTART ===== */
+function restart(){
+  levelIndex=0;
+  saveProgress();
+  loadLevel();
+}
+</script>
+
+</body>
+</html>
