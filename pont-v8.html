@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Le Pont Vivant — BFF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-deep: #1a4a2e;
+            --green-mid: #2d7a4f;
+            --green-light: #4caf7d;
+            --green-pale: #a8d5b5;
+            --sun: #f5c842;
+            --sun-warm: #f09030;
+            --sky: #87ceeb;
+            --sky-deep: #4a9fd4;
+            --river: #5bafd6;
+            --river-dark: #2e7da8;
+            --stone: #9aa0a6;
+            --stone-dark: #5f6368;
+            --stone-light: #cbd0d6;
+            --cream: #fdf6e8;
+            --text-dark: #1a2a1a;
+            --r: 1rem;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--green-deep);
+        }
+
+        .screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+        .screen.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #bg-scene {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        #bg-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #screen-start {
+            z-index: 10;
+            background: linear-gradient(170deg, rgba(26, 74, 46, 0.92) 0%, rgba(13, 37, 23, 0.97) 100%);
+            padding: 20px;
+        }
+
+        .bff-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .bff-badge {
+            background: var(--sun);
+            color: var(--green-deep);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+        }
+        .bff-name {
+            font-family: 'Fraunces', serif;
+            font-size: 1rem;
+            color: var(--green-pale);
+            font-style: italic;
+            letter-spacing: 0.02em;
+        }
+
+        .game-title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2.2rem, 7vw, 4rem);
+            color: var(--sun);
+            line-height: 1;
+            text-align: center;
+            text-shadow: 0 4px 24px rgba(245, 200, 66, 0.4), 0 2px 0 rgba(0, 0, 0, 0.3);
+            margin-bottom: 6px;
+        }
+        .game-subtitle {
+            font-size: clamp(0.85rem, 2.5vw, 1.05rem);
+            color: var(--green-pale);
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 28px;
+            letter-spacing: 0.03em;
+        }
+
+        .pick-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            color: var(--sun);
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 14px;
+            opacity: 0.8;
+        }
+
+        .avatar-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 520px;
+            width: 100%;
+            margin-bottom: 28px;
+        }
+
+        .avatar-btn {
+            flex: 1;
+            min-width: 120px;
+            max-width: 155px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid rgba(76, 175, 125, 0.35);
+            border-radius: 20px;
+            padding: 18px 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(76, 175, 125, 0.15) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+        .avatar-btn:hover,
+        .avatar-btn:active {
+            border-color: var(--sun);
+            transform: translateY(-6px) scale(1.04);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(245, 200, 66, 0.2);
+        }
+        .avatar-btn:hover::before,
+        .avatar-btn:active::before {
+            opacity: 1;
+        }
+
+        .avatar-emoji {
+            font-size: 2.6rem;
+            display: block;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+        }
+        .avatar-name {
+            font-family: 'Fraunces', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--cream);
+            margin-bottom: 4px;
+        }
+        .avatar-desc {
+            font-size: 0.7rem;
+            color: var(--green-pale);
+            line-height: 1.4;
+            font-style: italic;
+        }
+        .avatar-difficulty {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 12px;
+            letter-spacing: 0.05em;
+        }
+        .diff-easy {
+            background: #4caf7d;
+            color: #fff;
+        }
+        .diff-medium {
+            background: #f5c842;
+            color: #1a2a1a;
+        }
+        .diff-hard {
+            background: #f06292;
+            color: #fff;
+        }
+
+        .bridge-preview {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: rgba(168, 213, 181, 0.5);
+            font-style: italic;
+            letter-spacing: 0.05em;
+        }
+        .bridge-preview span {
+            font-size: 1rem;
+        }
+
+        #hud {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            display: none;
+            padding: 12px 16px 10px;
+            background: linear-gradient(to bottom, rgba(13, 37, 23, 0.9) 60%, transparent);
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .hud-role {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--sun);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .hud-role .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--sun);
+            box-shadow: 0 0 8px var(--sun);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.7); }
+        }
+        #hud-score {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: var(--cream);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        #hud-score .s-icon {
+            font-size: 1.2rem;
+        }
+        #hud-score .s-val {
+            background: rgba(245, 200, 66, 0.15);
+            border: 1px solid rgba(245, 200, 66, 0.3);
+            border-radius: 20px;
+            padding: 4px 14px;
+            color: var(--sun);
+            min-width: 65px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        #hud-gems {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .gem {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(76, 175, 125, 0.4);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .gem.lit {
+            background: var(--sun);
+            border-color: var(--sun-warm);
+            box-shadow: 0 0 10px var(--sun), 0 0 20px rgba(245, 200, 66, 0.4);
+            transform: scale(1.2);
+        }
+        .gem.lit.special {
+            background: #f06292;
+            border-color: #f06292;
+            box-shadow: 0 0 12px #f06292;
+        }
+
+        .overlay-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+        .overlay-screen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .fb-card {
+            background: linear-gradient(145deg, #0d2517, #1a4a2e);
+            border-radius: 28px;
+            padding: 28px 24px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(76, 175, 125, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .overlay-screen.show .fb-card {
+            transform: scale(1);
+        }
+        .fb-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+        }
+        @keyframes popIn {
+            from { transform: scale(0) rotate(-10deg); }
+            to { transform: scale(1) rotate(0); }
+        }
+        .fb-result {
+            font-family: 'Fraunces', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .fb-result.ok { color: var(--sun); }
+        .fb-result.ko { color: #ff7070; }
+        .fb-text {
+            font-size: 0.9rem;
+            color: var(--green-pale);
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .fb-xp {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 200, 66, 0.15);
+            border: 1px solid rgba(245, 200, 66, 0.3);
+            border-radius: 20px;
+            padding: 6px 16px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            color: var(--sun);
+            font-size: 0.9rem;
+        }
+        .fb-btn {
+            background: var(--green-mid);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 36px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            letter-spacing: 0.03em;
+            transition: all 0.2s;
+            box-shadow: 0 4px 16px rgba(45, 122, 79, 0.4);
+        }
+        .fb-btn:hover,
+        .fb-btn:active {
+            background: var(--green-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(76, 175, 125, 0.4);
+        }
+
+        #q-panel {
+            position: fixed;
+            z-index: 30;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        #q-panel.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .q-card {
+            background: linear-gradient(145deg, rgba(13, 37, 23, 0.97) 0%, rgba(26, 74, 46, 0.97) 100%);
+            border: 2px solid rgba(76, 175, 125, 0.3);
+            border-radius: 24px;
+            padding: 18px 16px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .q-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .q-npc-avatar {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        .q-npc-name {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--green-pale);
+        }
+        .q-npc-speech {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+            color: var(--cream);
+            line-height: 1.5;
+            font-style: italic;
+            margin-bottom: 14px;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border-left: 3px solid var(--sun);
+        }
+        .q-timer-bar {
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 14px;
+            overflow: hidden;
+        }
+        .q-timer-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: linear-gradient(to right, var(--green-light), var(--sun));
+            transition: width 0.1s linear;
+        }
+        .choices-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .choice {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(76, 175, 125, 0.25);
+            border-radius: 14px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .choice:active,
+        .choice:hover {
+            background: rgba(76, 175, 125, 0.12);
+            border-color: var(--green-light);
+            transform: translateX(4px);
+            box-shadow: -4px 0 0 var(--green-light);
+        }
+        .choice.correct {
+            background: rgba(76, 175, 125, 0.25);
+            border-color: var(--green-light);
+            animation: correctFlash 0.4s ease;
+        }
+        .choice.wrong {
+            background: rgba(220, 80, 60, 0.2);
+            border-color: rgba(220, 80, 60, 0.5);
+            animation: wrongShake 0.4s ease;
+        }
+        @keyframes correctFlash {
+            0%, 100% {}
+            50% { box-shadow: 0 0 0 6px rgba(76, 175, 125, 0.3); }
+        }
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(4px); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(6px); }
+        }
+        .choice-letter {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--sun);
+            border: 1px solid rgba(245, 200, 66, 0.3);
+        }
+        .choice-text {
+            font-size: clamp(0.82rem, 2.2vw, 0.95rem);
+            color: var(--cream);
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        #screen-end {
+            z-index: 50;
+            background: linear-gradient(170deg, rgba(26, 74, 46, 0.96) 0%, rgba(10, 30, 18, 0.98) 100%);
+            padding: 20px;
+            text-align: center;
+        }
+        .end-trophy {
+            font-size: 4rem;
+            margin-bottom: 8px;
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .end-title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(1.8rem, 6vw, 3rem);
+            color: var(--sun);
+            margin-bottom: 4px;
+            text-shadow: 0 0 40px rgba(245, 200, 66, 0.4);
+        }
+        .end-sub {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            color: var(--green-pale);
+            font-size: 1rem;
+            margin-bottom: 24px;
+        }
+        .end-bridge {
+            width: min(360px, 90vw);
+            height: 140px;
+            margin: 0 auto 24px;
+            position: relative;
+        }
+        .score-block {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(76, 175, 125, 0.3);
+            border-radius: 20px;
+            padding: 16px 24px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .score-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--green-pale);
+            margin-bottom: 4px;
+        }
+        .score-val {
+            font-family: 'Fraunces', serif;
+            font-size: 2.8rem;
+            color: var(--sun);
+            font-weight: 700;
+            line-height: 1;
+        }
+        .score-max {
+            font-size: 0.9rem;
+            color: rgba(245, 200, 66, 0.5);
+        }
+        .end-msg {
+            font-style: italic;
+            color: var(--green-pale);
+            font-size: 0.95rem;
+            max-width: 420px;
+            line-height: 1.7;
+            margin: 0 auto 28px;
+        }
+        .end-btn {
+            background: var(--sun);
+            color: var(--green-deep);
+            border: none;
+            border-radius: 50px;
+            padding: 14px 44px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            cursor: pointer;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+            box-shadow: 0 6px 24px rgba(245, 200, 66, 0.35);
+        }
+        .end-btn:hover,
+        .end-btn:active {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 12px 32px rgba(245, 200, 66, 0.45);
+        }
+
+        #walk-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 15;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(76, 175, 125, 0.4);
+            border-radius: 30px;
+            padding: 10px 22px;
+            font-size: 0.8rem;
+            color: var(--green-pale);
+            letter-spacing: 0.06em;
+            pointer-events: none;
+            animation: floatHint 2.5s ease-in-out infinite;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        @keyframes floatHint {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-6px); }
+        }
+        #q-counter {
+            position: fixed;
+            top: 64px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: none;
+            background: rgba(13, 37, 23, 0.85);
+            border: 1px solid rgba(76, 175, 125, 0.3);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--green-pale);
+            letter-spacing: 0.08em;
+            backdrop-filter: blur(4px);
+        }
+        #combo-badge {
+            position: fixed;
+            top: 90px;
+            right: 16px;
+            z-index: 25;
+            background: linear-gradient(135deg, var(--sun-warm), var(--sun));
+            border-radius: 14px;
+            padding: 6px 12px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            color: var(--green-deep);
+            display: none;
+            animation: comboPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 16px rgba(240, 144, 48, 0.5);
+        }
+        @keyframes comboPop {
+            from { transform: scale(0.5) rotate(-5deg); }
+            to { transform: scale(1) rotate(0); }
+        }
+
+        #approach-btn {
+            position: fixed;
+            bottom: 26%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 15;
+            display: none;
+            background: rgba(245, 200, 66, 0.15);
+            border: 2px solid var(--sun);
+            color: var(--sun);
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            letter-spacing: 0.06em;
+            animation: bubblePulse 2s ease-in-out infinite;
+            backdrop-filter: blur(4px);
+        }
+        @keyframes bubblePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 200, 66, 0.3); }
+            50% { box-shadow: 0 0 0 14px rgba(245, 200, 66, 0); }
+        }
+        #approach-btn:active {
+            background: var(--sun);
+            color: var(--green-deep);
+        }
+
+        @media(max-width:400px) {
+            .q-card { padding: 14px 12px; border-radius: 18px; }
+            .avatar-row { gap: 8px; }
+            .avatar-btn { min-width: 90px; padding: 14px 8px; }
+            .avatar-emoji { font-size: 2rem; }
+            .fb-card { padding: 22px 18px; }
+        }
+
+        #particle-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 8;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bg-scene"><canvas id="bg-canvas"></canvas></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <div id="screen-start" class="screen active">
+        <div class="bff-logo">
+            <span class="bff-badge">BFF</span>
+            <span class="bff-name">Bridge & Flow Folk</span>
+        </div>
+        <h1 class="game-title">Le Pont Vivant</h1>
+        <p class="game-subtitle">Bâtis des liens entre les générations 🌿</p>
+
+        <p class="pick-label">Choisis ton rôle</p>
+        <div class="avatar-row">
+            <div class="avatar-btn" onclick="showOnboarding('child')">
+                <span class="avatar-emoji">🧒</span>
+                <div class="avatar-name">L'Enfant</div>
+                <div class="avatar-desc">Curieux, joueur et plein d'énergie !</div>
+                <span class="avatar-difficulty diff-easy">Facile</span>
+            </div>
+            <div class="avatar-btn" onclick="showOnboarding('adult')">
+                <span class="avatar-emoji">🧑</span>
+                <div class="avatar-name">L'Adulte</div>
+                <div class="avatar-desc">Le pont entre hier et demain.</div>
+                <span class="avatar-difficulty diff-medium">Moyen</span>
+            </div>
+            <div class="avatar-btn" onclick="showOnboarding('elder')">
+                <span class="avatar-emoji">👴</span>
+                <div class="avatar-name">L'Aîné</div>
+                <div class="avatar-desc">Sage porteur de mémoire et de nature.</div>
+                <span class="avatar-difficulty diff-hard">Expert</span>
+            </div>
+        </div>
+        <div class="bridge-preview">
+            <span>🌿</span> 12 questions · Construis le pont · Partage tes points
+        </div>
+    </div>
+
+    <div id="onboarding" class="overlay-screen">
+        <div class="fb-card">
+            <span class="fb-icon">🧭</span>
+            <div class="fb-result" style="color:var(--sun)">Bienvenue dans la Vallée !</div>
+            <p class="fb-text" style="color:var(--cream);text-align:left;margin-bottom:24px;">
+                1. Touche le sol pour te <b>déplacer vers la droite</b>.<br><br>
+                2. Va à la rencontre des <b>villageois</b> et réponds à leurs questions.<br><br>
+                3. Chaque bonne réponse permet de <b>reconstruire le Pont Vivant</b> !
+            </p>
+            <button class="fb-btn" style="background:var(--sun);color:var(--green-deep);" onclick="startGame()">C'est parti !</button>
+        </div>
+    </div>
+
+    <div id="hud">
+        <div class="hud-role"><span class="dot"></span><span id="hud-role-text">—</span></div>
+        <div id="hud-gems"></div>
+        <div id="hud-score"><span class="s-icon">⭐</span><span class="s-val" id="score-display">0</span></div>
+    </div>
+
+    <div id="q-counter"></div>
+    <div id="combo-badge"></div>
+    <div id="walk-hint">✦ Touche le sol pour avancer vers la droite</div>
+    <button id="approach-btn" onclick="openQuestion()">💬 Parler</button>
+
+    <div id="q-panel">
+        <div class="q-card">
+            <div class="q-header">
+                <span class="q-npc-avatar" id="q-npc-emoji">🌿</span>
+                <div><div class="q-npc-name" id="q-npc-name">—</div></div>
+            </div>
+            <div class="q-npc-speech" id="q-speech">—</div>
+            <div class="q-timer-bar"><div class="q-timer-fill" id="timer-fill"></div></div>
+            <div class="choices-grid" id="choices-grid"></div>
+        </div>
+    </div>
+
+    <div id="feedback" class="overlay-screen">
+        <div class="fb-card">
+            <span class="fb-icon" id="fb-icon">🌟</span>
+            <div class="fb-result" id="fb-result">Bien joué !</div>
+            <p class="fb-text" id="fb-text">—</p>
+            <div class="fb-xp" id="fb-xp">+10 pts</div>
+            <button class="fb-btn" onclick="nextQuestion()">Continuer →</button>
+        </div>
+    </div>
+
+    <div id="screen-end" class="screen">
+        <div class="end-trophy" id="end-trophy">🌉</div>
+        <div class="end-title" id="end-title">Le Pont est Vivant !</div>
+        <div class="end-sub" id="end-sub">Les générations sont réunies.</div>
+        <canvas id="bridge-canvas" class="end-bridge"></canvas>
+        <div class="score-block">
+            <div class="score-label">Ton score</div>
+            <div class="score-val" id="end-score">0</div>
+            <div class="score-max" id="end-max">/ 0 pts</div>
+        </div>
+        <p class="end-msg" id="end-msg">—</p>
+        <button class="end-btn" onclick="restartGame()">↺ Rejouer</button>
+    </div>
+
+    <script>
+        // ════════════════════════════════════════════════
+        //  QUESTIONS DATA — ENRICHIE
+        // ════════════════════════════════════════════════
+        const POOLS = {
+            child: [
+                { npc: 'elder', emoji: '👴', name: "Grand-père Lucien", speech: "Je connais cet arbre depuis toujours. Sais-tu combien de temps peut vivre un chêne ?", choices: [{ t: "Environ 100 ans", ok: false }, { t: "500 à 1000 ans", ok: true }, { t: "50 à 80 ans", ok: false }, { t: "200 ans maximum", ok: false }], feedback: "Le chêne peut vivre mille ans ! Nos anciens le vénéraient comme gardien du temps.", icon: '🌳', pts: 20 },
+                { npc: 'child', emoji: '🧒', name: "Léa, 9 ans", speech: "Maman dit qu'il faut trier nos déchets. Combien de temps met une bouteille en plastique à se décomposer ?", choices: [{ t: "10 à 20 ans", ok: false }, { t: "100 ans", ok: false }, { t: "400 à 450 ans", ok: true }, { t: "50 ans, comme le verre", ok: false }], feedback: "450 ans ! Réduire et réutiliser est essentiel. Le verre, lui, se recycle à l'infini.", icon: '♻️', pts: 20 },
+                { npc: 'elder', emoji: '👵', name: "Mamie Rose", speech: "Quelle plante sauvage commune peut-on manger en salade sans danger ?", choices: [{ t: "Le pissenlit", ok: true }, { t: "Le gui", ok: false }, { t: "La digitale", ok: false }, { t: "Le houx", ok: false }], feedback: "Le pissenlit est délicieux en salade ou en tisane. Nos grands-parents le récoltaient dans les prés.", icon: '🌼', pts: 20 },
+                { npc: 'child', emoji: '🧒', name: "Tom, 11 ans", speech: "Quelle est la principale menace pour les abeilles ?", choices: [{ t: "Le changement climatique seul", ok: false }, { t: "Les pesticides et la perte d'habitat", ok: true }, { t: "Les prédateurs comme les frelons", ok: false }, { t: "Le bruit des villes", ok: false }], feedback: "Les pesticides et la destruction des prairies menacent les abeilles. Sans elles, 1/3 de notre nourriture disparaît !", icon: '🐝', pts: 20 },
+                { npc: 'adult', emoji: '🧑', name: "Marie, animatrice BFF", speech: "Quel pourcentage de l'eau sur Terre est de l'eau douce accessible ?", choices: [{ t: "Environ 50 %", ok: false }, { t: "Moins de 1 %", ok: true }, { t: "10 à 15 %", ok: false }, { t: "Environ 30 %", ok: false }], feedback: "Moins de 1 % ! Presque toute l'eau douce est gelée ou souterraine. Chaque goutte compte.", icon: '💧', pts: 20 },
+                { npc: 'elder', emoji: '👴', name: "Grand-père Lucien", speech: "Quel animal est le meilleur allié pour aérer la terre du jardin ?", choices: [{ t: "La taupe", ok: false }, { t: "Le lombric (ver de terre)", ok: true }, { t: "Le hérisson", ok: false }, { t: "La coccinelle", ok: false }], feedback: "Le lombric ! Un hectare de bonne terre en contient jusqu'à 3 millions. De vrais jardiniers invisibles !", icon: '🪱', pts: 20 },
+                { npc: 'child', emoji: '🧒', name: "Léa, 9 ans", speech: "Quelle couleur ont les fleurs de tournesol ?", choices: [{ t: "Bleues", ok: false }, { t: "Jaunes", ok: true }, { t: "Rouges", ok: false }, { t: "Violettes", ok: false }], feedback: "Les tournesols sont jaunes comme le soleil ! Ils suivent sa course dans le ciel.", icon: '🌻', pts: 15 },
+                { npc: 'adult', emoji: '🧑', name: "Pierre, jardinier", speech: "Que faut-il faire pour aider les oiseaux en hiver ?", choices: [{ t: "Leur donner du pain", ok: false }, { t: "Installer une mangeoire avec des graines", ok: true }, { t: "Les rentrer dans la maison", ok: false }, { t: "Leur donner du lait", ok: false }], feedback: "Une mangeoire avec des graines de tournesol aide les oiseaux à passer l'hiver. Pas de pain, il gonfle dans leur estomac !", icon: '🐦', pts: 20 },
+                { npc: 'elder', emoji: '👵', name: "Mamie Rose", speech: "Quel fruit pousse sur un pommier ?", choices: [{ t: "Des poires", ok: false }, { t: "Des pommes", ok: true }, { t: "Des cerises", ok: false }, { t: "Des prunes", ok: false }], feedback: "Des pommes bien sûr ! Il existe plus de 2000 variétés de pommes dans le monde.", icon: '🍎', pts: 15 },
+                { npc: 'child', emoji: '🧒', name: "Tom, 11 ans", speech: "Combien de pattes a une araignée ?", choices: [{ t: "6", ok: false }, { t: "8", ok: true }, { t: "10", ok: false }, { t: "4", ok: false }], feedback: "Les araignées ont 8 pattes. Ce ne sont pas des insectes (qui en ont 6) mais des arachnides !", icon: '🕷️', pts: 15 },
+                { npc: 'adult', emoji: '🧑', name: "Marie, animatrice BFF", speech: "Pourquoi les feuilles changent-elles de couleur en automne ?", choices: [{ t: "Elles meurent", ok: false }, { t: "La chlorophylle disparaît", ok: true }, { t: "Le froid les teinte", ok: false }, { t: "C'est la pluie qui les lave", ok: false }], feedback: "La chlorophylle verte disparaît, laissant apparaître les couleurs jaunes et oranges qui étaient cachées !", icon: '🍂', pts: 20 },
+                { npc: 'elder', emoji: '👴', name: "Grand-père Lucien", speech: "Quel animal construit des barrages dans les rivières ?", choices: [{ t: "La loutre", ok: false }, { t: "Le castor", ok: true }, { t: "Le canard", ok: false }, { t: "Le poisson", ok: false }], feedback: "Le castor est un architecte de la nature ! Ses barrages créent des zones humides utiles à de nombreuses espèces.", icon: '🦫', pts: 20 },
+                { npc: 'child', emoji: '🧒', name: "Léa, 9 ans", speech: "Que mange une coccinelle ?", choices: [{ t: "Des feuilles", ok: false }, { t: "Des pucerons", ok: true }, { t: "Du miel", ok: false }, { t: "Des graines", ok: false }], feedback: "Les coccinelles adorent les pucerons ! Une seule coccinelle peut en manger 50 par jour. De vraies alliées du jardinier.", icon: '🐞', pts: 20 },
+                { npc: 'elder', emoji: '👵', name: "Mamie Rose", speech: "Que fait le hérisson quand il a peur ?", choices: [{ t: "Il s'envole", ok: false }, { t: "Il se met en boule", ok: true }, { t: "Il court très vite", ok: false }, { t: "Il crie fort", ok: false }], feedback: "Il se met en boule ! Ses piquants le protègent des prédateurs. C'est un grand ami de nos jardins.", icon: '🦔', pts: 15 },
+                { npc: 'adult', emoji: '🧑', name: "Pierre, jardinier", speech: "Par où respirent les arbres ?", choices: [{ t: "Par les racines", ok: false }, { t: "Par les feuilles", ok: true }, { t: "Par le tronc", ok: false }, { t: "Par les branches", ok: false }], feedback: "Les arbres respirent principalement par leurs feuilles, grâce à de minuscules trous appelés stomates.", icon: '🍃', pts: 20 },
+                { npc: 'child', emoji: '🧒', name: "Tom, 11 ans", speech: "Dans quelle poubelle doit-on jeter une boîte en carton ?", choices: [{ t: "La poubelle jaune", ok: true }, { t: "La poubelle verte", ok: false }, { t: "La poubelle normale", ok: false }, { t: "Dans la nature", ok: false }], feedback: "Dans la poubelle jaune ! Le carton sera recyclé pour fabriquer de nouvelles boîtes ou du papier.", icon: '📦', pts: 15 },
+                { npc: 'elder', emoji: '👴', name: "Grand-père Lucien", speech: "Comment appelle-on un bébé grenouille ?", choices: [{ t: "Un têtard", ok: true }, { t: "Un crapeau", ok: false }, { t: "Une grenouillette", ok: false }, { t: "Un alevin", ok: false }], feedback: "Un têtard ! Il vit dans l'eau et a une queue avant de se transformer en grenouille avec des pattes.", icon: '🐸', pts: 15 },
+                { npc: 'adult', emoji: '🧑', name: "Marie, animatrice BFF", speech: "Quel oiseau est connu pour chanter souvent la nuit ?", choices: [{ t: "Le pigeon", ok: false }, { t: "Le rossignol", ok: true }, { t: "Le corbeau", ok: false }, { t: "Le moineau", ok: false }], feedback: "Le rossignol philomèle est célèbre pour son chant mélodieux, qu'il fait entendre de jour comme de nuit au printemps.", icon: '🎶', pts: 20 }
+            ],
+            adult: [
+                { npc: 'adult', emoji: '🧑', name: "Marie, animatrice BFF", speech: "Quel bienfait du lien intergénérationnel est prouvé scientifiquement ?", choices: [{ t: "Les aînés apprennent moins vite", ok: false }, { t: "Réduit l'isolement et allonge la vie", ok: true }, { t: "Les enfants préfèrent leurs amis", ok: false }, { t: "Ça n'a d'effet que sur les enfants", ok: false }], feedback: "Les études montrent que le lien intergénérationnel réduit la solitude, améliore la santé mentale et peut allonger l'espérance de vie.", icon: '💛', pts: 20 },
+                { npc: 'elder', emoji: '👴', name: "Grand-père Lucien", speech: "Autrefois on marchait beaucoup. Combien de pas fait en moyenne un Français adulte par jour ?", choices: [{ t: "Moins de 3 000 pas", ok: false }, { t: "Entre 5 000 et 7 000 pas", ok: true }, { t: "10 000 pas comme conseillé", ok: false }, { t: "Plus de 12 000 pas", ok: false }], feedback: "Environ 6 000 pas/jour. L'OMS recommande 10 000 pour la santé. Une promenade en nature compte double !", icon: '👟', pts: 15 },
+                { npc: 'adult', emoji: '🧑', name: "Pierre, jardinier", speech: "Quelle pratique aide le plus la biodiversité dans un jardin ?", choices: [{ t: "Tondre la pelouse ras chaque semaine", ok: false }, { t: "Laisser une zone sauvage et planter local", ok: true }, { t: "Utiliser de la tourbe", ok: false }, { t: "Éliminer tous les insectes", ok: false }], feedback: "Une zone laissée sauvage avec des plantes locales attire 10× plus d'espèces. Même 1 m² fait une vraie différence.", icon: '🌱', pts: 20 },
+                { npc: 'elder', emoji: '👵', name: "Mamie Rose", speech: "Quel pourcentage du territoire français est occupé par l'agriculture ?", choices: [{ t: "Environ 20 %", ok: false }, { t: "Environ 52 %", ok: true }, { t: "Environ 35 %", ok: false }, { t: "Moins de 10 %", ok: false }], feedback: "52 % du territoire ! Les pratiques agricoles ont un impact énorme sur notre biodiversité et notre eau.", icon: '🌾', pts: 20 },
+                { npc: 'child', emoji: '🧒', name: "Tom, 11 ans", speech: "Ma maîtresse dit que les océans absorbent beaucoup de CO2. Quel pourcentage de notre oxygène vient des océans ?", choices: [{ t: "Environ 10 %", ok: false }, { t: "Plus de 50 %", ok: true }, { t: "Moins de 5 %", ok: false }, { t: "Environ 30 %", ok: false }], feedback: "Plus de 50 % de notre oxygène vient des océans, grâce au phytoplancton. Protéger les océans, c'est protéger notre respiration !", icon: '🌊', pts: 25 },
+                { npc: 'adult', emoji: '🧑', name: "Marie, animatrice BFF", speech: "Qu'est-ce que le compostage permet de réduire ?", choices: [{ t: "La consommation d'eau", ok: false }, { t: "Les déchets ménagers de 30 %", ok: true }, { t: "La pollution de l'air", ok: false }, { t: "Le bruit", ok: false }], feedback: "Le compostage réduit jusqu'à 30 % de nos déchets ménagers et évite les émissions de méthane dans les décharges.", icon: '🗑️', pts: 20 },
+                { npc: 'child', emoji: '🧒', name: "Léa, 9 ans", speech: "Pourquoi est-il important de ne pas jeter les piles dans la poubelle normale ?", choices: [{ t: "Elles sentent mauvais", ok: false }, { t: "Elles contiennent des métaux toxiques", ok: true }, { t: "Elles explosent", ok: false }, { t: "Elles sont trop lourdes", ok: false }], feedback: "Les piles contiennent du mercure, du plomb et du cadmium qui polluent les sols et les nappes phréatiques.", icon: '🔋', pts: 20 },
+                { npc: 'adult', emoji: '🧑', name: "Pierre, jardinier", speech: "Quel insecte est le principal pollinisateur après les abeilles ?", choices: [{ t: "Les fourmis", ok: false }, { t: "Les papillons", ok: true }, { t: "Les mouches", ok: false }, { t: "Les coccinelles", ok: false }], feedback: "Les papillons sont d'importants pollinisateurs. Ils transportent le pollen sur de longues distances.", icon: '🦋', pts: 20 },
+                { npc: 'elder', emoji: '👵', name: "Mamie Rose", speech: "Quelle plante est connue pour ses vertus apaisantes en tisane ?", choices: [{ t: "Le romarin", ok: false }, { t: "La camomille", ok: true }, { t: "Le basilic", ok: false }, { t: "La menthe poivrée", ok: false }], feedback: "La camomille est utilisée depuis des siècles pour ses propriétés calmantes et digestives.", icon: '🍵', pts: 15 },
+                { npc: 'adult', emoji: '🧑', name: "Marie, animatrice BFF", speech: "Quel secteur est le plus responsable des émissions de gaz à effet de serre en France ?", choices: [{ t: "L'agriculture", ok: false }, { t: "Les transports", ok: true }, { t: "Le traitement des déchets", ok: false }, { t: "L'industrie", ok: false }], feedback: "Les transports représentent plus de 30% des émissions en France, principalement à cause de la voiture individuelle.", icon: '🚗', pts: 25 },
+                { npc: 'elder', emoji: '👴', name: "Grand-père Lucien", speech: "Quel oiseau migrateur parcourt la plus longue distance ?", choices: [{ t: "L'hirondelle", ok: false }, { t: "La sterne arctique", ok: true }, { t: "La cigogne", ok: false }, { t: "Le martinet", ok: false }], feedback: "La sterne arctique parcourt jusqu'à 70 000 km par an entre l'Arctique et l'Antarctique. Un record absolu !", icon: '🐦', pts: 25 },
+                { npc: 'child', emoji: '🧒', name: "Tom, 11 ans", speech: "Que faut-il absolument éviter de mettre dans son compost ?", choices: [{ t: "Des épluchures de pomme", ok: false }, { t: "De la viande ou du poisson", ok: true }, { t: "Du marc de café", ok: false }, { t: "Des coquilles d'œufs broyées", ok: false }], feedback: "La viande et le poisson attirent les nuisibles et dégagent de mauvaises odeurs en pourrissant.", icon: '🥩', pts: 20 },
+                { npc: 'adult', emoji: '🧑', name: "Pierre, jardinier", speech: "Pourquoi privilégier les légumes 'de saison' ?", choices: [{ t: "Parce qu'ils sont plus beaux", ok: false }, { t: "Pour éviter l'impact carbone des serres chauffées", ok: true }, { t: "C'est une mode", ok: false }, { t: "Pour qu'ils cuisent plus vite", ok: false }], feedback: "Une tomate cultivée sous serre chauffée en hiver émet autant de CO2 qu'une tomate importée en avion !", icon: '🍅', pts: 25 },
+                { npc: 'elder', emoji: '👵', name: "Mamie Rose", speech: "Quel pourcentage d'électricité est consommé par le secteur du numérique dans le monde ?", choices: [{ t: "Moins de 2%", ok: false }, { t: "Environ 10%", ok: true }, { t: "Plus de 30%", ok: false }, { t: "50%", ok: false }], feedback: "Le numérique consomme environ 10% de l'électricité mondiale, un chiffre qui grandit avec le streaming et les serveurs.", icon: '💻', pts: 25 },
+                { npc: 'adult', emoji: '🧑', name: "Marie, animatrice BFF", speech: "Qu'est-ce que 'l'économie circulaire' ?", choices: [{ t: "Acheter uniquement des objets ronds", ok: false }, { t: "Réduire, réutiliser, recycler", ok: true }, { t: "Faire tourner l'argent en bourse", ok: false }, { t: "Vendre ses objets à ses voisins", ok: false }], feedback: "C'est un modèle qui vise à limiter le gaspillage des ressources en réutilisant et recyclant au maximum.", icon: '🔄', pts: 20 }
+            ],
+            elder: [
+                { npc: 'elder', emoji: '👴', name: "Grand-père Lucien", speech: "Qui a dit : « Plante un arbre dont tu ne verras jamais l'ombre » ?", choices: [{ t: "Victor Hugo", ok: false }, { t: "Antoine de Saint-Exupéry", ok: false }, { t: "Wangari Maathai", ok: true }, { t: "Jacques Prévert", ok: false }], feedback: "Wangari Maathai, militante kényane, a planté 47 millions d'arbres et reçu le Prix Nobel de la Paix. Elle disait : « Planter des arbres, c'est planter l'espoir. »", icon: '🌍', pts: 25 },
+                { npc: 'adult', emoji: '🧑', name: "Marie, animatrice BFF", speech: "Selon les chercheurs en psychologie sociale, sur quoi repose le lien entre générations ?", choices: [{ t: "La génétique uniquement", ok: false }, { t: "L'argent et l'héritage", ok: false }, { t: "Le temps partagé et les récits communs", ok: true }, { t: "La proximité géographique", ok: false }], feedback: "Le temps partagé, les histoires et l'écoute active créent des liens profonds. C'est la mission de Bridge & Flow Folk !", icon: '🌉', pts: 30 },
+                { npc: 'elder', emoji: '👵', name: "Mamie Rose", speech: "Quel arbre est considéré comme le plus vieil organisme vivant sur Terre ?", choices: [{ t: "Le séquoia géant", ok: false }, { t: "Le pin Bristlecone", ok: true }, { t: "Le baobab", ok: false }, { t: "Le chêne", ok: false }], feedback: "Le pin Bristlecone peut vivre plus de 5 000 ans. Le plus vieux spécimen connu, Mathusalem, a près de 4 850 ans.", icon: '🏔️', pts: 25 },
+                { npc: 'adult', emoji: '🧑', name: "Pierre, jardinier", speech: "Qu'est-ce que la permaculture ?", choices: [{ t: "Une technique de culture hors-sol", ok: false }, { t: "Un système agricole inspiré des écosystèmes naturels", ok: true }, { t: "La culture en serre chauffée", ok: false }, { t: "Une méthode de culture sans eau", ok: false }], feedback: "La permaculture vise à créer des systèmes agricoles autonomes et respectueux de la nature, en observant les interactions naturelles.", icon: '🌿', pts: 25 },
+                { npc: 'elder', emoji: '👴', name: "Grand-père Lucien", speech: "Quel philosophe grec a écrit le premier traité de zoologie, 'Histoire des animaux' ?", choices: [{ t: "Platon", ok: false }, { t: "Aristote", ok: true }, { t: "Socrate", ok: false }, { t: "Épicure", ok: false }], feedback: "Aristote a écrit 'Histoire des animaux' au IVe siècle avant J.-C., décrivant plus de 500 espèces avec une précision remarquable.", icon: '📜', pts: 30 },
+                { npc: 'adult', emoji: '🧑', name: "Marie, animatrice BFF", speech: "Qu'est-ce que la 'solastalgie', concept inventé par le philosophe Glenn Albrecht ?", choices: [{ t: "La peur de la solitude", ok: false }, { t: "La détresse liée à la dégradation de son environnement", ok: true }, { t: "La nostalgie du passé", ok: false }, { t: "L'anxiété technologique", ok: false }], feedback: "La solastalgie décrit la souffrance ressentie quand notre environnement naturel se dégrade. Un concept clé pour comprendre l'éco-anxiété.", icon: '💚', pts: 30 },
+                { npc: 'elder', emoji: '👵', name: "Mamie Rose", speech: "Quel naturaliste français a fondé la paléontologie et l'anatomie comparée ?", choices: [{ t: "Buffon", ok: false }, { t: "Georges Cuvier", ok: true }, { t: "Lamarck", ok: false }, { t: "Darwin", ok: false }], feedback: "Georges Cuvier (1769-1832) a révolutionné la compréhension des espèces disparues en étudiant les fossiles.", icon: '🦴', pts: 30 },
+                { npc: 'child', emoji: '🧒', name: "Léa, 9 ans", speech: "Pourquoi les abeilles dansent-elles dans la ruche ?", choices: [{ t: "Pour s'amuser", ok: false }, { t: "Pour indiquer la direction des fleurs", ok: true }, { t: "Pour se réchauffer", ok: false }, { t: "Pour effrayer les prédateurs", ok: false }], feedback: "La danse des abeilles, découverte par Karl von Frisch, indique avec précision où trouver le nectar. Un langage fascinant !", icon: '🐝', pts: 25 },
+                { npc: 'adult', emoji: '🧑', name: "Marie, animatrice BFF", speech: "Quel traité international historique de 2015 vise à limiter le réchauffement climatique ?", choices: [{ t: "Le Protocole de Kyoto", ok: false }, { t: "L'Accord de Paris", ok: true }, { t: "La Convention de Rio", ok: false }, { t: "L'Agenda 2030", ok: false }], feedback: "L'Accord de Paris engage les nations à limiter le réchauffement bien en dessous de 2°C par rapport à l'ère préindustrielle.", icon: '🌍', pts: 30 },
+                { npc: 'elder', emoji: '👵', name: "Mamie Rose", speech: "Combien d'espèces d'arbres différentes compte la forêt amazonienne ?", choices: [{ t: "Environ 500", ok: false }, { t: "Plus de 16 000", ok: true }, { t: "Environ 2 000", ok: false }, { t: "Moins de 1 000", ok: false }], feedback: "Plus de 16 000 espèces d'arbres peuplent l'Amazonie, soit 10 % de toutes les espèces connues sur Terre.", icon: '🌴', pts: 25 },
+                { npc: 'adult', emoji: '🧑', name: "Pierre, jardinier", speech: "Qu'est-ce que le 'biomimétisme' ?", choices: [{ t: "L'étude des biomes", ok: false }, { t: "L'innovation inspirée des solutions de la nature", ok: true }, { t: "La culture médicinale", ok: false }, { t: "La classification des espèces", ok: false }], feedback: "Le biomimétisme s'inspire des solutions trouvées par la nature pour innover : le velcro imite les graines de bardane !", icon: '🔬', pts: 25 },
+                { npc: 'elder', emoji: '👴', name: "Grand-père Lucien", speech: "Quel livre de Rachel Carson, publié en 1962, a alerté sur le danger des pesticides chimiques ?", choices: [{ t: "La Terre Brûlée", ok: false }, { t: "Printemps Silencieux", ok: true }, { t: "L'Homme et la Nature", ok: false }, { t: "Le Choc Futur", ok: false }], feedback: "'Printemps Silencieux' a dénoncé l'usage du DDT, marquant le début du mouvement écologiste moderne.", icon: '📖', pts: 35 },
+                { npc: 'adult', emoji: '🧑', name: "Pierre, jardinier", speech: "Que sont les 'mycorhizes' ?", choices: [{ t: "De petits insectes du sol", ok: false }, { t: "Une association symbiotique entre champignons et racines", ok: true }, { t: "Une maladie de la tomate", ok: false }, { t: "Des bactéries de l'air", ok: false }], feedback: "Les mycorhizes forment un immense réseau souterrain ('Wood Wide Web') permettant aux arbres de communiquer et d'échanger des nutriments !", icon: '🍄', pts: 35 },
+                { npc: 'child', emoji: '🧒', name: "Tom, 11 ans", speech: "Quelle est la différence entre un climat et la météo ?", choices: [{ t: "Aucune, c'est pareil", ok: false }, { t: "Le climat est une moyenne sur 30 ans", ok: true }, { t: "La météo c'est le passé", ok: false }, { t: "Le climat change tous les jours", ok: false }], feedback: "Le climat est une moyenne sur 30 ans. C'est pour cela qu'on parle de changement climatique même s'il fait froid un jour donné !", icon: '☀️', pts: 20 },
+                { npc: 'elder', emoji: '👵', name: "Mamie Rose", speech: "Que vise l'objectif 'ZAN' mis en place en France pour protéger la biodiversité ?", choices: [{ t: "Zéro Animaux Nuisibles", ok: false }, { t: "Zéro Artificialisation Nette", ok: true }, { t: "Zone Agricole Nouvelle", ok: false }, { t: "Zéro Arrosage Nocturne", ok: false }], feedback: "Zéro Artificialisation Nette : un objectif pour stopper l'étalement urbain et préserver les terres naturelles et agricoles d'ici 2050.", icon: '🏘️', pts: 30 }
+            ],
+        };
+
+        // ════════════════════════════════════════════════
+        //  GAME STATE
+        // ════════════════════════════════════════════════
+        const G = {
+            role: null,
+            roleEmoji: null,
+            questions: [],
+            qIdx: 0,
+            score: 0,
+            maxScore: 0,
+            combo: 0,
+            maxCombo: 0,
+            piecesBuilt: 0,
+            answered: [],
+            running: false,
+            timerID: null,
+            timerVal: 0,
+            TOTAL: 12,
+            playerX: 0,
+            camX: 0,
+            playerMoving: false,
+            playerTargetX: 0,
+            nearNPC: -1,
+            blocked: false,
+            npcX: [],
+        };
+
+        let clickTarget = { x: 0, y: 0, active: false, time: 0 };
+
+        // ════════════════════════════════════════════════
+        //  BACKGROUND CANVAS
+        // ════════════════════════════════════════════════
+        const bgCanvas = document.getElementById('bg-canvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        let bgW, bgH, bgT = 0;
+
+        const BUTTERFLIES = Array.from({ length: 8 }, () => ({
+            x: Math.random() * 1.5 - 0.25,
+            y: 0.15 + Math.random() * 0.45,
+            vx: (Math.random() - 0.5) * 0.0006,
+            vy: (Math.random() - 0.5) * 0.0004,
+            flap: Math.random() * Math.PI * 2,
+            flapSpeed: 0.08 + Math.random() * 0.06,
+            color: ['#f06292', '#ff9800', '#7c4dff', '#42a5f5', '#4caf7d', '#ffeb3b', '#e040fb', '#00e5ff'][Math.floor(Math.random() * 8)],
+            size: 10 + Math.random() * 8,
+        }));
+
+        function resizeBg() { bgCanvas.width = bgW = window.innerWidth;
+            bgCanvas.height = bgH = window.innerHeight; }
+
+        function drawBg() {
+            bgT += 0.008;
+            bgCtx.clearRect(0, 0, bgW, bgH);
+            // Sky
+            const skyGrad = bgCtx.createLinearGradient(0, 0, 0, bgH * 0.62);
+            skyGrad.addColorStop(0, '#2d6a9f');
+            skyGrad.addColorStop(0.5, '#87ceeb');
+            skyGrad.addColorStop(1, '#c8e8c8');
+            bgCtx.fillStyle = skyGrad;
+            bgCtx.fillRect(0, 0, bgW, bgH * 0.62);
+            // Clouds
+            drawClouds(bgCtx);
+            // Sun
+            const sunX = bgW * 0.75, sunY = bgH * 0.13;
+            const sunGrad = bgCtx.createRadialGradient(sunX, sunY, 4, sunX, sunY, 90);
+            sunGrad.addColorStop(0, '#fff9c4');
+            sunGrad.addColorStop(0.3, '#f5c842');
+            sunGrad.addColorStop(0.7, 'rgba(240,144,48,0.3)');
+            sunGrad.addColorStop(1, 'transparent');
+            bgCtx.fillStyle = sunGrad;
+            bgCtx.beginPath();
+            bgCtx.arc(sunX, sunY, 90, 0, Math.PI * 2);
+            bgCtx.fill();
+            bgCtx.fillStyle = '#fff9c4';
+            bgCtx.beginPath();
+            bgCtx.arc(sunX, sunY, 24, 0, Math.PI * 2);
+            bgCtx.fill();
+            // Mountains
+            drawMountain(bgCtx, 0, bgH * 0.45, bgW * 0.4, bgH * 0.22, '#2d5a3d', 0.8);
+            drawMountain(bgCtx, bgW * 0.25, bgH * 0.42, bgW * 0.5, bgH * 0.2, '#1e4a2f', 0.9);
+            drawMountain(bgCtx, bgW * 0.6, bgH * 0.44, bgW * 0.55, bgH * 0.25, '#2d5a3d', 0.8);
+            // Ground
+            const groundGrad = bgCtx.createLinearGradient(0, bgH * 0.58, 0, bgH);
+            groundGrad.addColorStop(0, '#3a8a50');
+            groundGrad.addColorStop(0.4, '#2d7a3f');
+            groundGrad.addColorStop(1, '#1a4a26');
+            bgCtx.fillStyle = groundGrad;
+            bgCtx.fillRect(0, bgH * 0.58, bgW, bgH * 0.42);
+            // River
+            const rY = bgH * 0.66, rH = bgH * 0.12;
+            drawRiver(bgCtx, rY, rH);
+            // Bridge
+            drawBeautifulBridge(bgCtx, bgW / 2, rY + rH * 0.1, bgW * 0.4, rH * 0.9, G.piecesBuilt / G.TOTAL);
+            // Flowers
+            drawFlowers(bgCtx, bgH);
+            // Entities
+            if (G.roleEmoji) drawWorldEntities();
+            // Click feedback
+            if (clickTarget.active) {
+                clickTarget.time += 0.05;
+                const size = 12 + Math.sin(clickTarget.time * 5) * 4;
+                const sx = bgW / 2 - G.camX + clickTarget.x;
+                bgCtx.save();
+                bgCtx.beginPath();
+                bgCtx.ellipse(sx, clickTarget.y, size * 2, size, 0, 0, Math.PI * 2);
+                bgCtx.fillStyle = 'rgba(245,200,66,0.3)';
+                bgCtx.fill();
+                bgCtx.lineWidth = 2;
+                bgCtx.strokeStyle = 'rgba(245,200,66,0.7)';
+                bgCtx.stroke();
+                bgCtx.restore();
+                if (!G.playerMoving) clickTarget.active = false;
+            }
+            // Butterflies
+            BUTTERFLIES.forEach(b => {
+                b.x += b.vx + Math.sin(bgT * 0.7) * 0.0001;
+                b.y += b.vy + Math.cos(bgT * 1.1) * 0.0001;
+                if (b.x < -0.1) b.x = 1.1;
+                if (b.x > 1.1) b.x = -0.1;
+                b.y = Math.max(0.1, Math.min(0.65, b.y));
+                b.flap += b.flapSpeed;
+                drawButterfly(bgCtx, b.x * bgW, b.y * bgH, b.size, b.flap, b.color);
+            });
+
+            requestAnimationFrame(drawBg);
+        }
+
+        function drawClouds(ctx) {
+            ctx.fillStyle = 'rgba(255,255,255,0.35)';
+            const clouds = [
+                { x: bgW * 0.1, y: bgH * 0.08, s: 40 }, { x: bgW * 0.5, y: bgH * 0.05, s: 55 },
+                { x: bgW * 0.35, y: bgH * 0.12, s: 35 }, { x: bgW * 0.8, y: bgH * 0.07, s: 45 },
+            ];
+            clouds.forEach(c => {
+                const cx = c.x + Math.sin(bgT + c.x) * 20;
+                ctx.beginPath();
+                ctx.arc(cx, c.y, c.s, 0, Math.PI * 2);
+                ctx.arc(cx - c.s * 0.6, c.y + c.s * 0.15, c.s * 0.7, 0, Math.PI * 2);
+                ctx.arc(cx + c.s * 0.5, c.y + c.s * 0.1, c.s * 0.65, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function drawMountain(ctx, x, y, w, h, color, alpha) { ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x, y + h);
+            ctx.lineTo(x + w * 0.5, y);
+            ctx.lineTo(x + w, y + h);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore(); }
+
+        function drawRiver(ctx, rY, rH) {
+            const grad = ctx.createLinearGradient(0, rY, 0, rY + rH);
+            grad.addColorStop(0, '#6bbfe8');
+            grad.addColorStop(0.5, '#4a9fd4');
+            grad.addColorStop(1, '#2e7da8');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, rY, bgW, rH);
+            ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+            ctx.lineWidth = 1.5;
+            for (let i = 0; i < 7; i++) {
+                const rx = (bgT * 0.15 + i * 0.2) % 1 * bgW;
+                const ry = rY + rH * 0.3 + i * rH * 0.08;
+                ctx.beginPath();
+                ctx.ellipse(rx, ry, 20 + i * 8, 4, 0, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+
+        // --- NEW BRIDGE DRAWING LOGIC ---
+        function drawBeautifulBridge(ctx, cx, y, w, h, progress) {
+            if (progress <= 0) return;
+            const bw = w * progress;
+            ctx.save();
+            
+            // Masque de progression (révèle le pont de gauche à droite)
+            ctx.beginPath();
+            ctx.rect(cx - w / 2, y - h * 1.5, bw, h * 3);
+            ctx.clip();
+
+            // Piliers de fondation
+            ctx.fillStyle = '#5c5445';
+            ctx.fillRect(cx - w/2 - 12, y + h * 0.1, 24, h);
+            ctx.fillRect(cx + w/2 - 12, y + h * 0.1, 24, h);
+
+            // Dégradé pierre
+            const bridgeGrad = ctx.createLinearGradient(0, y - h*0.5, 0, y + h);
+            bridgeGrad.addColorStop(0, '#a39681');
+            bridgeGrad.addColorStop(0.5, '#8c7f6b');
+            bridgeGrad.addColorStop(1, '#6b6050');
+            ctx.fillStyle = bridgeGrad;
+
+            // Base arquée du pont
+            ctx.beginPath();
+            ctx.moveTo(cx - w/2, y + h);
+            ctx.lineTo(cx - w/2, y - h*0.25);
+            ctx.lineTo(cx + w/2, y - h*0.25);
+            ctx.lineTo(cx + w/2, y + h);
+            // Arche intérieure
+            ctx.lineTo(cx + w/2 - w*0.12, y + h);
+            ctx.quadraticCurveTo(cx, y - h*0.4, cx - w/2 + w*0.12, y + h);
+            ctx.closePath();
+            ctx.fill();
+
+            // Traits de texture "Briques"
+            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+            ctx.lineWidth = 1.5;
+            for(let i=0; i<15; i++) {
+                const bx = cx - w/2 + i*(w/15);
+                ctx.beginPath();
+                ctx.moveTo(bx, y - h*0.25);
+                ctx.lineTo(bx, y - h*0.05);
+                ctx.stroke();
+            }
+            for(let j=0; j<3; j++) {
+                const by = y - h*0.25 + j*h*0.08;
+                ctx.beginPath();
+                ctx.moveTo(cx - w/2, by);
+                ctx.lineTo(cx + w/2, by);
+                ctx.stroke();
+            }
+
+            // Rambarde (Parapet)
+            const railGrad = ctx.createLinearGradient(0, y - h*0.4, 0, y - h*0.25);
+            railGrad.addColorStop(0, '#d1c4b2');
+            railGrad.addColorStop(1, '#a39681');
+            ctx.fillStyle = railGrad;
+            ctx.fillRect(cx - w/2, y - h*0.4, w, h*0.15);
+            ctx.fillStyle = '#6b6050';
+            ctx.fillRect(cx - w/2, y - h*0.25, w, 4); // Séparateur
+            
+            // Poteaux de rambarde
+            for(let i=0; i<=15; i++) {
+                const bx = cx - w/2 + i*(w/15);
+                ctx.fillStyle = '#e3d7c5';
+                ctx.fillRect(bx - 3, y - h*0.5, 6, h*0.1);
+                ctx.fillStyle = '#d1c4b2';
+                ctx.fillRect(bx - 4, y - h*0.53, 8, 4);
+            }
+
+            // Le "Pont Vivant" - Lierre et feuillage retombant
+            ctx.fillStyle = '#2d7a3f'; // Lierre foncé
+            for(let i=0; i<25; i++) {
+                const lx = cx - w/2 + i*(w/25);
+                // Math.sin pour créer un motif pseudo-aléatoire mais stable
+                const drop = Math.abs(Math.sin(lx * 0.12)) * h * 0.5 + 5;
+                ctx.beginPath();
+                ctx.ellipse(lx + 3, y - h*0.25 + drop/2, 7, drop/2, 0, 0, Math.PI*2);
+                ctx.fill();
+            }
+            ctx.fillStyle = '#4caf7d'; // Lierre clair
+            for(let i=0; i<30; i++) {
+                const lx = cx - w/2 + (i+0.5)*(w/30);
+                const drop = Math.abs(Math.cos(lx * 0.15)) * h * 0.35 + 5;
+                ctx.beginPath();
+                ctx.ellipse(lx, y - h*0.3 + drop/2, 5, drop/2, 0, 0, Math.PI*2);
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        function drawFlowers(ctx, h) {
+            const flowers = [{ x: 0.05, y: 0.92, c: '#f06292' }, { x: 0.12, y: 0.88, c: '#ffeb3b' }, { x: 0.2, y: 0.93, c: '#ff9800' }, { x: 0.32, y: 0.91, c: '#e91e63' }, { x: 0.45, y: 0.89, c: '#ffffff' }, { x: 0.55, y: 0.92, c: '#ff7043' }, { x: 0.68, y: 0.90, c: '#ce93d8' }, { x: 0.78, y: 0.88, c: '#81c784' }, { x: 0.88, y: 0.91, c: '#ffd54f' }, { x: 0.95, y: 0.93, c: '#f06292' }];
+            flowers.forEach(f => {
+                const fx = f.x * bgW, fy = f.y * h, s = 6 + Math.sin(bgT + f.x * 10) * 1.5;
+                ctx.fillStyle = '#2d6a20';
+                ctx.fillRect(fx - 1, fy - 10, 2, 12);
+                ctx.fillStyle = f.c;
+                for (let p = 0; p < 5; p++) {
+                    const a = p / 5 * Math.PI * 2 + bgT * 0.3;
+                    ctx.beginPath();
+                    ctx.ellipse(fx + Math.cos(a) * s * 0.7, fy - 10 + Math.sin(a) * s * 0.7, s * 0.6, s * 0.4, a, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.fillStyle = '#fff9c4';
+                ctx.beginPath();
+                ctx.arc(fx, fy - 10, s * 0.35, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function drawButterfly(ctx, x, y, size, flap, color) {
+            ctx.save();
+            ctx.translate(x, y);
+            const wingAngle = Math.sin(flap) * 0.7;
+            ctx.fillStyle = color;
+            ctx.globalAlpha = 0.85;
+            ctx.save();
+            ctx.rotate(-wingAngle);
+            ctx.beginPath();
+            ctx.ellipse(-size * 0.6, -size * 0.3, size, size * 0.6, 0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+            ctx.save();
+            ctx.rotate(wingAngle);
+            ctx.beginPath();
+            ctx.ellipse(size * 0.6, -size * 0.3, size, size * 0.6, -0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+            ctx.fillStyle = '#2a1a0a';
+            ctx.globalAlpha = 1;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 2.5, size * 0.55, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // ════════════════════════════════════════════════
+        //  WORLD ENTITIES
+        // ════════════════════════════════════════════════
+        function drawWorldEntities() {
+            const groundY = bgH * 0.73;
+            const px = bgW / 2 - G.camX + G.playerX;
+            drawDetailedCharacter(bgCtx, px, groundY, G.role, 1.1, false);
+            G.npcX.forEach((nx, i) => {
+                if (G.answered[i]) return;
+                const sx = bgW / 2 - G.camX + nx;
+                if (sx < -60 || sx > bgW + 60) return;
+                const npcRole = G.questions[i].npc;
+                drawDetailedCharacter(bgCtx, sx, groundY, npcRole, 0.95, true);
+                const bobY = groundY - 100 - Math.sin(bgT * 3) * 6;
+                bgCtx.font = 'bold 22px Nunito';
+                bgCtx.fillStyle = '#f5c842';
+                bgCtx.textAlign = 'center';
+                bgCtx.fillText('!', sx, bobY);
+            });
+        }
+
+        function drawDetailedCharacter(ctx, x, y, role, scale, isNPC) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(scale, scale);
+
+            ctx.fillStyle = 'rgba(0,0,0,0.25)';
+            ctx.beginPath();
+            ctx.ellipse(0, 12, 18, 6, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            const bodyColors = { child: '#4caf7d', adult: '#3f8ab3', elder: '#8b6b5c' };
+            ctx.fillStyle = bodyColors[role] || '#4caf7d';
+            ctx.beginPath();
+            const bw = 20, bh = 30, br = 8;
+            ctx.moveTo(-bw / 2 + br, -bh);
+            ctx.lineTo(bw / 2 - br, -bh);
+            ctx.arcTo(bw / 2, -bh, bw / 2, -bh + br, br);
+            ctx.lineTo(bw / 2, -bh + bh - br);
+            ctx.arcTo(bw / 2, -bh + bh, bw / 2 - br, -bh + bh, br);
+            ctx.lineTo(-bw / 2 + br, -bh + bh);
+            ctx.arcTo(-bw / 2, -bh + bh, -bw / 2, -bh + bh - br, br);
+            ctx.lineTo(-bw / 2, -bh + br);
+            ctx.arcTo(-bw / 2, -bh, -bw / 2 + br, -bh, br);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            const skinColors = { child: '#ffe0bd', adult: '#f5c6a0', elder: '#e8c9a0' };
+            ctx.fillStyle = skinColors[role];
+            ctx.beginPath();
+            ctx.arc(0, -32, 14, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(0,0,0,0.25)';
+            ctx.stroke();
+
+            if (role === 'child') {
+                ctx.fillStyle = '#6b3a2a';
+                ctx.beginPath();
+                ctx.arc(0, -38, 14, Math.PI, 0);
+                ctx.fill();
+            } else if (role === 'adult') {
+                ctx.fillStyle = '#3a2218';
+                ctx.beginPath();
+                ctx.arc(0, -36, 12, Math.PI, 0);
+                ctx.fill();
+                ctx.fillRect(-6, -46, 12, 6);
+            } else if (role === 'elder') {
+                ctx.fillStyle = '#5a4a35';
+                ctx.beginPath();
+                ctx.ellipse(0, -44, 16, 6, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#4a3a28';
+                ctx.fillRect(-10, -52, 20, 10);
+                ctx.fillStyle = '#5a4a35';
+                ctx.beginPath();
+                ctx.ellipse(0, -52, 12, 4, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#cccccc';
+                ctx.beginPath();
+                ctx.arc(0, -24, 10, 0, Math.PI);
+                ctx.fill();
+            }
+
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(-4, -34, 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(4, -34, 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(0, -28, 5, 0.2, Math.PI - 0.2);
+            ctx.stroke();
+
+            ctx.fillStyle = '#3a3a3a';
+            ctx.fillRect(-6, 10, 4, 12);
+            ctx.fillRect(2, 10, 4, 12);
+
+            if (isNPC) {
+                ctx.fillStyle = '#f5c842';
+                ctx.beginPath();
+                ctx.arc(0, -58, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#1a2a1a';
+                ctx.font = 'bold 12px Nunito';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('!', 0, -58);
+            }
+            ctx.restore();
+        }
+
+        // ════════════════════════════════════════════════
+        //  PLAYER MOVEMENT
+        // ════════════════════════════════════════════════
+        function updatePlayer() {
+            if (!G.running || G.blocked) return;
+            if (G.playerMoving) {
+                const d = G.playerTargetX - G.playerX;
+                const speed = 4.5;
+                if (Math.abs(d) > speed) G.playerX += Math.sign(d) * speed;
+                else { G.playerX = G.playerTargetX; G.playerMoving = false; }
+            }
+            G.camX += (G.playerX - G.camX) * 0.06;
+            const nextIdx = G.qIdx;
+            if (nextIdx < G.TOTAL && !G.answered[nextIdx]) {
+                const npcWorldX = G.npcX[nextIdx];
+                const dist = Math.abs(G.playerX - npcWorldX);
+                const wasNear = G.nearNPC === nextIdx;
+                if (dist < 120) {
+                    G.nearNPC = nextIdx;
+                    if (!wasNear) {
+                        document.getElementById('approach-btn').style.display = 'block';
+                        document.getElementById('walk-hint').style.opacity = '0';
+                    }
+                } else {
+                    if (wasNear) { G.nearNPC = -1; document.getElementById('approach-btn').style.display = 'none'; }
+                }
+            }
+        }
+
+        function handleTap(cx) {
+            if (!G.running || G.blocked) return;
+            document.getElementById('walk-hint').style.opacity = '0';
+            const worldX = cx - bgW / 2 + G.camX;
+            G.playerTargetX = worldX;
+            G.playerMoving = true;
+            clickTarget = { x: worldX, y: bgH * 0.73, active: true, time: 0 };
+        }
+
+        // ════════════════ PARTICLES ════════════════
+        const pCanvas = document.getElementById('particle-canvas');
+        const pCtx = pCanvas.getContext('2d');
+        let particles = [];
+
+        function resizeParticle() { pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight; }
+        class Particle {
+            constructor(x, y, color, big) {
+                this.x = x; this.y = y; this.color = color;
+                this.vx = (Math.random() - 0.5) * (big ? 8 : 4);
+                this.vy = -3 - Math.random() * (big ? 7 : 4);
+                this.life = 1;
+                this.size = (big ? 8 : 4) + Math.random() * (big ? 8 : 4);
+                this.gravity = 0.12;
+                this.emoji = big ? ['🌟', '✨', '💛', '🌿'][Math.floor(Math.random() * 4)] : null;
+            }
+            update() { this.x += this.vx; this.y += this.vy; this.vy += this.gravity; this.life -= 0.025; this.vx *= 0.98; }
+            draw(ctx) {
+                if (this.emoji) { ctx.save(); ctx.globalAlpha = this.life; ctx.font = `${this.size*2}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(this.emoji, this.x, this.y); ctx.restore(); }
+                else { ctx.save(); ctx.globalAlpha = this.life * 0.9; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+            }
+        }
+
+        function spawnParticles(x, y, correct) {
+            const colors = correct ? ['#f5c842', '#4caf7d', '#a8d5b5', '#fff9c4'] : ['#ff7070', '#ff4444', '#cc2222'];
+            for (let i = 0; i < (correct ? 30 : 12); i++) particles.push(new Particle(x || window.innerWidth / 2, y || window.innerHeight * 0.4, colors[Math.floor(Math.random() * colors.length)], correct && i < 8));
+        }
+
+        function updateParticles() {
+            pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+            particles.forEach(p => { p.update(); p.draw(pCtx); });
+            particles = particles.filter(p => p.life > 0);
+            requestAnimationFrame(updateParticles);
+        }
+
+        // ════════════════ GAME LOGIC ════════════════
+        let timerInterval = null;
+
+        function selectQuestions(role) {
+            const pool = POOLS[role] || POOLS.child;
+            const shuffled = [...pool].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, 12); // On prend exactement 12 vu que les pools sont plus grandes
+        }
+
+        function showOnboarding(role) {
+            G.role = role;
+            G.roleEmoji = { child: '🧒', adult: '🧑', elder: '👴' }[role];
+            document.getElementById('screen-start').classList.remove('active');
+            document.getElementById('onboarding').classList.add('show');
+            G.playerX = 0;
+            G.camX = 0;
+            G.npcX = [];
+        }
+
+        function startGame() {
+            document.getElementById('onboarding').classList.remove('show');
+            G.questions = selectQuestions(G.role);
+            G.TOTAL = G.questions.length;
+            G.qIdx = 0;
+            G.score = 0;
+            G.maxScore = 0;
+            G.combo = 0;
+            G.maxCombo = 0;
+            G.piecesBuilt = 0;
+            G.answered = new Array(G.TOTAL).fill(null);
+            G.playerX = 0;
+            G.playerTargetX = 0;
+            G.playerMoving = false;
+            G.camX = 0;
+            G.nearNPC = -1;
+            G.blocked = false;
+            G.running = true;
+            
+            G.npcX = G.questions.map((_, i) => 300 + i * 320);
+            
+            // Calcul exact du score MAX incluant les combos potentiels
+            let simCombo = 0;
+            G.questions.forEach(e => { 
+                simCombo++;
+                const simBonus = simCombo >= 3 ? Math.round(e.pts * 0.5) : simCombo >= 2 ? Math.round(e.pts * 0.25) : 0;
+                G.maxScore += (e.pts + simBonus);
+            });
+            
+            const hud = document.getElementById('hud');
+            hud.style.display = 'flex';
+            document.getElementById('hud-role-text').textContent = ({ child: "L'Enfant", adult: "L'Adulte", elder: "L'Aîné" })[G.role];
+            buildGems();
+            updateScoreUI();
+            document.getElementById('q-counter').style.display = 'block';
+            updateQCounter();
+            setTimeout(() => { document.getElementById('walk-hint').style.opacity = '1'; }, 1000);
+        }
+
+        function buildGems() { 
+            const c = document.getElementById('hud-gems');
+            c.innerHTML = '';
+            G.questions.forEach((_, i) => { 
+                const g = document.createElement('div');
+                g.className = 'gem';
+                g.id = 'gem-' + i;
+                c.appendChild(g); 
+            }); 
+        }
+
+        function updateGems() { 
+            G.questions.forEach((_, i) => { 
+                const g = document.getElementById('gem-' + i); 
+                if (!g) return; 
+                if (G.answered[i] === true) g.className = 'gem lit';
+                else if (G.answered[i] === false) g.className = 'gem lit special';
+                else g.className = 'gem'; 
+            }); 
+        }
+
+        function updateScoreUI() { document.getElementById('score-display').textContent = G.score; }
+
+        function updateQCounter() { document.getElementById('q-counter').textContent = `Question ${G.qIdx+1} / ${G.TOTAL}`; }
+
+        function openQuestion() {
+            if (G.blocked || G.nearNPC < 0 || G.nearNPC !== G.qIdx) return;
+            G.blocked = true;
+            document.getElementById('approach-btn').style.display = 'none';
+            const enc = G.questions[G.qIdx];
+            document.getElementById('q-npc-emoji').textContent = enc.emoji;
+            document.getElementById('q-npc-name').textContent = enc.name;
+            document.getElementById('q-speech').textContent = enc.speech;
+            const shuffled = [...enc.choices].map((c, i) => ({ ...c, orig: i })).sort(() => Math.random() - 0.5);
+            const grid = document.getElementById('choices-grid');
+            grid.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+            shuffled.forEach((c, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'choice';
+                btn.innerHTML = `<span class="choice-letter">${letters[i]}</span><span class="choice-text">${c.t}</span>`;
+                btn.onclick = () => answerChoice(btn, c.ok, enc);
+                grid.appendChild(btn);
+            });
+            G.timerVal = 15;
+            updateTimer(15, 15);
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => { 
+                G.timerVal--;
+                updateTimer(G.timerVal, 15); 
+                if (G.timerVal <= 0) { clearInterval(timerInterval); timeUp(enc); } 
+            }, 1000);
+            document.getElementById('q-panel').classList.add('active');
+        }
+
+        function updateTimer(val, max) { 
+            const fill = document.getElementById('timer-fill');
+            const pct = Math.max(0, val / max * 100);
+            fill.style.width = pct + '%';
+            fill.style.background = pct > 60 ? 'linear-gradient(to right,#4caf7d,#f5c842)' : pct > 30 ? 'linear-gradient(to right,#f5c842,#ff9800)' : 'linear-gradient(to right,#ff9800,#ff4444)'; 
+        }
+
+        function answerChoice(btn, isOk, enc) {
+            clearInterval(timerInterval);
+            document.querySelectorAll('.choice').forEach(c => { c.onclick = null; c.style.cursor = 'default'; });
+            if (isOk) {
+                btn.classList.add('correct');
+                G.combo++;
+                G.maxCombo = Math.max(G.maxCombo, G.combo);
+                const bonus = G.combo >= 3 ? Math.round(enc.pts * 0.5) : G.combo >= 2 ? Math.round(enc.pts * 0.25) : 0;
+                const gained = enc.pts + bonus;
+                G.score += gained;
+                G.answered[G.qIdx] = true;
+                G.piecesBuilt++;
+                updateGems();
+                updateScoreUI();
+                spawnParticles(btn.getBoundingClientRect().left + 100, btn.getBoundingClientRect().top, true);
+                if (G.combo >= 2) showCombo(G.combo, bonus);
+                setTimeout(() => showFeedback(true, enc, gained, bonus), 400);
+            } else {
+                btn.classList.add('wrong');
+                G.combo = 0;
+                G.answered[G.qIdx] = false;
+                document.querySelectorAll('.choice').forEach(c => { if (c.querySelector('.choice-text').textContent === enc.choices.find(ch => ch.ok).t) c.classList.add('correct'); });
+                spawnParticles(btn.getBoundingClientRect().left + 100, btn.getBoundingClientRect().top, false);
+                setTimeout(() => showFeedback(false, enc, 0, 0), 400);
+            }
+            document.getElementById('q-panel').classList.remove('active');
+        }
+
+        function timeUp(enc) {
+            document.querySelectorAll('.choice').forEach(c => { c.onclick = null; });
+            G.combo = 0;
+            G.answered[G.qIdx] = false;
+            document.querySelectorAll('.choice').forEach(c => { if (c.querySelector('.choice-text').textContent === enc.choices.find(ch => ch.ok).t) c.classList.add('correct'); });
+            document.getElementById('q-panel').classList.remove('active');
+            setTimeout(() => showFeedback(false, enc, 0, 0), 300);
+        }
+
+        function showCombo(n, bonus) { 
+            const badge = document.getElementById('combo-badge');
+            badge.textContent = `🔥 ×${n} Combo${bonus?` +${bonus}pts`:''}`;
+            badge.style.display = 'block';
+            setTimeout(() => { badge.style.display = 'none'; }, 2500); 
+        }
+
+        function showFeedback(correct, enc, pts, bonus) {
+            const fb = document.getElementById('feedback');
+            document.getElementById('fb-icon').textContent = correct ? enc.icon : '💭';
+            const res = document.getElementById('fb-result');
+            res.textContent = correct ? '✓ Bien joué !' : '✗ Pas tout à fait…';
+            res.className = 'fb-result ' + (correct ? 'ok' : 'ko');
+            document.getElementById('fb-text').textContent = enc.feedback;
+            const xpEl = document.getElementById('fb-xp');
+            if (correct) { 
+                xpEl.style.display = 'inline-flex';
+                xpEl.textContent = `+${pts} pts${bonus?` (dont +${bonus} combo)`:''}`; 
+            } else { 
+                xpEl.style.display = 'none'; 
+            }
+            fb.classList.add('show');
+        }
+
+        function nextQuestion() {
+            document.getElementById('feedback').classList.remove('show');
+            G.qIdx++;
+            if (G.qIdx >= G.TOTAL) { setTimeout(showEnd, 800); return; }
+            G.blocked = false;
+            G.nearNPC = -1;
+            document.getElementById('approach-btn').style.display = 'none';
+            updateQCounter();
+            G.playerTargetX = G.npcX[G.qIdx] - 150;
+            G.playerMoving = true;
+        }
+
+        // ════════════════ END ════════════════
+        function showEnd() {
+            G.running = false;
+            document.getElementById('hud').style.display = 'none';
+            document.getElementById('q-counter').style.display = 'none';
+            document.getElementById('walk-hint').style.opacity = '0';
+            const pct = G.score / G.maxScore;
+            let trophy = '🌉', title, sub, msg;
+            if (pct >= 0.85) { 
+                trophy = '🏆'; title = 'Le Grand Architecte !'; sub = 'Le pont est complet et étincelant.'; 
+                msg = `Score remarquable ! Ta connaissance de la nature et du lien intergénérationnel est exceptionnelle. Bridge & Flow Folk est fier de toi ! 🌿`; 
+            } else if (pct >= 0.6) { 
+                trophy = '🌟'; title = 'Bâtisseur du Pont !'; sub = 'Le pont tient solidement.'; 
+                msg = `Beau parcours ! Tu possèdes de belles connaissances. Quelques pierres manquent encore — rejoue pour parfaire le pont !`; 
+            } else if (pct >= 0.35) { 
+                trophy = '🌱'; title = 'Premier Pas !'; sub = 'Le pont commence à prendre forme.'; 
+                msg = `Chaque connaissance gagnée est une pierre de plus. N'hésite pas à rejouer et à partager le jeu avec tes proches !`; 
+            } else { 
+                trophy = '🤔'; title = 'À Découvrir !'; sub = 'Le pont a besoin de toi.'; 
+                msg = `La nature et le lien intergénérationnel ont encore des secrets pour toi. Rejoue et partage avec la famille !`; 
+            }
+            document.getElementById('end-trophy').textContent = trophy;
+            document.getElementById('end-title').textContent = title;
+            document.getElementById('end-sub').textContent = sub;
+            document.getElementById('end-score').textContent = G.score;
+            document.getElementById('end-max').textContent = `/ ${G.maxScore} pts`;
+            document.getElementById('end-msg').textContent = msg;
+            
+            drawFinalBridge();
+            document.getElementById('screen-end').classList.add('active');
+            spawnParticles(window.innerWidth / 2, window.innerHeight * 0.4, true);
+            setTimeout(() => spawnParticles(window.innerWidth / 2, window.innerHeight * 0.5, true), 600);
+        }
+
+        function drawFinalBridge() {
+            const bc = document.getElementById('bridge-canvas');
+            bc.width = 360; bc.height = 140;
+            const ctx = bc.getContext('2d'), w = 360, h = 140;
+            
+            // Rivière
+            const riverGrad = ctx.createLinearGradient(0, h * 0.65, 0, h);
+            riverGrad.addColorStop(0, '#5bafd6');
+            riverGrad.addColorStop(1, '#2e7da8');
+            ctx.fillStyle = riverGrad;
+            ctx.fillRect(0, h * 0.65, w, h * 0.35);
+
+            // On utilise la même fonction que pour le fond, mais avec progress=1
+            drawBeautifulBridge(ctx, w/2, h*0.7, w*0.9, h*0.5, 1);
+
+            // Ajout des gemmes gagnées sur la rambarde finale
+            const correct = G.answered.filter(a => a === true).length;
+            for (let i = 0; i < correct; i++) { 
+                const gx = w*0.05 + 15 + i * (w*0.9 - 30) / (G.TOTAL - 1); 
+                const glow = ctx.createRadialGradient(gx, h * 0.45, 1, gx, h * 0.45, 8);
+                glow.addColorStop(0, '#fff9c4'); glow.addColorStop(0.5, '#f5c842'); glow.addColorStop(1, 'transparent');
+                ctx.fillStyle = glow;
+                ctx.beginPath(); ctx.arc(gx, h * 0.45, 8, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#f5c842';
+                ctx.beginPath(); ctx.arc(gx, h * 0.45, 4, 0, Math.PI * 2); ctx.fill(); 
+            }
+        }
+
+        function restartGame() {
+            G.running = false;
+            document.getElementById('screen-end').classList.remove('active');
+            document.getElementById('screen-start').classList.add('active');
+            document.getElementById('hud').style.display = 'none';
+            document.getElementById('q-counter').style.display = 'none';
+            document.getElementById('approach-btn').style.display = 'none';
+            document.getElementById('walk-hint').style.opacity = '0';
+        }
+
+        function gameLoop() { 
+            updatePlayer();
+            requestAnimationFrame(gameLoop); 
+        }
+
+        // ═══════ INPUT ═══════
+        bgCanvas.addEventListener('mousedown', e => handleTap(e.clientX));
+        bgCanvas.addEventListener('touchstart', e => { e.preventDefault(); handleTap(e.touches[0].clientX); }, { passive: false });
+
+        // ═══════ INIT ═══════
+        window.addEventListener('resize', () => { resizeBg(); resizeParticle(); });
+        resizeBg();
+        resizeParticle();
+        drawBg();
+        updateParticles();
+        gameLoop();
+    </script>
+</body>
+</html>
