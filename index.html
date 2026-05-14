@@ -404,17 +404,17 @@
     <article class="event-main" aria-labelledby="titre-prochain">
       <div class="event-img" role="img" aria-label="Photographie nature, herbe et lumière dorée"></div>
       <div class="event-body">
-        <span class="event-label">Samedi 13 Juin 2026 — 14h30</span>
+        <span class="event-label">Samedi XX septembre 2026 — 14h30</span>
         <h2 id="titre-prochain">Après-midi <span>Environnement</span></h2>
         <p class="event-desc">Une rencontre intergénérationnelle pour se reconnecter à la nature et partager un moment de convivialité locale.</p>
-
+<!--
         <div class="timer" id="timer" role="timer" aria-live="off" aria-label="Compte à rebours">
           <div class="t-box"><span class="t-num" id="jours">00</span><span class="t-unit">Jours</span></div>
           <div class="t-box"><span class="t-num" id="heures">00</span><span class="t-unit">Heures</span></div>
           <div class="t-box"><span class="t-num" id="minutes">00</span><span class="t-unit">Minutes</span></div>
           <div class="t-box"><span class="t-num" id="secondes">00</span><span class="t-unit">Secondes</span></div>
         </div>
-
+-->
         <a href="https://bridgeflowfolk.github.io/environnement/"
            class="btn"
            aria-label="Découvrir le programme de l'Après-midi Environnement du 13 juin 2026">
@@ -470,8 +470,8 @@
     (function () {
       'use strict';
 
-      // ── Compte à rebours vers le 13 juin 2026 à 14h30 CEST ──────────────
-      const TARGET = new Date("2026-06-13T14:30:00+02:00").getTime();
+      // ── Compte à rebours vers le 12 septembre 2026 à 14h30 CEST ──────────────
+      const TARGET = new Date("2026-09-12T14:30:00+02:00").getTime();
       const pad    = n => String(n).padStart(2, '0');
 
       const elJours    = document.getElementById('jours');
