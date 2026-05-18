@@ -7,4 +7,12 @@
     "description": "Description courte (2-3 lignes max)",
     "image": "https://bridgeflowfolk.github.io/environnement/logo-bff.png"
   }
+  {
+    "id": "id-test2",
+    "title": "Evennement de test 2",
+    "date": "2026-07-14T10:00:00",
+    "location": "Nogent le Roi",
+    "description": "Description courte (2-3 lignes max)",
+    "image": "https://www.darty.com/darty-et-vous/sites/darty-et-vous/files/2025-07/feux-494x326.jpg"
+  }
 ]
