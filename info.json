@@ -1,0 +1,10 @@
+[
+  {
+    "id": "id-test",
+    "title": "Evennement de test",
+    "date": "2026-06-15T10:00:00",
+    "location": "Lieu complet",
+    "description": "Description courte (2-3 lignes max)",
+    "image": "https://bridgeflowfolk.github.io/environnement/logo-bff.png"
+  }
+]
