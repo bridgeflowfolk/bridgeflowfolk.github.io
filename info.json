@@ -18,9 +18,9 @@
   {
     "id": "id-test3",
     "title": "Événement de test 3",
-    "date": "2026-05-18T23:45:00",
+    "date": "2026-05-18T23:47:00",
     "location": "Nogent le Roi",
-    "description": Test notification",
+    "description": "Test notification",
     "image": "https://img.freepik.com/vecteurs-libre/sonnerie-notification-bleue-notification_78370-6899.jpg"
   },
   {
