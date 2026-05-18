@@ -1,15 +1,15 @@
 [
   {
     "id": "id-test",
-    "title": "Evennement de test",
+    "title": "Événement de test",
     "date": "2026-06-15T10:00:00",
     "location": "Lieu complet",
     "description": "Description courte (2-3 lignes max)",
     "image": "https://bridgeflowfolk.github.io/environnement/logo-bff.png"
-  }
+  },
   {
     "id": "id-test2",
-    "title": "Evennement de test 2",
+    "title": "Événement de test 2",
     "date": "2026-07-14T10:00:00",
     "location": "Nogent le Roi",
     "description": "Description courte (2-3 lignes max)",
