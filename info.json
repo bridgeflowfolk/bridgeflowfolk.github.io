@@ -3,9 +3,10 @@
     "id": "id-test",
     "title": "Événement de test",
     "date": "2026-06-15T10:00:00",
-    "location": "Lieu complet",
+    "location": "Intermarché, Nogent-Le-Roi",
     "description": "Description courte (2-3 lignes max)",
-    "image": "https://bridgeflowfolk.github.io/environnement/logo-bff.png"
+    "image": "https://bridgeflowfolk.github.io/environnement/logo-bff.png",
+    "url": "https://bridgeflowfolk.github.io/environnement/"    
   },
   {
     "id": "id-test2",
@@ -30,5 +31,31 @@
     "location": "Nogent le Roi",
     "description": "Test notif J+1",
     "image": "https://img.magnific.com/premium-photo/notification-alert-3d-icon-isolated-white-background_1108860-1665.jpg"
+  },
+  {
+    "id": "bff-2025-06-15-salon",
+    "title": "Salon Bien-Être & Créateurs – Édition Été 2025",
+    "date": "2025-06-15T10:00:00",
+    "location": "Salle des fêtes, Nogent-le-Roi (28210)",
+    "description": "Retrouvez nos exposants en bien-être, artisans créateurs et producteurs locaux pour une journée conviviale en famille. Entrée libre.",
+    "image": "https://bridgeflowfolk.github.io/environnement/logo-bff.png",
+    "url": "https://bridgeflowfolk.github.io/Salon/"
+    
+  },
+  {
+    "id": "bff-2025-09-20-atelier-yoga",
+    "title": "Atelier Yoga & Respiration",
+    "date": "2026-09-20T09:30:00",
+    "location": "Dojo municipal, Nogent-le-Roi",
+    "description": "Séance de yoga doux ouverte à tous les niveaux. Amenez votre tapis. Places limitées à 20 participants.",
+    "image": "https://www.lequipe.fr/_medias/img-photo-jpg/yoga/1500000001197576/0:0,2496:1664-828-552-75/c20c5.jpg"
+  },
+  {
+    "id": "bff-2025-12-07-marche-noel",
+    "title": "Marché de Noël BFF",
+    "date": "2026-12-07T11:00:00",
+    "location": "Place de la Mairie, Nogent-le-Roi",
+    "description": "Marché artisanal de Noël avec plus de 30 exposants : bijoux, cosmétiques naturels, déco, alimentation locale. Vin chaud offert !",
+    "image": "https://lourmarin.com/wp-content/uploads/2022/09/Marche-de-Noel.jpg"
   }
 ]
