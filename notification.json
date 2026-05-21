@@ -11,4 +11,10 @@
     "detail": "Nous sommes heureux d'annoncer un partenariat avec la médiathèque de Nogent-le-Roi pour l'organisation d'ateliers lecture-nature tout au long de l'année.",
     "url": null
   }
+  {
+    "id": "notif-2026-003",
+    "title": "Test notification",
+    "detail": "Notification de validation.",
+    "url": null
+  }
 ]
