@@ -12,9 +12,9 @@
     "url": null
   },
   {
-    "id": "notif-2026-003",
-    "title": "Test notification",
-    "detail": "Notification de validation.",
+    "id": "notif-2026-004",
+    "title": "Lancement de l'application",
+    "detail": "L'application BFF voit le jour.",
     "url": null
   }
 ]
