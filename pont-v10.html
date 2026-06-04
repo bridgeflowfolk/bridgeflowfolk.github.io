@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Le Pont Vivant — BFF</title>
+    <title>Le Pont Vivant — Bridge &amp; Flow Folk</title>
+    <link rel="icon" type="image/png" href="logo-sansFond.png" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <!-- Nav commune -->
+    <script src="nav-commun.js"></script>
+    <link rel="stylesheet" href="commun.css" />
     <style>
         :root {
             --green-deep: #1a4a2e;
@@ -727,6 +731,87 @@
             border-color: var(--green-light);
             transform: scale(1.02);
         }
+        /* ═══ NAV INTEGRATION OVERRIDES ═══
+       Seuls les éléments positionnés à top:0 sont décalés.
+       Le canvas de fond couvre tout l'écran (effet immersif conservé).    */
+
+    /* La nav commun.css a z-index:1000 — elle passe devant tout le jeu.
+       On laisse le bg-canvas plein écran (immersif), mais les écrans
+       de jeu (intro / fin) démarrent sous la nav.                         */
+
+    /* ─ Écrans principaux ─ */
+    .screen {
+        top: var(--nav-h) !important;
+    }
+
+    /* ─ HUD en jeu ─ */
+    #hud {
+        top: var(--nav-h) !important;
+        padding-top: 10px !important;
+    }
+
+    /* ─ Compteur de questions ─ */
+    #q-counter {
+        top: calc(var(--nav-h) + 58px) !important;
+    }
+
+    /* ─ Badge combo ─ */
+    #combo-badge {
+        top: calc(var(--nav-h) + 90px) !important;
+    }
+
+    /* ─ Liens retour flottants (en bas, toujours visibles) ─ */
+    #nav-back-bar {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        z-index: 50;
+        background: rgba(10, 28, 18, 0.94);
+        border-top: 1px solid rgba(76,175,125,0.2);
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 11px 16px;
+        backdrop-filter: blur(8px);
+    }
+    #nav-back-bar a {
+        color: #a8d5b5;
+        text-decoration: none;
+        font-size: 0.6rem;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+    }
+    #nav-back-bar a:hover { color: #f5c842; }
+
+    /* ─ Hint de marche relevé pour ne pas couvrir la barre ─ */
+    #walk-hint   { bottom: 52px !important; }
+    #approach-btn { bottom: 52px !important; }
+
+    /* ─ La .bff-nav en dark mode pour ce jeu ─ */
+    .bff-nav {
+        background: rgba(10, 28, 18, 0.92) !important;
+        border-bottom-color: rgba(76,175,125,0.2) !important;
+    }
+    .bff-nav__logo { color: #f5c842 !important; }
+    .bff-nav__link, .bff-nav__group-btn { color: #a8d5b5 !important; }
+    .bff-nav__link:hover, .bff-nav__group-btn:hover,
+    .bff-nav__link--active, .bff-nav__group-btn--active { color: #f5c842 !important; }
+    .bff-nav__dropdown {
+        background: rgba(13,37,23,0.98) !important;
+        border-color: rgba(76,175,125,0.2) !important;
+    }
+    .bff-nav__dropdown-item { color: #a8d5b5 !important; }
+    .bff-nav__dropdown-item:hover { background: rgba(76,175,125,0.12) !important; color: #f5c842 !important; }
+    .bff-nav__mobile {
+        background: rgba(13,37,23,0.98) !important;
+    }
+    .bff-nav__mobile-link { color: #a8d5b5 !important; border-bottom-color: rgba(76,175,125,0.15) !important; }
+    .bff-nav__mobile-link:hover, .bff-nav__mobile-link--active { color: #f5c842 !important; }
+    .bff-nav__mobile-section { color: #f5c842 !important; }
+    .bff-nav__burger span { background: #a8d5b5 !important; }
+
     </style>
 </head>
 <body>
@@ -825,7 +910,6 @@
             <div class="score-max" id="end-max">/ 0 pts</div>
         </div>
         <p class="end-msg" id="end-msg">—</p>
-
         <div class="share-section">
             <div class="share-title">✦ Partage avec tes proches ✦</div>
             <div class="share-row">
@@ -839,8 +923,15 @@
                 </button>
             </div>
         </div>
-
         <button class="end-btn" onclick="restartGame()">↺ Rejouer</button>
+    </div>
+
+    <!-- Barre de navigation basse visible dans le jeu -->
+    <div id="nav-back-bar">
+        <a href="index.html">🏠 Accueil</a>
+        <a href="bff-mot.html">🔤 Mots Cachés</a>
+        <a href="jeu-bff.html">🌸 Fleurs</a>
+        <a href="apropos.html">🌐 Association</a>
     </div>
 
     <script>
@@ -1702,4 +1793,5 @@
     resizeBg(); resizeParticle(); drawBg(); updateParticles(); gameLoop();
     </script>
 </body>
+</html></body>
 </html>

@@ -3,415 +3,326 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Jeu — Bridge & Flow Folk</title>
+<title>Mots Cachés — Bridge &amp; Flow Folk</title>
+<link rel="icon" type="image/png" href="logo-sansFond.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- Nav commune -->
+<script src="nav-commun.js"></script>
+<link rel="stylesheet" href="commun.css" />
 <style>
-  :root {
-    --sage:    #7a9e87;
-    --sage-l:  #a8c4b0;
-    --cream:   #f5f0e8;
-    --warm:    #e8ddd0;
-    --brown:   #6b5240;
-    --gold:    #c9a96e;
-    --gold-l:  #e8d5b0;
-    --dark:    #2d2420;
-    --found:   #7a9e87;
-    --active:  #c9a96e;
-    --radius:  12px;
-  }
+/* ══ MODE JEU — fond sombre immersif comme les autres jeux ══ */
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  background: #1a0f2e;
+}
 
-  body {
-    font-family: 'Josefin Sans', sans-serif;
-    background: var(--cream);
-    color: var(--dark);
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 0 32px;
-    background-image:
-      radial-gradient(ellipse at 10% 20%, rgba(122,158,135,.12) 0%, transparent 50%),
-      radial-gradient(ellipse at 90% 80%, rgba(201,169,110,.10) 0%, transparent 50%);
-  }
+/* Écrase le gradient clair de commun.css */
+body::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 20%, rgba(122,158,126,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 85% 75%, rgba(201,120,138,0.10) 0%, transparent 60%);
+}
 
-  /* ── HEADER ── */
-  header {
-    width: 100%;
-    background: var(--dark);
-    padding: 18px 24px 16px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--sage), var(--gold), var(--sage));
-  }
-  header h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.4rem, 5vw, 2rem);
-    font-weight: 600;
-    color: var(--cream);
-    letter-spacing: .04em;
-  }
-  header h1 em { color: var(--gold); font-style: italic; }
-  header p {
-    font-size: .72rem;
-    color: var(--sage-l);
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
+/* Grain subtil */
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size:256px; opacity:.6;
+}
 
-  /* ── MAIN CARD ── */
-  .card {
-    width: min(96vw, 480px);
-    background: #fff;
-    border-radius: var(--radius);
-    box-shadow: 0 4px 32px rgba(45,36,32,.10);
-    margin-top: 20px;
-    overflow: hidden;
-  }
+/* ── Nav thématisée sombre (cohérente avec jeu-bff / pont-v10) ── */
+.bff-nav {
+  background: rgba(26, 15, 46, 0.94) !important;
+  border-bottom-color: rgba(201,169,110,0.18) !important;
+}
+.bff-nav__logo { color: #c9a96e !important; }
+.bff-nav__link, .bff-nav__group-btn { color: rgba(200,185,220,0.85) !important; }
+.bff-nav__link:hover, .bff-nav__group-btn:hover,
+.bff-nav__link--active, .bff-nav__group-btn--active { color: #c9a96e !important; }
+.bff-nav__link--active, .bff-nav__group-btn--active {
+  background: rgba(201,169,110,0.1) !important;
+}
+.bff-nav__dropdown {
+  background: rgba(26,15,46,0.98) !important;
+  border-color: rgba(201,169,110,0.18) !important;
+}
+.bff-nav__dropdown-item { color: rgba(200,185,220,0.85) !important; }
+.bff-nav__dropdown-item:hover {
+  background: rgba(201,169,110,0.1) !important;
+  color: #c9a96e !important;
+}
+.bff-nav__mobile { background: rgba(22,12,38,0.98) !important; }
+.bff-nav__mobile-link { color: rgba(200,185,220,0.85) !important; border-bottom-color: rgba(201,169,110,0.12) !important; }
+.bff-nav__mobile-link:hover, .bff-nav__mobile-link--active { color: #c9a96e !important; }
+.bff-nav__mobile-section { color: #c9a96e !important; }
+.bff-nav__burger span { background: rgba(200,185,220,0.85) !important; }
 
-  /* ── SCORE BAR ── */
-  .scorebar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 18px;
-    background: var(--warm);
-    border-bottom: 1px solid var(--gold-l);
-    gap: 8px;
-  }
-  .scorebar .stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-  }
-  .scorebar .stat span:first-child {
-    font-size: .6rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--brown);
-  }
-  .scorebar .stat span:last-child {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--dark);
-  }
-  #timer-val { color: var(--sage); }
-  #score-val { color: var(--gold); }
+/* ── Zone de jeu ── */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  /* ── GRILLE ── */
-  .grid-wrap {
-    padding: 16px;
-    display: flex;
-    justify-content: center;
-  }
-  #grid {
-    display: grid;
-    gap: 3px;
-    user-select: none;
-    touch-action: none;
-    cursor: crosshair;
-  }
-  .cell {
-    width: clamp(26px, 7.5vw, 36px);
-    height: clamp(26px, 7.5vw, 36px);
-    border-radius: 6px;
-    background: var(--cream);
-    border: 1.5px solid var(--gold-l);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: clamp(.7rem, 2vw, .9rem);
-    font-weight: 600;
-    letter-spacing: .05em;
-    color: var(--dark);
-    transition: background .15s, border-color .15s, color .15s, transform .1s;
-  }
-  .cell.highlight {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: #fff;
-    transform: scale(1.08);
-    z-index: 2;
-    position: relative;
-  }
-  .cell.found {
-    background: var(--found);
-    border-color: var(--found);
-    color: #fff;
-    transform: scale(1);
-    animation: popIn .25s ease;
-  }
-  @keyframes popIn {
-    0% { transform: scale(1.15); }
-    100% { transform: scale(1); }
-  }
+.game-wrap {
+  width: min(96vw, 480px);
+  /* Descend sous la nav fixe, espace en bas pour la barre de navigation */
+  margin-top: calc(var(--nav-h) + 1rem);
+  padding-bottom: calc(52px + 1.5rem);
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
 
-  /* ── LISTE DE MOTS ── */
-  .words-section {
-    padding: 4px 16px 16px;
-  }
-  .words-title {
-    font-size: .62rem;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--brown);
-    margin-bottom: 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--gold-l);
-  }
-  .words-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 6px;
-  }
-  .word-chip {
-    padding: 5px 10px;
-    border-radius: 20px;
-    border: 1.5px solid var(--gold-l);
-    font-size: .72rem;
-    font-weight: 600;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--brown);
-    background: var(--cream);
-    text-align: center;
-    transition: all .3s;
-  }
-  .word-chip.found {
-    background: var(--found);
-    border-color: var(--found);
-    color: #fff;
-    text-decoration: line-through;
-    opacity: .75;
-  }
+/* ── Carte principale ── */
+.card {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,169,110,0.22);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  position: relative;
+}
+/* Accent couleur en haut */
+.card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(to right, #7a9e7e, #c9a96e, #c9788a);
+}
 
-  /* ── MOT SECRET ── */
-  .secret-section {
-    margin: 0 16px 16px;
-    padding: 14px 16px;
-    background: var(--dark);
-    border-radius: var(--radius);
-    color: var(--cream);
-    text-align: center;
-  }
-  .secret-section .s-label {
-    font-size: .6rem;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--sage-l);
-    margin-bottom: 8px;
-  }
-  .secret-boxes {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .secret-box {
-    width: 32px;
-    height: 36px;
-    border-radius: 6px;
-    background: rgba(255,255,255,.08);
-    border: 1.5px solid rgba(201,169,110,.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: transparent;
-    transition: all .4s;
-  }
-  .secret-box.revealed {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: var(--dark);
-    animation: popIn .3s ease;
-  }
+/* ── Score bar ── */
+.scorebar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 11px 16px; gap: 8px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+}
+.scorebar .stat { display:flex; flex-direction:column; align-items:center; gap:2px; }
+.scorebar .stat span:first-child {
+  font-size: .55rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(200,185,220,0.6);
+}
+.scorebar .stat span:last-child {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem; font-weight: 600; color: #fff;
+}
+#timer-val { color: #7a9e7e !important; }
+#score-val { color: #c9a96e !important; }
 
-  /* ── VICTOIRE ── */
-  .victory-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(45,36,32,.85);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-  .victory-overlay.show { display: flex; }
-  .victory-card {
-    background: var(--cream);
-    border-radius: 20px;
-    padding: 36px 28px;
-    max-width: 360px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 16px 64px rgba(0,0,0,.4);
-    animation: slideUp .4s ease;
-  }
-  @keyframes slideUp {
-    from { transform: translateY(40px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  .victory-card .trophy { font-size: 3rem; margin-bottom: 12px; }
-  .victory-card h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--dark);
-    margin-bottom: 6px;
-  }
-  .victory-card .secret-word-reveal {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.2rem;
-    font-weight: 600;
-    font-style: italic;
-    color: var(--gold);
-    margin: 12px 0;
-    letter-spacing: .06em;
-  }
-  .victory-card p { font-size: .82rem; color: var(--brown); line-height: 1.6; margin-bottom: 20px; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: .8rem;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-    transition: transform .15s, box-shadow .15s;
-  }
-  .btn:active { transform: scale(.97); }
-  .btn-gold {
-    background: var(--gold);
-    color: var(--dark);
-    box-shadow: 0 4px 16px rgba(201,169,110,.4);
-  }
-  .btn-dark {
-    background: var(--dark);
-    color: var(--cream);
-    margin-top: 10px;
-  }
-  .btn-fb {
-    background: #1877F2;
-    color: #fff;
-    margin-top: 10px;
-  }
-  .btn-fb svg { width: 18px; height: 18px; fill: #fff; flex-shrink: 0; }
+/* ── Grille ── */
+.grid-wrap { padding: 14px; display:flex; justify-content:center; }
+#grid {
+  display: grid; gap: 3px;
+  user-select: none; touch-action: none; cursor: crosshair;
+}
+.cell {
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(201,169,110,0.18);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Josefin Sans', sans-serif; font-weight: 600;
+  letter-spacing: .04em; color: rgba(255,255,255,0.85);
+  transition: background .12s, border-color .12s, color .12s, transform .1s;
+}
+.cell.highlight {
+  background: #c9a96e; border-color: #c9a96e; color: #1a0f2e;
+  transform: scale(1.08); z-index: 2; position: relative;
+  box-shadow: 0 0 12px rgba(201,169,110,0.5);
+}
+.cell.found {
+  background: #7a9e7e; border-color: #7a9e7e; color: #fff;
+  transform: scale(1); animation: popIn .22s ease;
+}
+@keyframes popIn { 0%{transform:scale(1.15);} 100%{transform:scale(1);} }
 
-  /* ── FACEBOOK BANNER ── */
-  .fb-banner {
-    width: min(96vw, 480px);
-    margin-top: 16px;
-  }
-  .fb-banner a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 12px 20px;
-    background: #1877F2;
-    border-radius: var(--radius);
-    color: #fff;
-    text-decoration: none;
-    font-size: .78rem;
-    font-weight: 600;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    box-shadow: 0 4px 16px rgba(24,119,242,.3);
-    transition: transform .15s, box-shadow .15s;
-  }
-  .fb-banner a:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(24,119,242,.4); }
-  .fb-banner svg { width: 22px; height: 22px; fill: #fff; flex-shrink: 0; }
+/* ── Liste mots ── */
+.words-section { padding: 4px 14px 14px; }
+.words-title {
+  font-size: .58rem; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(200,185,220,0.5); margin-bottom: 9px; padding-bottom: 6px;
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+}
+.words-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(110px,1fr)); gap:5px; }
+.word-chip {
+  padding: 5px 9px; border-radius: 20px;
+  border: 1.5px solid rgba(201,169,110,0.2);
+  font-size: .68rem; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; color: rgba(200,185,220,0.75);
+  background: rgba(255,255,255,0.04); text-align: center;
+  transition: all .3s;
+}
+.word-chip.found {
+  background: #7a9e7e; border-color: #7a9e7e; color: #fff;
+  text-decoration: line-through; opacity: .75;
+}
 
-  /* ── INSTRUCTIONS ── */
-  .instructions {
-    width: min(96vw, 480px);
-    margin-top: 12px;
-    padding: 10px 16px;
-    background: rgba(122,158,135,.1);
-    border-radius: var(--radius);
-    border-left: 3px solid var(--sage);
-    font-size: .72rem;
-    color: var(--brown);
-    line-height: 1.6;
-  }
-  .instructions strong { color: var(--dark); }
+/* ── Mot secret ── */
+.secret-section {
+  margin: 0 14px 14px; padding: 13px 14px;
+  background: rgba(0,0,0,0.3); border-radius: 12px;
+  border: 1px solid rgba(201,169,110,0.15); text-align: center;
+}
+.secret-section .s-label {
+  font-size: .58rem; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(122,158,126,0.75); margin-bottom: 8px;
+}
+.secret-boxes { display:flex; justify-content:center; gap:5px; flex-wrap:wrap; }
+.secret-box {
+  width: 30px; height: 34px; border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(201,169,110,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600;
+  color: transparent; transition: all .4s;
+}
+.secret-box.revealed {
+  background: #c9a96e; border-color: #c9a96e; color: #1a0f2e;
+  animation: popIn .28s ease;
+}
 
-  .replay-btn-wrap { text-align: center; padding: 0 16px 4px; }
+/* ── Overlay victoire ── */
+.victory-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(10,5,20,.88); z-index: 200;
+  align-items: center; justify-content: center; padding: 20px;
+  backdrop-filter: blur(8px);
+}
+.victory-overlay.show { display: flex; }
+.victory-card {
+  background: linear-gradient(145deg, #150b2a, #1e1040);
+  border: 1px solid rgba(201,169,110,0.3);
+  border-radius: 20px; padding: 2.2rem 1.8rem;
+  max-width: 340px; width: 100%; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  animation: slideUp .38s ease;
+}
+@keyframes slideUp { from{transform:translateY(30px);opacity:0;} to{transform:translateY(0);opacity:1;} }
+.victory-card .trophy { font-size: 2.6rem; margin-bottom: 10px; }
+.victory-card h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.65rem; font-weight: 600; color: #fff; margin-bottom: 5px;
+}
+.victory-card .secret-word-reveal {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; font-weight: 600; font-style: italic;
+  color: #c9a96e; margin: 10px 0; letter-spacing: .06em;
+}
+.victory-card p { font-size: .8rem; color: rgba(200,185,220,0.7); line-height: 1.6; margin-bottom: 18px; }
+
+/* ── Boutons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 11px 22px; border-radius: 50px;
+  font-family: 'Josefin Sans', sans-serif; font-size: .75rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+  cursor: pointer; border: none; transition: transform .15s, box-shadow .15s;
+}
+.btn:active { transform: scale(.97); }
+.btn-gold {
+  background: #c9a96e; color: #1a0f2e;
+  box-shadow: 0 4px 14px rgba(201,169,110,.35);
+}
+.btn-gold:hover { box-shadow: 0 6px 20px rgba(201,169,110,.55); transform: translateY(-2px); }
+.btn-fb { background: #1877F2; color: #fff; margin-top: 9px; }
+.btn-fb svg { width:16px; height:16px; fill:#fff; flex-shrink:0; }
+.btn-fb:hover { background: #0e5fc0; transform: translateY(-2px); }
+
+/* ── Instructions ── */
+.instructions {
+  width: 100%; padding: 10px 14px;
+  background: rgba(122,158,126,0.07);
+  border-radius: 12px; border-left: 3px solid #7a9e7e;
+  font-size: .7rem; color: rgba(200,185,220,0.65); line-height: 1.6;
+}
+.instructions strong { color: rgba(255,255,255,0.85); }
+
+/* ── Lien FB ── */
+.fb-banner { width: 100%; }
+.fb-banner a {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  padding: 12px 18px; background: #1877F2; border-radius: 12px;
+  color: #fff; text-decoration: none; font-size: .72rem; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  box-shadow: 0 4px 14px rgba(24,119,242,.3);
+  transition: transform .15s, box-shadow .15s;
+}
+.fb-banner a:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(24,119,242,.42); }
+.fb-banner svg { width:20px; height:20px; fill:#fff; flex-shrink:0; }
+
+/* ── Barre basse de nav croisée (identique aux autres jeux) ── */
+#nav-back-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(15, 8, 28, 0.96);
+  border-top: 1px solid rgba(201,169,110,0.15);
+  display: flex; justify-content: center; gap: 18px;
+  padding: 11px 16px;
+  backdrop-filter: blur(10px);
+}
+#nav-back-bar a {
+  color: rgba(200,185,220,0.7); text-decoration: none;
+  font-size: .6rem; font-family: 'Josefin Sans', sans-serif;
+  font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  transition: color .2s;
+}
+#nav-back-bar a:hover { color: #c9a96e; }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Bridge &amp; <em>Flow</em> Folk</h1>
-  <p>Salon Bien-Être &amp; Créateurs · Nogent-le-Roi</p>
-</header>
+<div class="game-wrap">
 
-<div class="card">
-  <div class="scorebar">
-    <div class="stat">
-      <span>Mots</span>
-      <span id="found-val">0/0</span>
+  <div class="card">
+    <div class="scorebar">
+      <div class="stat">
+        <span>Mots</span>
+        <span id="found-val">0/0</span>
+      </div>
+      <div class="stat">
+        <span>Score</span>
+        <span id="score-val">0</span>
+      </div>
+      <div class="stat">
+        <span>Temps</span>
+        <span id="timer-val">0s</span>
+      </div>
+      <button class="btn btn-gold" onclick="initGame()" style="padding:6px 13px;font-size:.65rem;">
+        ↺ Rejouer
+      </button>
     </div>
-    <div class="stat">
-      <span>Score</span>
-      <span id="score-val">0</span>
+
+    <div class="grid-wrap">
+      <div id="grid"></div>
     </div>
-    <div class="stat">
-      <span>Temps</span>
-      <span id="timer-val">0s</span>
+
+    <div class="words-section">
+      <div class="words-title">Mots à trouver</div>
+      <div class="words-grid" id="word-list"></div>
     </div>
-    <button class="btn btn-gold" onclick="initGame()" style="padding:7px 14px;font-size:.7rem;">
-      ↺ Rejouer
-    </button>
+
+    <div class="secret-section">
+      <div class="s-label">🔑 Mot mystère — révélé lettre par lettre</div>
+      <div class="secret-boxes" id="secret-boxes"></div>
+    </div>
   </div>
 
-  <div class="grid-wrap">
-    <div id="grid"></div>
+  <div class="instructions">
+    <strong>Comment jouer ?</strong> Glisse sur la grille pour trouver les mots cachés.
+    Horizontalement, verticalement ou en diagonale — dans les deux sens.<br>
+    Trouve tous les mots pour révéler le <strong>mot mystère</strong> !
   </div>
 
-  <div class="words-section">
-    <div class="words-title">Mots à trouver</div>
-    <div class="words-grid" id="word-list"></div>
+  <div class="fb-banner">
+    <a href="https://www.facebook.com/profile.php?id=61587252715739" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+      Suivre Bridge &amp; Flow Folk sur Facebook
+    </a>
   </div>
 
-  <div class="secret-section">
-    <div class="s-label">🔑 Mot mystère — révélé lettre par lettre</div>
-    <div class="secret-boxes" id="secret-boxes"></div>
-  </div>
-</div>
-
-<div class="instructions">
-  <strong>Comment jouer ?</strong> Glisse sur la grille (ou clique+glisse) pour trouver les mots cachés. Horizontalement, verticalement ou en diagonale.<br>
-  Trouve tous les mots pour révéler le <strong>mot mystère</strong> !
-</div>
-
-<div class="fb-banner">
-  <a href="https://www.facebook.com/profile.php?id=61587252715739" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-    Suivre Bridge &amp; Flow Folk sur Facebook
-  </a>
 </div>
 
 <!-- OVERLAY VICTOIRE -->
@@ -430,61 +341,43 @@
   </div>
 </div>
 
+<!-- Barre basse de navigation croisée (identique à jeu-bff et pont-v10) -->
+<div id="nav-back-bar">
+  <a href="index.html">🏠 Accueil</a>
+  <a href="jeu-bff.html">🌸 Fleurs</a>
+  <a href="pont-v10.html">🌉 Pont Vivant</a>
+  <a href="apropos.html">🌐 Association</a>
+</div>
+
 <script>
-// ══════════════════════════════════════════
-//  DONNÉES
-// ══════════════════════════════════════════
 const WORD_POOLS = [
-  // Pool A
   ["BRIDGE","FLOW","FOLK","BIENETRE","LIEN","PARTAGE","SOIN","NATURE","CREATEURS","EVEIL"],
-  // Pool B
   ["BRIDGE","FLOW","FOLK","HARMONIE","ECHANGE","ATELIER","ANCRAGE","VITALITE","COMMUNAUTE","SENS"],
-  // Pool C
   ["BRIDGE","FLOW","FOLK","EQUILIBRE","RENCONTRE","TERRITOIRE","ATELIERS","MOUVEMENT","HUMANITE","RACINES"],
 ];
-
 const SECRET_WORDS = ["HUMANITE","TERRITOIRE","HARMONIE","EQUILIBRE","ANCRAGE"];
-const DIRECTIONS = [
-  [0,1],[1,0],[1,1],[1,-1],  // →  ↓  ↘  ↙
-  [0,-1],[-1,0],[-1,-1],[-1,1] // ←  ↑  ↖  ↗
-];
+const DIRECTIONS = [[0,1],[1,0],[1,1],[1,-1],[0,-1],[-1,0],[-1,-1],[-1,1]];
 
-// ══════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════
-let GRID_SIZE = 12;
-let grid = [], placed = [], wordStatus = {}, secretWord = "";
-let foundCount = 0, score = 0, startTime = 0, timerInterval = null;
-let selecting = false, selCells = [], lastCell = null;
+const GRID_SIZE = 12;
+let grid=[], placed=[], wordStatus={}, secretWord="";
+let foundCount=0, score=0, startTime=0, timerInterval=null;
+let selecting=false, selCells=[], lastCell=null;
 
-// ══════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════
 function initGame() {
   document.getElementById('victory').classList.remove('show');
   clearInterval(timerInterval);
-  score = 0; foundCount = 0;
-  updateScore();
+  score=0; foundCount=0; updateScore();
 
-  const poolIdx = Math.floor(Math.random() * WORD_POOLS.length);
+  const poolIdx = Math.floor(Math.random()*WORD_POOLS.length);
   const words = shuffle([...WORD_POOLS[poolIdx]]);
-  secretWord = SECRET_WORDS[Math.floor(Math.random() * SECRET_WORDS.length)];
+  secretWord = SECRET_WORDS[Math.floor(Math.random()*SECRET_WORDS.length)];
+  const toPlace = words.slice(0,6);
 
-  // Mélange : 6 mots aléatoires parmi le pool + mot secret caché
-  const toPlace = words.slice(0, 6);
+  grid = Array.from({length:GRID_SIZE}, ()=>Array(GRID_SIZE).fill(''));
+  placed=[]; wordStatus={};
 
-  grid = Array.from({length: GRID_SIZE}, () => Array(GRID_SIZE).fill(''));
-  placed = [];
-  wordStatus = {};
-
-  // Place le mot secret dans la grille mais PAS dans la liste
   placeWord(secretWord);
-
-  // Place les autres mots
-  for (const w of toPlace) {
-    const ok = placeWord(w);
-    if (ok) wordStatus[w] = false;
-  }
+  for (const w of toPlace) { if (placeWord(w)) wordStatus[w]=false; }
 
   fillRandom();
   renderGrid();
@@ -492,69 +385,61 @@ function initGame() {
   renderSecretBoxes();
 
   startTime = Date.now();
-  document.getElementById('found-val').textContent = `0/${Object.keys(wordStatus).length}`;
-  timerInterval = setInterval(updateTimer, 1000);
+  document.getElementById('found-val').textContent=`0/${Object.keys(wordStatus).length}`;
+  timerInterval = setInterval(updateTimer,1000);
   updateTimer();
 }
 
 function placeWord(word) {
-  const dirs = shuffle([...DIRECTIONS]);
-  const attempts = 80;
-  for (let a = 0; a < attempts; a++) {
-    const dir = dirs[a % dirs.length];
-    const row = Math.floor(Math.random() * GRID_SIZE);
-    const col = Math.floor(Math.random() * GRID_SIZE);
-    if (canPlace(word, row, col, dir)) {
-      doPlace(word, row, col, dir);
-      return true;
-    }
+  const dirs=shuffle([...DIRECTIONS]);
+  for (let a=0;a<80;a++) {
+    const dir=dirs[a%dirs.length];
+    const row=Math.floor(Math.random()*GRID_SIZE);
+    const col=Math.floor(Math.random()*GRID_SIZE);
+    if (canPlace(word,row,col,dir)) { doPlace(word,row,col,dir); return true; }
   }
   return false;
 }
 
-function canPlace(word, r, c, [dr, dc]) {
-  for (let i = 0; i < word.length; i++) {
-    const nr = r + dr*i, nc = c + dc*i;
-    if (nr < 0 || nr >= GRID_SIZE || nc < 0 || nc >= GRID_SIZE) return false;
-    if (grid[nr][nc] !== '' && grid[nr][nc] !== word[i]) return false;
+function canPlace(word,r,c,[dr,dc]) {
+  for (let i=0;i<word.length;i++) {
+    const nr=r+dr*i,nc=c+dc*i;
+    if (nr<0||nr>=GRID_SIZE||nc<0||nc>=GRID_SIZE) return false;
+    if (grid[nr][nc]!==''&&grid[nr][nc]!==word[i]) return false;
   }
   return true;
 }
 
-function doPlace(word, r, c, [dr, dc]) {
-  const cells = [];
-  for (let i = 0; i < word.length; i++) {
-    const nr = r + dr*i, nc = c + dc*i;
-    grid[nr][nc] = word[i];
-    cells.push(`${nr},${nc}`);
+function doPlace(word,r,c,[dr,dc]) {
+  const cells=[];
+  for (let i=0;i<word.length;i++) {
+    const nr=r+dr*i,nc=c+dc*i;
+    grid[nr][nc]=word[i]; cells.push(`${nr},${nc}`);
   }
-  placed.push({word, cells});
+  placed.push({word,cells});
 }
 
 function fillRandom() {
-  const alpha = 'ABCDEFGHIJKLMNOPRSTUVW';
-  for (let r = 0; r < GRID_SIZE; r++)
-    for (let c = 0; c < GRID_SIZE; c++)
-      if (grid[r][c] === '')
-        grid[r][c] = alpha[Math.floor(Math.random() * alpha.length)];
+  const alpha='ABCDEFGHIJKLMNOPRSTUVW';
+  for (let r=0;r<GRID_SIZE;r++)
+    for (let c=0;c<GRID_SIZE;c++)
+      if (grid[r][c]==='') grid[r][c]=alpha[Math.floor(Math.random()*alpha.length)];
 }
 
-// ══════════════════════════════════════════
-//  RENDER
-// ══════════════════════════════════════════
 function renderGrid() {
-  const el = document.getElementById('grid');
-  const cellSize = Math.min(Math.floor((Math.min(window.innerWidth * .96, 480) - 32 - (GRID_SIZE-1)*3) / GRID_SIZE), 36);
-  el.style.gridTemplateColumns = `repeat(${GRID_SIZE}, ${cellSize}px)`;
-  el.innerHTML = '';
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      const div = document.createElement('div');
-      div.className = 'cell';
-      div.style.width = div.style.height = cellSize + 'px';
-      div.style.fontSize = Math.max(10, cellSize * .44) + 'px';
-      div.textContent = grid[r][c];
-      div.dataset.r = r; div.dataset.c = c;
+  const el=document.getElementById('grid');
+  const avail=Math.min(window.innerWidth*0.96,480)-32-(GRID_SIZE-1)*3;
+  const cellSize=Math.min(Math.floor(avail/GRID_SIZE),36);
+  el.style.gridTemplateColumns=`repeat(${GRID_SIZE},${cellSize}px)`;
+  el.innerHTML='';
+  for (let r=0;r<GRID_SIZE;r++) {
+    for (let c=0;c<GRID_SIZE;c++) {
+      const div=document.createElement('div');
+      div.className='cell';
+      div.style.width=div.style.height=cellSize+'px';
+      div.style.fontSize=Math.max(10,cellSize*.44)+'px';
+      div.textContent=grid[r][c];
+      div.dataset.r=r; div.dataset.c=c;
       el.appendChild(div);
     }
   }
@@ -562,222 +447,161 @@ function renderGrid() {
 }
 
 function renderWordList(words) {
-  const el = document.getElementById('word-list');
-  el.innerHTML = '';
+  const el=document.getElementById('word-list'); el.innerHTML='';
   for (const w of words) {
-    const chip = document.createElement('div');
-    chip.className = 'word-chip';
-    chip.id = 'chip-' + w;
-    chip.textContent = w;
+    const chip=document.createElement('div');
+    chip.className='word-chip'; chip.id='chip-'+w; chip.textContent=w;
     el.appendChild(chip);
   }
 }
 
 function renderSecretBoxes() {
-  const el = document.getElementById('secret-boxes');
-  el.innerHTML = '';
-  for (let i = 0; i < secretWord.length; i++) {
-    const box = document.createElement('div');
-    box.className = 'secret-box';
-    box.id = `sb-${i}`;
-    box.textContent = secretWord[i];
+  const el=document.getElementById('secret-boxes'); el.innerHTML='';
+  for (let i=0;i<secretWord.length;i++) {
+    const box=document.createElement('div');
+    box.className='secret-box'; box.id=`sb-${i}`; box.textContent=secretWord[i];
     el.appendChild(box);
   }
 }
 
-// ══════════════════════════════════════════
-//  EVENTS (mouse + touch)
-// ══════════════════════════════════════════
 function bindEvents() {
-  const el = document.getElementById('grid');
-  el.addEventListener('mousedown', onStart);
-  el.addEventListener('mousemove', onMove);
-  el.addEventListener('mouseup', onEnd);
-  el.addEventListener('touchstart', onStart, {passive: false});
-  el.addEventListener('touchmove', onMove, {passive: false});
-  el.addEventListener('touchend', onEnd);
+  const el=document.getElementById('grid');
+  el.addEventListener('mousedown',onStart);
+  el.addEventListener('mousemove',onMove);
+  el.addEventListener('mouseup',onEnd);
+  el.addEventListener('touchstart',onStart,{passive:false});
+  el.addEventListener('touchmove',onMove,{passive:false});
+  el.addEventListener('touchend',onEnd);
 }
 
 function cellFromEvent(e) {
-  const touch = e.touches ? e.touches[0] : e;
-  const el = document.elementFromPoint(touch.clientX, touch.clientY);
-  if (el && el.classList.contains('cell')) return el;
+  const touch=e.touches?e.touches[0]:e;
+  const el=document.elementFromPoint(touch.clientX,touch.clientY);
+  if (el&&el.classList.contains('cell')) return el;
   return null;
 }
 
 function onStart(e) {
   e.preventDefault();
-  const cell = cellFromEvent(e);
-  if (!cell) return;
-  selecting = true;
-  selCells = [cell];
-  lastCell = cell;
-  highlight([cell]);
+  const cell=cellFromEvent(e); if (!cell) return;
+  selecting=true; selCells=[cell]; lastCell=cell; highlight([cell]);
 }
 
 function onMove(e) {
-  e.preventDefault();
-  if (!selecting) return;
-  const cell = cellFromEvent(e);
-  if (!cell || cell === lastCell) return;
-  lastCell = cell;
-  // Build a straight line from selCells[0] to current cell
-  const r0 = +selCells[0].dataset.r, c0 = +selCells[0].dataset.c;
-  const r1 = +cell.dataset.r, c1 = +cell.dataset.c;
-  const line = getLine(r0, c0, r1, c1);
-  const cells = line.map(([r,c]) => document.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`)).filter(Boolean);
-  selCells = cells;
-  highlight(cells);
+  e.preventDefault(); if (!selecting) return;
+  const cell=cellFromEvent(e); if (!cell||cell===lastCell) return;
+  lastCell=cell;
+  const r0=+selCells[0].dataset.r,c0=+selCells[0].dataset.c;
+  const r1=+cell.dataset.r,c1=+cell.dataset.c;
+  const line=getLine(r0,c0,r1,c1);
+  const cells=line.map(([r,c])=>document.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`)).filter(Boolean);
+  selCells=cells; highlight(cells);
 }
 
-function onEnd(e) {
-  if (!selecting) return;
-  selecting = false;
-  checkWord(selCells);
-  clearHighlight(selCells);
-  selCells = [];
+function onEnd() {
+  if (!selecting) return; selecting=false;
+  checkWord(selCells); clearHighlight(selCells); selCells=[];
 }
 
-function getLine(r0, c0, r1, c1) {
-  const dr = r1 - r0, dc = c1 - c0;
-  const len = Math.max(Math.abs(dr), Math.abs(dc));
-  if (len === 0) return [[r0, c0]];
-  const sr = dr === 0 ? 0 : dr / Math.abs(dr);
-  const sc = dc === 0 ? 0 : dc / Math.abs(dc);
-  // Only allow straight lines (horiz, vert, diag)
-  if (Math.abs(dr) !== Math.abs(dc) && dr !== 0 && dc !== 0) {
-    // not diagonal — pick dominant axis
-    if (Math.abs(dr) > Math.abs(dc)) {
-      return Array.from({length: Math.abs(dr)+1}, (_,i) => [r0 + sr*i, c0]);
-    } else {
-      return Array.from({length: Math.abs(dc)+1}, (_,i) => [r0, c0 + sc*i]);
-    }
+function getLine(r0,c0,r1,c1) {
+  const dr=r1-r0,dc=c1-c0;
+  const len=Math.max(Math.abs(dr),Math.abs(dc));
+  if (len===0) return [[r0,c0]];
+  const sr=dr===0?0:dr/Math.abs(dr);
+  const sc=dc===0?0:dc/Math.abs(dc);
+  if (Math.abs(dr)!==Math.abs(dc)&&dr!==0&&dc!==0) {
+    if (Math.abs(dr)>Math.abs(dc)) return Array.from({length:Math.abs(dr)+1},(_,i)=>[r0+sr*i,c0]);
+    else return Array.from({length:Math.abs(dc)+1},(_,i)=>[r0,c0+sc*i]);
   }
-  return Array.from({length: len+1}, (_,i) => [r0 + sr*i, c0 + sc*i]);
+  return Array.from({length:len+1},(_,i)=>[r0+sr*i,c0+sc*i]);
 }
 
 function highlight(cells) {
-  document.querySelectorAll('.cell.highlight').forEach(c => c.classList.remove('highlight'));
-  cells.forEach(c => { if (c && !c.classList.contains('found')) c.classList.add('highlight'); });
+  document.querySelectorAll('.cell.highlight').forEach(c=>c.classList.remove('highlight'));
+  cells.forEach(c=>{ if (c&&!c.classList.contains('found')) c.classList.add('highlight'); });
 }
+function clearHighlight(cells) { cells.forEach(c=>{ if (c) c.classList.remove('highlight'); }); }
 
-function clearHighlight(cells) {
-  cells.forEach(c => { if (c) c.classList.remove('highlight'); });
-}
-
-// ══════════════════════════════════════════
-//  LOGIC
-// ══════════════════════════════════════════
 function checkWord(cells) {
-  if (cells.length < 2) return;
-  const word = cells.map(c => c.textContent).join('');
-  const wordRev = word.split('').reverse().join('');
-
-  let match = null;
+  if (cells.length<2) return;
+  const word=cells.map(c=>c.textContent).join('');
+  const wordRev=word.split('').reverse().join('');
+  let match=null;
   for (const p of placed) {
-    if (p.word === word || p.word === wordRev) {
-      const selKeys = cells.map(c => `${c.dataset.r},${c.dataset.c}`).sort().join('|');
-      const plKeys = [...p.cells].sort().join('|');
-      if (selKeys === plKeys) { match = p; break; }
+    if (p.word===word||p.word===wordRev) {
+      const selKeys=cells.map(c=>`${c.dataset.r},${c.dataset.c}`).sort().join('|');
+      const plKeys=[...p.cells].sort().join('|');
+      if (selKeys===plKeys) { match=p; break; }
     }
   }
   if (!match) return;
-
-  const w = match.word;
-
-  // Secret word found (not in list)
-  if (!Object.prototype.hasOwnProperty.call(wordStatus, w)) {
-    // already handled via list depletion
-    markCells(match.cells);
-    return;
-  }
-
-  if (wordStatus[w]) return; // already found
-  wordStatus[w] = true;
-  foundCount++;
-  score += Math.max(10, 50 - Math.floor((Date.now() - startTime) / 1000));
-
+  const w=match.word;
+  if (!Object.prototype.hasOwnProperty.call(wordStatus,w)) { markCells(match.cells); return; }
+  if (wordStatus[w]) return;
+  wordStatus[w]=true; foundCount++;
+  score+=Math.max(10,50-Math.floor((Date.now()-startTime)/1000));
   markCells(match.cells);
-  document.getElementById('chip-' + w).classList.add('found');
-  updateScore();
-  revealSecretLetter();
-  checkVictory();
+  document.getElementById('chip-'+w).classList.add('found');
+  updateScore(); revealSecretLetter(); checkVictory();
 }
 
 function markCells(cellKeys) {
-  cellKeys.forEach(key => {
-    const [r, c] = key.split(',');
-    const el = document.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`);
+  cellKeys.forEach(key=>{
+    const [r,c]=key.split(',');
+    const el=document.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`);
     if (el) { el.classList.remove('highlight'); el.classList.add('found'); }
   });
 }
 
 function revealSecretLetter() {
-  const total = Object.keys(wordStatus).length;
-  const ratio = foundCount / total;
-  const reveal = Math.floor(ratio * secretWord.length);
-  for (let i = 0; i < reveal; i++) {
-    const box = document.getElementById(`sb-${i}`);
+  const total=Object.keys(wordStatus).length;
+  const reveal=Math.floor((foundCount/total)*secretWord.length);
+  for (let i=0;i<reveal;i++) {
+    const box=document.getElementById(`sb-${i}`);
     if (box) box.classList.add('revealed');
   }
 }
 
 function checkVictory() {
-  const all = Object.values(wordStatus).every(v => v);
-  if (!all) return;
+  if (!Object.values(wordStatus).every(v=>v)) return;
   clearInterval(timerInterval);
-  // Reveal all secret boxes
-  for (let i = 0; i < secretWord.length; i++) {
-    const box = document.getElementById(`sb-${i}`);
-    if (box) box.classList.add('revealed');
+  for (let i=0;i<secretWord.length;i++) {
+    const box=document.getElementById(`sb-${i}`); if (box) box.classList.add('revealed');
   }
-  // Also reveal secret word cells
-  const sp = placed.find(p => p.word === secretWord);
+  const sp=placed.find(p=>p.word===secretWord);
   if (sp) markCells(sp.cells);
-
-  setTimeout(() => {
-    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    document.getElementById('victory-word').textContent = secretWord;
-    document.getElementById('victory-time').textContent =
-      `Score final : ${score} pts · Temps : ${elapsed}s`;
+  setTimeout(()=>{
+    const elapsed=Math.floor((Date.now()-startTime)/1000);
+    document.getElementById('victory-word').textContent=secretWord;
+    document.getElementById('victory-time').textContent=`Score : ${score} pts · Temps : ${elapsed}s`;
     document.getElementById('victory').classList.add('show');
-  }, 600);
+  },600);
 }
 
 function updateScore() {
-  document.getElementById('score-val').textContent = score;
-  const total = Object.keys(wordStatus).length;
-  document.getElementById('found-val').textContent = `${foundCount}/${total}`;
+  document.getElementById('score-val').textContent=score;
+  document.getElementById('found-val').textContent=`${foundCount}/${Object.keys(wordStatus).length}`;
 }
-
 function updateTimer() {
-  const s = Math.floor((Date.now() - startTime) / 1000);
-  document.getElementById('timer-val').textContent = s + 's';
+  document.getElementById('timer-val').textContent=Math.floor((Date.now()-startTime)/1000)+'s';
 }
-
-// ══════════════════════════════════════════
-//  UTILS
-// ══════════════════════════════════════════
 function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+  for (let i=arr.length-1;i>0;i--) {
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
   }
   return arr;
 }
 
-// ══════════════════════════════════════════
-//  START
-// ══════════════════════════════════════════
 window.addEventListener('load', initGame);
-window.addEventListener('resize', () => {
-  // Redraw grid keeping state
-  const el = document.getElementById('grid');
-  const cellSize = Math.min(Math.floor((Math.min(window.innerWidth * .96, 480) - 32 - (GRID_SIZE-1)*3) / GRID_SIZE), 36);
-  el.style.gridTemplateColumns = `repeat(${GRID_SIZE}, ${cellSize}px)`;
-  el.querySelectorAll('.cell').forEach(c => {
-    c.style.width = c.style.height = cellSize + 'px';
-    c.style.fontSize = Math.max(10, cellSize * .44) + 'px';
+window.addEventListener('resize', ()=>{
+  const el=document.getElementById('grid');
+  const avail=Math.min(window.innerWidth*0.96,480)-32-(GRID_SIZE-1)*3;
+  const cellSize=Math.min(Math.floor(avail/GRID_SIZE),36);
+  el.style.gridTemplateColumns=`repeat(${GRID_SIZE},${cellSize}px)`;
+  el.querySelectorAll('.cell').forEach(c=>{
+    c.style.width=c.style.height=cellSize+'px';
+    c.style.fontSize=Math.max(10,cellSize*.44)+'px';
   });
 });
 </script>
