@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Pavillon Bien-Être – Salon du Japon | Bridge & Flow Folk</title>
+  <meta name="description" content="Découvrez le Pavillon Bien-Être lors du Festival des arts martiaux et salon du Japon à Nogent-le-Roi, les 19 et 20 septembre 2026.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/png" href="logo-sansFond.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Variables centralisées pour un fichier autonome */
+    :root {
+      --nuit: #212529;
+      --blanc: #ffffff;
+      --sauge: #7a9e7e;
+      --sauge-pale: rgba(122,158,126,0.12);
+      --terre: #8b7355;
+      --or: #c9a96e;
+      --f-serif: 'Cormorant Garamond', serif;
+      --f-sans: 'Josefin Sans', sans-serif;
+      --r-md: 12px;
+      --r-lg: 24px;
+      --r-pill: 50px;
+      --shadow-lg: 0 16px 32px rgba(0,0,0,0.06);
+      --t-fast: 0.2s;
+      --t-mid: 0.4s;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0; padding: 0;
+      font-family: var(--f-sans);
+      background-color: #fdfbf7;
+      color: var(--nuit);
+      line-height: 1.6;
+    }
+
+    /* En-tête : Logo uniquement (Menu de navigation supprimé) */
+    .logo-header {
+      text-align: center;
+      padding: 3rem 1rem 1rem;
+    }
+    .logo-header img {
+      max-height: 100px;
+      width: auto;
+    }
+
+    /* Section Hero : Adaptée pour le thème Japon */
+    .page-hero {
+      text-align: center;
+      padding: 2rem 1.5rem 3.5rem;
+      background: radial-gradient(ellipse 100% 80% at 50% 0%, var(--sauge-pale) 0%, transparent 70%);
+    }
+    .page-hero__badge {
+      display: inline-block; padding: 6px 16px; border-radius: var(--r-pill);
+      background: rgba(255,255,255,0.8); border: 1px solid rgba(201,169,110,0.4);
+      color: var(--terre); font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.2rem;
+    }
+    .page-hero h1 {
+      font-family: var(--f-serif);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 300; line-height: 1.1; margin: 0 0 1rem; color: var(--nuit);
+    }
+    .page-hero h1 em { color: var(--sauge); font-style: italic; font-weight: 400; }
+    .page-hero__sub {
+      max-width: 550px; margin: 0 auto;
+      font-size: 1.1rem; font-weight: 400; color: var(--terre);
+    }
+
+    /* Conteneur Principal */
+    .container {
+      max-width: 1000px; margin: 0 auto; padding: 0 5% 80px;
+    }
+
+    /* Carte de l'Événement : Refonte structurelle en 'Landing Page' */
+    .event-main {
+      background: var(--blanc); border-radius: var(--r-lg); overflow: hidden;
+      display: grid; grid-template-columns: 0.9fr 1.1fr;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(201,169,110,0.15);
+      animation: bff-slideUp 0.6s ease-out forwards;
+    }
+    
+    @keyframes bff-slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Image illustrative d'ambiance zen/japonaise */
+    .event-img {
+      background: url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1000&q=80') center/cover;
+      min-height: 100%;
+    }
+
+    .event-body {
+      padding: clamp(2rem, 5vw, 4rem);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+
+    .intro-text {
+      font-size: 1.35rem; font-family: var(--f-serif);
+      color: var(--nuit); font-weight: 600; font-style: italic;
+      margin-bottom: 1.5rem; border-bottom: 1px dashed var(--or);
+      padding-bottom: 1rem;
+    }
+
+    .event-desc {
+      font-size: 1rem; color: #4a4a4a; font-weight: 300; margin-bottom: 1.2rem;
+    }
+    .event-desc strong { color: var(--nuit); font-weight: 600; }
+
+    /* Mise en valeur du Programme */
+    .programme-box {
+      background: var(--sauge-pale);
+      border-left: 3px solid var(--sauge);
+      padding: 1.5rem;
+      margin: 1.8rem 0;
+      border-radius: 0 var(--r-md) var(--r-md) 0;
+    }
+    .programme-box h3 {
+      font-family: var(--f-serif); font-size: 1.3rem; font-weight: 600;
+      margin: 0 0 1rem; color: var(--nuit);
+    }
+    .programme-list {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      list-style: none; padding: 0; margin: 0 0 1rem;
+    }
+    .programme-list li {
+      background: var(--blanc);
+      padding: 6px 14px;
+      border-radius: var(--r-pill);
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--terre);
+      border: 1px solid rgba(122,158,126,0.3);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .programme-box p {
+      margin: 0; font-size: 0.95rem; font-style: italic; color: #555; font-family: var(--f-serif);
+    }
+
+    .signature {
+      font-family: var(--f-serif); font-size: 1.5rem;
+      color: var(--sauge); font-weight: 600; font-style: italic;
+      margin-top: 1.5rem;
+    }
+
+    /* Footer strictement limité aux consignes */
+    .site-footer {
+      background: var(--sauge-pale);
+      padding: 3rem 5% 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(122,158,126,0.15);
+    }
+    .fb-lien {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      color: var(--nuit); text-decoration: none;
+      font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+      transition: color var(--t-fast);
+      margin-bottom: 1.5rem;
+    }
+    .fb-lien:hover { color: var(--sauge); }
+    .contact-info {
+      font-size: 0.85rem; font-weight: 600; letter-spacing: 1px;
+      color: var(--nuit);
+    }
+
+    /* Responsive */
+    @media(max-width: 850px) {
+      .event-main { grid-template-columns: 1fr; }
+      .event-img  { min-height: 280px; }
+      .event-body { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo Seul -->
+  <header class="logo-header">
+    <img src="logo-sansFond.png" alt="Logo Bridge & Flow Folk" />
+  </header>
+
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="page-hero__badge">19 & 20 Septembre 2026</div>
+    <h1>Pavillon <em>Bien-Être</em></h1>
+    <p class="page-hero__sub">Festival des arts martiaux et salon du Japon</p>
+  </section>
+
+  <!-- Contenu Principal -->
+  <main class="container">
+    <article class="event-main">
+      <div class="event-img" role="img" aria-label="Jardin zen japonais et nature apaisante"></div>
+      
+      <div class="event-body">
+        <div class="intro-text">Tu as pris ton weekend ? On s'y retrouve ?</div>
+        
+        <p class="event-desc">
+          Le Pavillon Bien-Être se construit pas à pas, telle la marche <em>kin-hin</em>, pour vous offrir un pur week-end de plaisir et de détente les <strong>19 et 20 septembre 2026</strong>, lors du <strong>Festival des arts martiaux et salon du Japon</strong> !
+        </p>
+
+        <div class="programme-box">
+          <h3>Au programme (offert pour les visiteurs) :</h3>
+          <ul class="programme-list">
+            <li>Anma</li>
+            <li>Kobido</li>
+            <li>Reiki</li>
+            <li>Qi Gong</li>
+            <li>Zazen</li>
+            <li>Ikigai</li>
+          </ul>
+          <p>Et bien d'autres surprises, découvertes et ateliers à vivre !</p>
+        </div>
+
+        <p class="event-desc">
+          Venez explorer l'art de la résilience à la japonaise et prendre soin de vous dans un espace dédié au bien-être, à l'harmonie et à l'inspiration.
+        </p>
+        
+        <p class="event-desc">
+          Nous avons hâte de vous accueillir !<br>
+          Suivez-nous pour découvrir progressivement le programme et les intervenants.
+        </p>
+
+        <div class="signature">À très vite au Pavillon Bien-Être !</div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <a href="https://www.facebook.com/profile.php?id=61587252715739"
+       class="fb-lien" target="_blank" rel="noopener noreferrer"
+       aria-label="Suivre Bridge &amp; Flow Folk sur Facebook">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+      Suivre l'actualité sur Facebook
+    </a>
+    <div class="contact-info">© 2026 BRIDGE &amp; FLOW FOLK — NOGENT-LE-ROI (28) — 06 18 29 18 73</div>
+  </footer>
+
+</body>
+</html>
