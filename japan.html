@@ -64,6 +64,13 @@
       color: var(--terre); font-size: 0.75rem; font-weight: 600;
       text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.2rem;
     }
+    .page-hero__location {
+      margin-top: 1rem;
+      color: var(--terre);
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
     .page-hero h1 {
       font-family: var(--f-serif);
       font-size: clamp(2.5rem, 6vw, 4.5rem);
@@ -94,11 +101,26 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Image illustrative d'ambiance zen/japonaise */
     .event-img {
-      background: url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1000&q=80') center/cover;
-      min-height: 100%;
-    }
+	  /* 1. Empêche l'image de se répéter */
+	  background-repeat: no-repeat; 
+	  
+	  /* 2. Force l'image à s'afficher en entier sans être coupée */
+	  background-size: contain; 
+	  
+	  /* 3. Centre l'image horizontalement et verticalement dans son espace */
+	  background-position: center center; 
+	  
+	  /* 4. L'image de fond */
+	  background-image: url('kintsugi.jpeg'); 
+	  
+	  /* 5. Couleur de fond pour habiller l'espace vide autour de l'image */
+	  /* Mettez #ffffff (blanc) si le fond de votre image est blanc, ou #fdfbf7 si vous préférez le fond de la page */
+	  background-color: #fdfbf7; 
+	  
+	  /* 6. Hauteur minimale de sécurité */
+	  min-height: 350px; 
+	}
 
     .event-body {
       padding: clamp(2rem, 5vw, 4rem);
@@ -151,6 +173,22 @@
       color: var(--sauge); font-weight: 600; font-style: italic;
       margin-top: 1.5rem;
     }
+    
+    .festival-link {
+      margin-top: 1rem;
+    }
+
+    .festival-link a {
+      color: var(--sauge);
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .festival-link a:hover {
+      color: var(--terre);
+      text-decoration: underline;
+    }
 
     /* Footer strictement limité aux consignes */
     .site-footer {
@@ -175,32 +213,42 @@
     /* Responsive */
     @media(max-width: 850px) {
       .event-main { grid-template-columns: 1fr; }
-      .event-img  { min-height: 280px; }
+      .event-img  { min-height: 300px; background-position: center center; }
       .event-body { padding: 2rem 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Logo Seul -->
   <header class="logo-header">
     <img src="logo-sansFond.png" alt="Logo Bridge & Flow Folk" />
   </header>
 
-  <!-- Hero Section -->
   <section class="page-hero">
     <div class="page-hero__badge">19 & 20 Septembre 2026</div>
+    <p class="page-hero__location">
+      📍 41 rue René et Jean Lefèvre<br>
+         28130 Pierres
+    </p>
     <h1>Pavillon <em>Bien-Être</em></h1>
     <p class="page-hero__sub">Festival des arts martiaux et salon du Japon</p>
+    <p class="festival-link">
+      <a href="https://www.japanfestival.fr/"
+         target="_blank"
+         rel="noopener noreferrer">
+        Découvrir le Festival des Arts Martiaux & Salon du Japon →
+      </a>
+    </p>
   </section>
 
-  <!-- Contenu Principal -->
   <main class="container">
     <article class="event-main">
       <div class="event-img" role="img" aria-label="Jardin zen japonais et nature apaisante"></div>
       
       <div class="event-body">
-        <div class="intro-text">Tu as pris ton weekend ? On s'y retrouve ?</div>
+        <div class="intro-text">
+          Comme le Kintsugi sublime les fissures, offrez-vous un week-end pour vous reconnecter à l'essentiel.
+        </div>
         
         <p class="event-desc">
           Le Pavillon Bien-Être se construit pas à pas, telle la marche <em>kin-hin</em>, pour vous offrir un pur week-end de plaisir et de détente les <strong>19 et 20 septembre 2026</strong>, lors du <strong>Festival des arts martiaux et salon du Japon</strong> !
@@ -215,6 +263,8 @@
             <li>Qi Gong</li>
             <li>Zazen</li>
             <li>Ikigai</li>
+            <li>Réflexologie plantaire</li>
+            <li>Réflexologie palmaire</li>
           </ul>
           <p>Et bien d'autres surprises, découvertes et ateliers à vivre !</p>
         </div>
@@ -233,7 +283,6 @@
     </article>
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer">
     <a href="https://www.facebook.com/profile.php?id=61587252715739"
        class="fb-lien" target="_blank" rel="noopener noreferrer"
