@@ -1,0 +1,340 @@
+:root {
+
+    --red: #c62828;
+    --red-light: #e53935;
+
+    --gold: #d4af37;
+
+    --black: #1f1f1f;
+
+    --white: #ffffff;
+
+    --cream: #faf8f2;
+
+    --shadow:
+        0 12px 30px rgba(0,0,0,.12);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    font-family: 'Josefin Sans', sans-serif;
+
+    background: var(--cream);
+
+    color: var(--black);
+}
+
+.logo-header {
+
+    text-align: center;
+
+    padding: 25px;
+}
+
+.logo-header img {
+
+    height: 90px;
+}
+
+.hero {
+
+    position: relative;
+
+    overflow: hidden;
+
+    text-align: center;
+
+    padding: 40px 20px 90px;
+
+    background:
+    linear-gradient(
+        rgba(255,255,255,.94),
+        rgba(255,255,255,.94)
+    ),
+    url("https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=1600&q=80");
+
+    background-size: cover;
+}
+
+.hero-sun {
+
+    position: absolute;
+
+    width: 220px;
+
+    height: 220px;
+
+    border-radius: 50%;
+
+    background: rgba(198,40,40,.15);
+
+    top: 50px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+}
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.hero-badge {
+
+    display: inline-block;
+
+    padding: 10px 20px;
+
+    border-radius: 50px;
+
+    background: var(--red);
+
+    color: white;
+
+    font-weight: 600;
+
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: clamp(3rem, 8vw, 6rem);
+
+    margin: 0;
+}
+
+.hero h1 span {
+
+    color: var(--red);
+}
+
+.hero-subtitle {
+
+    font-size: 1.4rem;
+
+    margin-top: 15px;
+
+    color: #555;
+}
+
+.hero-infos {
+
+    margin-top: 25px;
+
+    font-weight: 600;
+}
+
+.container {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 0 20px 80px;
+}
+
+.event-card {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    background: white;
+
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow);
+
+    margin-top: -50px;
+
+    position: relative;
+
+    z-index: 3;
+}
+
+.event-image {
+
+    min-height: 700px;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.15),
+        rgba(0,0,0,.15)
+    ),
+    url("https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1200&q=80");
+
+    background-size: cover;
+
+    background-position: center;
+}
+
+.event-content {
+
+    padding: 50px;
+}
+
+.event-content h2 {
+
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: 2.5rem;
+
+    margin-top: 0;
+
+    color: var(--red);
+}
+
+.programme {
+
+    margin-top: 40px;
+}
+
+.programme h3 {
+
+    font-size: 1.5rem;
+
+    margin-bottom: 20px;
+}
+
+.programme-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(140px,1fr));
+
+    gap: 15px;
+}
+
+.programme-card {
+
+    background: white;
+
+    border: 2px solid rgba(198,40,40,.12);
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    transition: .3s;
+}
+
+.programme-card:hover {
+
+    transform: translateY(-6px);
+
+    border-color: var(--red);
+}
+
+.programme-card span {
+
+    display: block;
+
+    margin-top: 10px;
+
+    font-weight: 600;
+}
+
+.quote {
+
+    margin-top: 40px;
+
+    font-size: 1.3rem;
+
+    font-family: 'Cormorant Garamond', serif;
+
+    font-style: italic;
+
+    color: var(--red);
+}
+
+.banner {
+
+    margin-top: 50px;
+
+    padding: 100px 40px;
+
+    border-radius: 24px;
+
+    text-align: center;
+
+    color: white;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.45),
+        rgba(0,0,0,.45)
+    ),
+    url("https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1600&q=80");
+
+    background-size: cover;
+
+    background-position: center;
+}
+
+.banner h2 {
+
+    font-size: 3rem;
+
+    margin-top: 0;
+}
+
+footer {
+
+    text-align: center;
+
+    padding: 40px 20px;
+
+    background: #f1ece3;
+}
+
+footer a {
+
+    display: inline-block;
+
+    margin-bottom: 15px;
+
+    color: var(--red);
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+
+    .event-card {
+
+        grid-template-columns: 1fr;
+    }
+
+    .event-image {
+
+        min-height: 350px;
+    }
+
+    .event-content {
+
+        padding: 30px;
+    }
+
+    .banner h2 {
+
+        font-size: 2rem;
+    }
+}
