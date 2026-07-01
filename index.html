@@ -99,23 +99,41 @@
       background:rgba(122,158,126,0.18);
     }
 
-    /* ── Carte événement principal ── */
+    /* ── Grille des prochains événements ── */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 28px;
+      margin-bottom: 72px;
+    }
+
+    /* ── Carte événement ── */
     .event-main {
       background:var(--blanc); border-radius:var(--r-lg); overflow:hidden;
-      display:grid; grid-template-columns:1.1fr 0.9fr;
+      display:grid; grid-template-columns: 1fr;
+      grid-template-rows: 220px auto;
       box-shadow:var(--shadow-lg);
       border:1px solid rgba(255,255,255,0.6);
-      margin-bottom:72px;
       transition:box-shadow var(--t-mid), transform var(--t-mid);
       animation:bff-slideUp 0.55s ease-out forwards;
     }
+    .event-main:nth-child(2) { animation-delay: 0.1s; }
     .event-main:hover {
       box-shadow:var(--shadow-lg), 0 0 0 1px rgba(122,158,126,0.12);
+      transform: translateY(-4px);
     }
     .event-img {
       background:url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1000') center/cover;
-      min-height:360px;
+      min-height: 220px;
       transition:transform 0.6s ease;
+    }
+    /* Image spécifique pour la carte Japan sur l'index */
+    .event-main--japan .event-img {
+      background-image: url('kintsugi.jpeg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-color: #fdfbf7;
     }
     .event-main:hover .event-img { transform:scale(1.025); }
 
@@ -258,8 +276,9 @@
 
     /* ── Responsive ── */
     @media(max-width:800px) {
-      .event-main { grid-template-columns:1fr; border-radius:var(--r-md); }
-      .event-img  { height:200px; min-height:auto; }
+      .events-grid { grid-template-columns: 1fr; }
+      .event-main { grid-template-rows: 180px auto; border-radius:var(--r-md); }
+      .event-img  { min-height: 180px; }
       .event-body { padding:1.8rem 1.5rem; }
       .btn-cta    { align-self:stretch; text-align:center; justify-content:center; }
     }
@@ -288,22 +307,43 @@
 
   <main id="main-content" class="container">
 
-    <!-- Prochain événement -->
-    <div class="section-title">Prochain Rendez-vous</div>
+    <!-- Prochains événements -->
+    <div class="section-title">Prochains Rendez-vous</div>
 
-    <article class="event-main" aria-labelledby="titre-prochain">
-      <div class="event-img" role="img" aria-label="Photographie nature, herbe et lumière dorée"></div>
-      <div class="event-body">
-        <span class="event-label">Samedi XX septembre 2026 — 14h30</span>
-        <h2 id="titre-prochain">Après-midi <span>Environnement</span></h2>
-        <p class="event-desc">Une rencontre intergénérationnelle pour se reconnecter à la nature et partager un moment de convivialité locale.</p>
-        <a href="https://bridgeflowfolk.github.io/environnement/"
-           class="btn-cta"
-           aria-label="Découvrir le programme de l'Après-midi Environnement">
-          Découvrir le programme →
-        </a>
-      </div>
-    </article>
+    <div class="events-grid">
+
+      <article class="event-main event-main--japan" aria-labelledby="titre-japan">
+        <div class="event-img" role="img" aria-label="Kintsugi, art japonais de la résilience"></div>
+        <div class="event-body">
+          <span class="event-label">19 &amp; 20 Septembre 2026 — Festival des arts martiaux &amp; Salon du Japon</span>
+          <h2 id="titre-japan">Pavillon <span>Bien-Être</span></h2>
+          <p class="event-desc">
+            Anma, Kobido, Reiki, Qi Gong, Zazen, Ikigai, réflexologie… des soins et ateliers <strong>offerts</strong> pour les visiteurs,
+            dans l'esprit du Kintsugi — l'art de sublimer les fissures. À Pierres (28130).
+          </p>
+          <a href="japan_f.html"
+             class="btn-cta"
+             aria-label="Découvrir le Pavillon Bien-Être au Salon du Japon">
+            Découvrir le Pavillon →
+          </a>
+        </div>
+      </article>
+
+      <article class="event-main" aria-labelledby="titre-environnement">
+        <div class="event-img" role="img" aria-label="Photographie nature, herbe et lumière dorée"></div>
+        <div class="event-body">
+          <span class="event-label">Samedi XX septembre 2026 — 14h30</span>
+          <h2 id="titre-environnement">Après-midi <span>Environnement</span></h2>
+          <p class="event-desc">Une rencontre intergénérationnelle pour se reconnecter à la nature et partager un moment de convivialité locale.</p>
+          <a href="https://bridgeflowfolk.github.io/environnement/"
+             class="btn-cta"
+             aria-label="Découvrir le programme de l'Après-midi Environnement">
+            Découvrir le programme →
+          </a>
+        </div>
+      </article>
+
+    </div>
 
     <!-- Jeux -->
     <div class="section-title">Nos Jeux</div>
