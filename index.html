@@ -118,6 +118,8 @@
       animation:bff-slideUp 0.55s ease-out forwards;
     }
     .event-main:nth-child(2) { animation-delay: 0.1s; }
+    .event-main:nth-child(3) { animation-delay: 0.2s; }
+    .event-main:nth-child(4) { animation-delay: 0.3s; }
     .event-main:hover {
       box-shadow:var(--shadow-lg), 0 0 0 1px rgba(122,158,126,0.12);
       transform: translateY(-4px);
@@ -134,6 +136,14 @@
       background-repeat: no-repeat;
       background-position: center center;
       background-color: #fdfbf7;
+    }
+    /* Image spécifique pour la carte Forum des associations */
+    .event-main--forum .event-img {
+      background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&q=80&w=1000');
+    }
+    /* Image spécifique pour la carte World with Women */
+    .event-main--solidaire .event-img {
+      background-image: url('https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1000');
     }
     .event-main:hover .event-img { transform:scale(1.025); }
 
@@ -169,6 +179,12 @@
     .btn-cta:hover {
       background:var(--sauge); transform:translateY(-3px);
       box-shadow:0 12px 24px rgba(122,158,126,0.25);
+    }
+    /* CTA désactivé — teasing sans page cible encore publiée */
+    .btn-cta[aria-disabled="true"] {
+      background:rgba(28,28,28,0.35);
+      cursor:not-allowed;
+      pointer-events:none;
     }
 
     /* ── Grille jeux ── */
@@ -329,6 +345,23 @@
         </div>
       </article>
 
+      <article class="event-main event-main--forum" aria-labelledby="titre-forum-associations">
+        <div class="event-img" role="img" aria-label="Photographie stand associatif, forum en plein air"></div>
+        <div class="event-body">
+          <span class="event-label">Samedi 5 septembre 2026 — Forum des associations</span>
+          <h2 id="titre-forum-associations">Venez nous <span>découvrir</span> et nous <span>rejoindre</span></h2>
+          <p class="event-desc">Retrouvez Bridge &amp; Flow Folk au Forum des associations : présentation de nos activités, échanges avec l'équipe.</p>
+          <a class="btn-cta" aria-disabled="true" aria-label="Programme à venir — page bientôt en ligne">
+            Programme à venir
+          </a>
+          <!--a href="https://bridgeflowfolk.github.io/forum-associations/"
+             class="btn-cta"
+             aria-label="Découvrir Bridge & Flow Folk au Forum des associations">
+            Nous rejoindre →
+        </a-->
+        </div>
+      </article>
+
       <article class="event-main" aria-labelledby="titre-environnement">
         <div class="event-img" role="img" aria-label="Photographie nature, herbe et lumière dorée"></div>
         <div class="event-body">
@@ -339,6 +372,18 @@
              class="btn-cta"
              aria-label="Découvrir le programme de l'Après-midi Environnement">
             Découvrir le programme →
+          </a>
+        </div>
+      </article>
+
+      <article class="event-main event-main--solidaire" aria-labelledby="titre-solidaire-women">
+        <div class="event-img" role="img" aria-label="Photographie événement solidaire, groupe de femmes réunies"></div>
+        <div class="event-body">
+          <span class="event-label">Mardi 13 octobre 2026 — Bientôt</span>
+          <h2 id="titre-solidaire-women">Événement solidaire <span>World with Women</span></h2>
+          <p class="event-desc">Un temps fort solidaire en partenariat avec World with Women, pour soutenir des causes engagées autour des femmes. Programme à venir.</p>
+          <a class="btn-cta" aria-disabled="true" aria-label="Programme à venir — page bientôt en ligne">
+            Programme à venir
           </a>
         </div>
       </article>
