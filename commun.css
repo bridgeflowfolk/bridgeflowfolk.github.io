@@ -362,6 +362,24 @@ main {
   box-shadow:0 8px 20px rgba(24,119,242,0.28);
 }
 
+.instagram-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.instagram-link:hover {
+  color: #E1306C; /* Couleur officielle Instagram */
+  transform: scale(1.1);
+}
+
+.instagram-icon {
+  width: 24px;
+  height: 24px;
+}
+
 /* ═══════════════════════════════════════════════════════════
    ANIMATIONS COMMUNES
 ═══════════════════════════════════════════════════════════ */
